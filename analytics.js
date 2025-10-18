@@ -11,7 +11,7 @@ class CustomAnalytics {
         this.config = {
             // Configuración para GitHub Pages
             githubRepo: 'uguinard/cv', // Cambiar por tu repo
-            githubToken: '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', // Token personal de GitHub (opcional)
+            githubToken: '', // Token personal de GitHub (opcional)
             apiEndpoint: 'https://api.github.com',
             dataFile: 'analytics-data.json',
             // Configuración de privacidad
