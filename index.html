@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes, maximum-scale=5.0, minimum-scale=1.0">
     <title>Sergio Uribe Guinard | Educador Internacional y Profesor de Español</title>
     <meta name="description" content="CV de Sergio Uribe Guinard, educador internacional con experiencia en enseñanza de idiomas (ELE, IB) y un enfoque holístico en Turquía y Colombia.">
     <meta name="keywords" content="Sergio Uribe, educador internacional, profesor español, ELE, IB, educación, enseñanza idiomas, Turquía, Colombia, Tailandia">
@@ -15,6 +15,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Sergio Uribe CV">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-orientations" content="portrait">
   
     <meta property="og:title" content="Sergio Uribe Guinard | Educador Internacional y Profesor de Español">
     <meta property="og:description" content="CV profesional de Sergio Uribe Guinard, educador internacional con experiencia en enseñanza de idiomas (ELE, IB) y enfoque holístico en Turquía, Colombia y Tailandia.">
@@ -151,7 +156,13 @@
 <body>
 
     <nav class="main-nav">
-        <ul>
+        <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+        
+        <ul class="nav-menu" id="nav-menu">
             <li><a href="#profile" class="nav-link" data-lang-key="nav_profile">Profile</a></li>
             <li><a href="#experience" class="nav-link" data-lang-key="nav_experience">Experience</a></li>
             <li><a href="#education" class="nav-link" data-lang-key="nav_education">Education</a></li>
@@ -159,22 +170,25 @@
             <li><a href="#languages" class="nav-link" data-lang-key="nav_languages">Languages</a></li>
             <li><a href="https://www.linkedin.com/in/sergio-ug/" target="_blank" rel="noopener noreferrer" class="nav-link linkedin-nav-link"><i class="fab fa-linkedin"></i></a></li>
         </ul>
-        <button id="theme-toggle-btn" class="theme-toggle-button" aria-label="Toggle dark mode">
-            <i id="theme-toggle-icon" class="fas fa-moon"></i>
-        </button>
-        <div class="language-selector">
-            <label for="language-select" class="visually-hidden">Select Language</label>
-            <select id="language-select">
-                <option value="en">English</option>
-                <option value="es">Español</option>
-                <option value="th">ภาษาไทย</option>
-                <option value="zh">中文</option>
-                <option value="tr">Türkçe</option>
-                <option value="ar">العربية</option>
-                <option value="fr">Français</option>
-                <option value="it">Italiano</option>
-                <option value="de">Deutsch</option>
-            </select>
+        
+        <div class="nav-controls">
+            <button id="theme-toggle-btn" class="theme-toggle-button" aria-label="Toggle dark mode">
+                <i id="theme-toggle-icon" class="fas fa-moon"></i>
+            </button>
+            <div class="language-selector">
+                <label for="language-select" class="visually-hidden">Select Language</label>
+                <select id="language-select">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="th">ภาษาไทย</option>
+                    <option value="zh">中文</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="ar">العربية</option>
+                    <option value="fr">Français</option>
+                    <option value="it">Italiano</option>
+                    <option value="de">Deutsch</option>
+                </select>
+            </div>
         </div>
     </nav>
 
