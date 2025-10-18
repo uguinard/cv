@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://www.sergiouribe.co/</loc>
+        <lastmod>2024-10-19</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.sergiouribe.co?lang=en"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://www.sergiouribe.co?lang=es"/>
+        <xhtml:link rel="alternate" hreflang="th" href="https://www.sergiouribe.co?lang=th"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://www.sergiouribe.co?lang=zh"/>
+        <xhtml:link rel="alternate" hreflang="tr" href="https://www.sergiouribe.co?lang=tr"/>
+        <xhtml:link rel="alternate" hreflang="ar" href="https://www.sergiouribe.co?lang=ar"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://www.sergiouribe.co?lang=fr"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://www.sergiouribe.co?lang=it"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://www.sergiouribe.co?lang=de"/>
+    </url>
+</urlset>

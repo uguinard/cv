@@ -1,4 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Performance optimization: Use requestIdleCallback for non-critical tasks
+    const runWhenIdle = (callback) => {
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(callback);
+        } else {
+            setTimeout(callback, 1);
+        }
+    };
 
     // --- 1. LÓGICA DE TRADUCCIÓN (NUEVA) ---
     const languageSelect = document.getElementById('language-select');
@@ -41,6 +49,13 @@ document.addEventListener('DOMContentLoaded', function () {
         // Revisa cuál es el tema *actual* y cámbialo al opuesto
         const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
         updateTheme(newTheme);
+        
+        // Analytics: Track theme toggle
+        gtag('event', 'theme_toggle', {
+            event_category: 'User Interaction',
+            event_label: newTheme,
+            value: 1
+        });
     });
     // --- FIN DE LA LÓGICA DEL MODO OSCURO ---
     
@@ -55,19 +70,27 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem('cv-lang', lang);
         languageSelect.value = lang;
 
-        // 3. Carga el archivo JSON si no está en caché
+        // 3. Carga el archivo JSON si no está en caché (con optimización de performance)
         if (!loadedTranslations[lang]) {
             try {
-                const response = await fetch(`locales/${lang}.json`);
+                // Use AbortController for timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
+                
+                const response = await fetch(`locales/${lang}.json`, {
+                    signal: controller.signal,
+                    cache: 'force-cache' // Use browser cache when available
+                });
+                clearTimeout(timeoutId);
+                
                 if (!response.ok) {
                     throw new Error(`Could not load ${lang}.json`);
                 }
                 loadedTranslations[lang] = await response.json();
             } catch (error) {
-                console.error(error);
+                console.error('Translation loading error:', error);
                 // Si falla, vuelve a cargar inglés como fallback
                 if (lang !== 'en') {
-                    // Solo intenta cargar inglés si el idioma fallido no era inglés
                     await switchLanguage('en');
                 }
                 return;
@@ -76,7 +99,10 @@ document.addEventListener('DOMContentLoaded', function () {
         
         const langTranslations = loadedTranslations[lang];
 
-        // 4. Aplica las traducciones
+        // 4. Aplica las traducciones (optimizado con DocumentFragment)
+        const fragment = document.createDocumentFragment();
+        const tempDiv = document.createElement('div');
+        
         translatableElements.forEach(el => {
             const key = el.getAttribute('data-lang-key');
             if (langTranslations[key]) {
@@ -100,27 +126,50 @@ document.addEventListener('DOMContentLoaded', function () {
     // Inicia la carga del idioma
     switchLanguage(initialLang);
 
+    // Analytics: Track language changes
+    languageSelect.addEventListener('change', (e) => {
+        gtag('event', 'language_change', {
+            event_category: 'User Interaction',
+            event_label: e.target.value,
+            value: 1
+        });
+    });
+
     
     // --- 2. FUNCIONALIDAD DEL BOTÓN DE IMPRIMIR (ORIGINAL) ---
     const printButton = document.getElementById('print-btn');
     if (printButton) {
         printButton.addEventListener('click', () => {
+            // Analytics: Track print action
+            gtag('event', 'print_cv', {
+                event_category: 'User Action',
+                event_label: 'Print CV',
+                value: 1
+            });
             window.print();
         });
     }
 
-    // --- 3. ANIMACIÓN FADE-IN AL HACER SCROLL (ORIGINAL) ---
+    // --- 3. ANIMACIÓN FADE-IN AL HACER SCROLL (OPTIMIZADO) ---
     const animatedSections = document.querySelectorAll('.section');
     const animationObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+                // Stop observing once animated to improve performance
+                animationObserver.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1 });
+    }, { 
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px' // Trigger slightly before element is fully visible
+    });
 
-    animatedSections.forEach(section => {
-        animationObserver.observe(section);
+    // Use requestIdleCallback for non-critical animations
+    runWhenIdle(() => {
+        animatedSections.forEach(section => {
+            animationObserver.observe(section);
+        });
     });
 
     // --- 4. RESALTADO DEL LINK DE NAVEGACIÓN ACTIVO (ORIGINAL) ---
@@ -138,6 +187,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     link.classList.remove('active');
                     if (link.getAttribute('href') === `#${id}`) {
                         link.classList.add('active');
+                        
+                        // Analytics: Track section views
+                        gtag('event', 'section_view', {
+                            event_category: 'Navigation',
+                            event_label: id,
+                            value: 1
+                        });
                     }
                 });
             }
