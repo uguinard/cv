@@ -1,11 +1,11 @@
 <style>
     :root {
-        --background: #fcfcfc;
-        --surface: #ffffff;
-        --text-primary: #1e293b;
-        --text-secondary: #64748b;
-        --accent: #10b981;
-        --border: #e2e8f0;
+        --background: #f7f9fc;    /* Fondo muy claro, ligeramente azulado */
+        --surface: #ffffff;       /* Contenedores blancos puros */
+        --text-primary: #333333;   /* Negro/Gris oscuro para títulos y texto principal */
+        --text-secondary: #6c757d; /* Gris profesional para detalles */
+        --accent: #17a2b8;        /* Azul cian/verde azulado (similar al de la imagen) */
+        --border: #e9ecef;         /* Líneas divisorias muy sutiles */
     }
 
     * {
