@@ -55,7 +55,7 @@
     }
     </script>
 
-    <script src="https://kit.fontawesome.com/15d28c0573.js" crossorigin="anonymous" async></script>
+    <script src="https://kit.fontawesome.com/15d28c0573.js" crossorigin="anonymous"></script>
     
     <!-- FontAwesome Fallback CSS -->
     <style>
@@ -66,6 +66,8 @@
             font-variant: normal;
             text-rendering: auto;
             line-height: 1;
+            width: 1em;
+            text-align: center;
         }
         
         /* Fallback icons before FontAwesome loads */
@@ -76,6 +78,25 @@
         .fa-map-marker-alt::before { content: "📍"; }
         .fa-envelope::before { content: "✉️"; }
         .fa-phone::before { content: "📞"; }
+        
+        /* Mejorar apariencia de fallbacks */
+        .fa-moon, .fa-sun {
+            font-size: 16px;
+            margin-right: 5px;
+        }
+        
+        .fa-print {
+            margin-right: 8px;
+        }
+        
+        .fa-linkedin {
+            font-size: 18px;
+        }
+        
+        .fa-map-marker-alt, .fa-envelope, .fa-phone {
+            margin-right: 8px;
+            font-size: 14px;
+        }
     </style>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -235,6 +256,25 @@
     </div>
 
     <script src="script.js" defer></script>
+    
+    <!-- Script para detectar cuando FontAwesome se carga -->
+    <script>
+        // Detectar cuando FontAwesome se carga
+        function checkFontAwesome() {
+            if (window.FontAwesome) {
+                // FontAwesome está cargado, remover fallbacks
+                document.querySelectorAll('.fas, .fab').forEach(icon => {
+                    icon.style.fontFamily = 'Font Awesome 6 Free, Font Awesome 6 Brands';
+                });
+            } else {
+                // FontAwesome no está cargado, reintentar en 100ms
+                setTimeout(checkFontAwesome, 100);
+            }
+        }
+        
+        // Iniciar verificación después de que el DOM esté listo
+        document.addEventListener('DOMContentLoaded', checkFontAwesome);
+    </script>
     
     <!-- Fallback para cuando JavaScript no carga -->
     <noscript>
