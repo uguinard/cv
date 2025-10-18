@@ -1,91 +1,111 @@
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
+
+    // --- 1. LÓGICA DE TRADUCCIÓN (NUEVA) ---
+    const languageSelect = document.getElementById('language-select');
+    const translatableElements = document.querySelectorAll('[data-lang-key]');
+    
+    // Objeto para caché de traducciones
+    const loadedTranslations = {};
+
+    const switchLanguage = async (lang) => {
+        // 1. Pone el atributo 'dir' (RTL/LTR)
+        document.body.dir = (lang === 'ar') ? 'rtl' : 'ltr';
         
-        const translations = {
-            en: { nav_profile: 'Profile', nav_experience: 'Experience', nav_education: 'Education', nav_skills: 'Skills', nav_languages: 'Languages', print_btn_text: 'Print / Save as PDF', profile_title: 'Profile', profile_text: 'With an international background in language education, I am guided by a holistic approach to design lessons that integrate the social, emotional, cognitive, and cultural dimensions of learning. Inspired by the values of respect, compassion, and integrity, I strive to create inclusive and culturally responsive learning environments that celebrate multicultural connections and foster a sense of global citizenship.', experience_title: 'Work Experience', job1_title: 'MYP Spanish & Global Perspectives Teacher', job1_desc1: 'Facilitated MYP Spanish and Global Perspectives classes.', job2_title: 'Spanish Language Teacher', job2_desc1: 'Taught Spanish for prep and 9th graders (Level A1-A2).', job2_desc2: 'Adapted and created interactive materials and activities.', job2_desc3: 'Managed and organized Language Day events.', job2_desc4: 'Supported the accreditation process as a DELE examination center.', job3_title: 'Communication & Intercultural World Teacher', job3_desc1: 'Taught English for secondary school students (Levels A1-B2).', job3_desc2: 'Designed and implemented assessments.', job3_desc3: 'Tutored an environmental cross-curricular project.', job4_title: 'Spanish and English Teacher', job4_desc1: 'Taught English and Spanish for primary and secondary school with a place-based education approach.', education_title: 'Education', edu1_title: 'IB Certificate in Teaching and Learning', edu2_title: 'Specialization Diploma in International Education', edu3_title: "Master's degree in Teaching Spanish (ELE)", edu4_title: 'Bachelor of Education in Spanish and Foreign Languages', skills_title: 'Key Skills', skills_soft_title: 'Soft Skills', skill_adaptability: 'Adaptability', skill_empathy: 'Empathy & Patience', skill_cultural: 'Cross-cultural awareness', skill_teamwork: 'Teamwork', skill_resilience: 'Resilience', skill_proactiveness: 'Proactiveness', skill_creativity: 'Creativity', skills_tech_title: 'Technologies & Platforms', languages_title: 'Languages', lang_spanish: 'Spanish:', lang_spanish_level: 'First Language', lang_english: 'English:', lang_english_level: 'Advanced (C1)', lang_french: 'French:', lang_french_level: 'Upper Intermediate (B2)', lang_turkish: 'Turkish:', lang_turkish_level: 'Beginner', },
-            es: { nav_profile: 'Perfil', nav_experience: 'Experiencia', nav_education: 'Formación', nav_skills: 'Habilidades', nav_languages: 'Idiomas', print_btn_text: 'Imprimir / Guardar PDF', profile_title: 'Perfil Profesional', profile_text: 'Con una trayectoria internacional en la enseñanza de idiomas, me guío por un enfoque holístico para diseñar lecciones que integran las dimensiones social, emocional, cognitiva y cultural del aprendizaje. Inspirado por los valores del respeto, la compasión y la integridad, me esfuerzo por crear entornos de aprendizaje inclusivos y culturalmente receptivos que celebran las conexiones multiculturales y fomentan un sentido de ciudadanía global.', experience_title: 'Experiencia Laboral', job1_title: 'Profesor de Español PAI y Perspectivas Globales', job1_desc1: 'Facilité clases de Español PAI y Perspectivas Globales.', job2_title: 'Profesor de Lengua Española', job2_desc1: 'Enseñé español a estudiantes de preparatoria y 9º grado (Nivel A1-A2).', job2_desc2: 'Adapté y creé materiales y actividades interactivas.', job2_desc3: 'Gestioné y organicé eventos del Día del Idioma.', job2_desc4: 'Apoyé el proceso de acreditación como centro de examen DELE.', job3_title: 'Profesor de Comunicación y Mundo Intercultural', job3_desc1: 'Enseñé inglés a estudiantes de secundaria (Niveles A1-B2).', job3_desc2: 'Diseñé e implementé evaluaciones.', job3_desc3: 'Tutoricé un proyecto transversal sobre medio ambiente.', job4_title: 'Profesor de Español e Inglés', job4_desc1: 'Enseñé inglés y español para primaria y secundaria con un enfoque de educación basada en el lugar.', education_title: 'Formación Académica', edu1_title: 'Certificado IB en Enseñanza y Aprendizaje', edu2_title: 'Diploma de Especialización en Educación Internacional', edu3_title: 'Máster en Enseñanza de Español (ELE)', edu4_title: 'Licenciatura en Educación de Español y Lenguas Extranjeras', skills_title: 'Habilidades Clave', skills_soft_title: 'Habilidades Interpersonales', skill_adaptability: 'Adaptabilidad', skill_empathy: 'Empatía y Paciencia', skill_cultural: 'Conciencia intercultural', skill_teamwork: 'Trabajo en equipo', skill_resilience: 'Resiliencia', skill_proactiveness: 'Proactividad', skill_creativity: 'Creatividad', skills_tech_title: 'Tecnologías y Plataformas', languages_title: 'Idiomas', lang_spanish: 'Español:', lang_spanish_level: 'Lengua materna', lang_english: 'Inglés:', lang_english_level: 'Avanzado (C1)', lang_french: 'Francés:', lang_french_level: 'Intermedio-Alto (B2)', lang_turkish: 'Turco:', lang_turkish_level: 'Principiante', },
-            fr: { nav_profile: 'Profil', nav_experience: 'Expérience', nav_education: 'Formation', nav_skills: 'Compétences', nav_languages: 'Langues', print_btn_text: 'Imprimer / Enregistrer en PDF', profile_title: 'Profil Professionnel', profile_text: "Avec une expérience internationale dans l'enseignement des langues, je suis guidé par une approche holistique pour concevoir des leçons qui intègrent les dimensions sociales, émotionnelles, cognitives et culturelles de l'apprentissage. Inspiré par les valeurs de respect, de compassion et d'intégrité, je m'efforce de créer des environnements d'apprentissage inclusifs et culturellement adaptés qui célèbrent les connexions multiculturelles et favorisent un sens de la citoyenneté mondiale.", experience_title: 'Expérience Professionnelle', job1_title: "Enseignant d'Espagnol et de Perspectives Mondiales du PEI", job1_desc1: "Animation de cours d'espagnol et de perspectives mondiales du PEI.", job2_title: 'Professeur de Langue Espagnole', job2_desc1: "Enseignement de l'espagnol pour les classes préparatoires et de 9e année (Niveau A1-A2).", job2_desc2: "Adaptation et création de matériel et d'activités interactifs.", job2_desc3: 'Gestion et organisation des événements de la Journée des Langues.', job2_desc4: "Soutien au processus d'accréditation en tant que centre d'examen DELE.", job3_title: 'Enseignant de Communication et Monde Interculturel', job3_desc1: "Enseignement de l'anglais à des élèves du secondaire (Niveaux A1-B2).", job3_desc2: "Conception et mise en œuvre d'évaluations.", job3_desc3: "Tutorat d'un projet environnemental interdisciplinaire.", job4_title: "Professeur d'Espagnol et d'Anglais", job4_desc1: "Enseignement de l'anglais et de l'espagnol pour le primaire et le secondaire avec une approche pédagogique basée sur le lieu.", education_title: 'Formation', edu1_title: "Certificat de l'IB en Enseignement et Apprentissage", edu2_title: 'Diplôme de Spécialisation en Éducation Internationale', edu3_title: "Master en Enseignement de l'Espagnol (ELE)", edu4_title: "Licence en Éducation de l'Espagnol et des Langues Étrangères", skills_title: 'Compétences Clés', skills_soft_title: 'Compétences Interpersonnelles', skill_adaptability: 'Adaptabilité', skill_empathy: 'Empathie et Patience', skill_cultural: 'Conscience interculturelle', skill_teamwork: "Travail d'équipe", skill_resilience: 'Résilience', skill_proactiveness: 'Proactivité', skill_creativity: 'Créativité', skills_tech_title: 'Technologies et Plateformes', languages_title: 'Langues', lang_spanish: 'Espagnol:', lang_spanish_level: 'Langue maternelle', lang_english: 'Anglais:', lang_english_level: 'Avancé (C1)', lang_french: 'Français:', lang_french_level: 'Intermédiaire-Supérieur (B2)', lang_turkish: 'Turc:', lang_turkish_level: 'Débutant', },
-            it: { nav_profile: 'Profilo', nav_experience: 'Esperienza', nav_education: 'Formazione', nav_skills: 'Competenze', nav_languages: 'Lingue', print_btn_text: 'Stampa / Salva in PDF', profile_title: 'Profilo Professionale', profile_text: "Con un background internazionale nell'insegnamento delle lingue, sono guidato da un approccio olistico per progettare lezioni che integrano le dimensioni sociali, emotive, cognitive e culturali dell'apprendimento. Ispirato dai valori di rispetto, compassione e integrità, mi impegno a creare ambienti di apprendimento inclusivi e culturalmente sensibili che celebrano le connessioni multiculturali e promuovono un senso di cittadinanza globale.", experience_title: 'Esperienza Lavorativa', job1_title: 'Insegnante di Spagnolo MYP e Prospettive Globali', job1_desc1: 'Ho facilitato lezioni di spagnolo MYP e Prospettive Globali.', job2_title: 'Insegnante di Lingua Spagnola', job2_desc1: 'Ho insegnato spagnolo a studenti del corso preparatorio e del 9° anno (Livello A1-A2).', job2_desc2: 'Ho adattato e creato materiali e attività interattive.', job2_desc3: 'Ho gestito e organizzato eventi per la Giornata delle Lingue.', job2_desc4: 'Ho supportato il processo di accreditamento come centro esami DELE.', job3_title: 'Insegnante di Comunicazione e Mondo Interculturale', job3_desc1: 'Ho insegnato inglese a studenti della scuola secondaria (Livelli A1-B2).', job3_desc2: 'Ho progettato e implementato valutazioni.', job3_desc3: 'Ho fatto da tutor per un progetto ambientale interdisciplinare.', job4_title: 'Insegnante di Spagnolo e Inglese', job4_desc1: 'Ho insegnato inglese e spagnolo per la scuola primaria e secondaria con un approccio educativo basato sul luogo.', education_title: 'Formazione', edu1_title: 'Certificato IB in Insegnamento e Apprendimento', edu2_title: 'Diploma di Specializzazione in Educazione Internazionale', edu3_title: "Master in Insegnamento dello Spagnolo (ELE)", edu4_title: 'Laurea in Educazione dello Spagnolo e Lingue Straniere', skills_title: 'Competenze Chiave', skills_soft_title: 'Competenze Trasversali', skill_adaptability: 'Adattabilità', skill_empathy: 'Empatia e Pazienza', skill_cultural: 'Consapevolezza interculturale', skill_teamwork: 'Lavoro di squadra', skill_resilience: 'Resilienza', skill_proactiveness: 'Proattività', skill_creativity: 'Creatività', skills_tech_title: 'Tecnologie e Piattaforme', languages_title: 'Lingue', lang_spanish: 'Spagnolo:', lang_spanish_level: 'Madrelingua', lang_english: 'Inglese:', lang_english_level: 'Avanzato (C1)', lang_french: 'Francese:', lang_french_level: 'Intermedio-Superiore (B2)', lang_turkish: 'Turco:', lang_turkish_level: 'Principiante', },
-            de: { nav_profile: 'Profil', nav_experience: 'Erfahrung', nav_education: 'Bildung', nav_skills: 'Fähigkeiten', nav_languages: 'Sprachen', print_btn_text: 'Drucken / Als PDF speichern', profile_title: 'Berufliches Profil', profile_text: 'Mit einem internationalen Hintergrund im Sprachunterricht verfolge ich einen ganzheitlichen Ansatz, um Unterrichtsstunden zu gestalten, die die sozialen, emotionalen, kognitiven und kulturellen Dimensionen des Lernens integrieren. Inspiriert von den Werten Respekt, Mitgefühl und Integrität strebe ich danach, inklusive und kulturell ansprechende Lernumgebungen zu schaffen, die multikulturelle Verbindungen feiern und ein Gefühl der globalen Bürgerschaft fördern.', experience_title: 'Berufserfahrung', job1_title: 'MYP Spanisch & Globale Perspektiven Lehrer', job1_desc1: 'Leitung von MYP-Spanisch- und Globale-Perspektiven-Klassen.', job2_title: 'Spanischlehrer', job2_desc1: 'Unterrichtete Spanisch für Vorbereitungs- und 9. Klassen (Niveau A1-A2).', job2_desc2: 'Angepasste und erstellte interaktive Materialien und Aktivitäten.', job2_desc3: 'Verwaltete und organisierte Veranstaltungen zum Tag der Sprachen.', job2_desc4: 'Unterstützte den Akkreditierungsprozess als DELE-Prüfungszentrum.', job3_title: 'Lehrer für Kommunikation & Interkulturelle Welt', job3_desc1: 'Unterrichtete Englisch für Sekundarschüler (Niveaus A1-B2).', job3_desc2: 'Entwarf und implementierte Bewertungen.', job3_desc3: 'Betreute ein umweltbezogenes, fächerübergreifendes Projekt.', job4_title: 'Spanisch- und Englischlehrer', job4_desc1: 'Unterrichtete Englisch und Spanisch für Grund- und Sekundarschulen mit einem ortsbezogenen Bildungsansatz.', education_title: 'Bildung', edu1_title: 'IB-Zertifikat in Lehren und Lernen', edu2_title: 'Spezialisierungsdiplom in Internationaler Bildung', edu3_title: 'Master-Abschluss im Unterrichten von Spanisch (ELE)', edu4_title: 'Bachelor of Education in Spanisch und Fremdsprachen', skills_title: 'Schlüsselfähigkeiten', skills_soft_title: 'Soft Skills', skill_adaptability: 'Anpassungsfähigkeit', skill_empathy: 'Empathie & Geduld', skill_cultural: 'Interkulturelles Bewusstsein', skill_teamwork: 'Teamfähigkeit', skill_resilience: 'Belastbarkeit', skill_proactiveness: 'Eigeninitiative', skill_creativity: 'Kreativität', skills_tech_title: 'Technologien & Plattformen', languages_title: 'Sprachen', lang_spanish: 'Spanisch:', lang_spanish_level: 'Muttersprache', lang_english: 'Englisch:', lang_english_level: 'Fortgeschritten (C1)', lang_french: 'Französisch:', lang_french_level: 'Obere Mittelstufe (B2)', lang_turkish: 'Türkisch:', lang_turkish_level: 'Anfänger', },
-            th: { nav_profile: 'โปรไฟล์', nav_experience: 'ประสบการณ์', nav_education: 'การศึกษา', nav_skills: 'ทักษะ', nav_languages: 'ภาษา', print_btn_text: 'พิมพ์ / บันทึกเป็น PDF', profile_title: 'โปรไฟล์', profile_text: 'ด้วยพื้นฐานด้านการศึกษาระหว่างประเทศในการสอนภาษา ข้าพเจ้าได้รับคำแนะนำจากแนวทางแบบองค์รวมในการออกแบบบทเรียนที่ผสมผสานมิติทางสังคม อารมณ์ ความรู้ความเข้าใจ และวัฒนธรรมของการเรียนรู้ ด้วยแรงบันดาลใจจากคุณค่าของความเคารพ ความเห็นอกเห็นใจ และความซื่อสัตย์ ข้าพเจ้ามุ่งมั่นที่จะสร้างสภาพแวดล้อมการเรียนรู้ที่ครอบคลุมและตอบสนองต่อวัฒนธรรม ที่เฉลิมฉลองการเชื่อมต่อทางวัฒนธรรมและส่งเสริมความเป็นพลเมืองโลก', experience_title: 'ประสบการณ์ทำงาน', job1_title: 'ครูสอนภาษาสเปนและมุมมองระดับโลก (MYP)', job1_desc1: 'อำนวยความสะดวกในชั้นเรียนภาษาสเปนและมุมมองระดับโลก (MYP)', job2_title: 'ครูสอนภาษาสเปน', job2_desc1: 'สอนภาษาสเปนสำหรับนักเรียนเตรียมความพร้อมและชั้นมัธยมศึกษาปีที่ 3 (ระดับ A1-A2)', job2_desc2: 'ดัดแปลงและสร้างสื่อและกิจกรรมแบบโต้ตอบ', job2_desc3: 'จัดการและจัดกิจกรรมวันภาษา', job2_desc4: 'สนับสนุนกระบวนการรับรองวิทยฐานะเป็นศูนย์สอบ DELE', job3_title: 'ครูสอนการสื่อสารและโลกต่างวัฒนธรรม', job3_desc1: 'สอนภาษาอังกฤษสำหรับนักเรียนมัธยมศึกษา (ระดับ A1-B2)', job3_desc2: 'ออกแบบและดำเนินการประเมินผล', job3_desc3: 'เป็นที่ปรึกษาโครงการสิ่งแวดล้อมแบบข้ามหลักสูตร', job4_title: 'ครูสอนภาษาสเปนและอังกฤษ', job4_desc1: 'สอนภาษาอังกฤษและสเปนสำหรับโรงเรียนประถมศึกษาและมัธยมศึกษาด้วยแนวทางการศึกษาตามบริบท', education_title: 'การศึกษา', edu1_title: 'ใบรับรอง IB ด้านการสอนและการเรียนรู้', edu2_title: 'ประกาศนียบัตรเชี่ยวชาญพิเศษด้านการศึกษานานาชาติ', edu3_title: 'ปริญญาโทด้านการสอนภาษาสเปน (ELE)', edu4_title: 'ปริญญาตรีศึกษาศาสตร์บัณฑิต สาขาภาษาสเปนและภาษาต่างประเทศ', skills_title: 'ทักษะหลัก', skills_soft_title: 'ทักษะทางสังคม', skill_adaptability: 'การปรับตัว', skill_empathy: 'ความเห็นอกเห็นใจและความอดทน', skill_cultural: 'ความตระหนักข้ามวัฒนธรรม', skill_teamwork: 'การทำงานเป็นทีม', skill_resilience: 'ความยืดหยุ่น', skill_proactiveness: 'ความกระตือรือร้น', skill_creativity: 'ความคิดสร้างสรรค์', skills_tech_title: 'เทคโนโลยีและแพลตฟอร์ม', languages_title: 'ภาษา', lang_spanish: 'สเปน:', lang_spanish_level: 'ภาษาแรก', lang_english: 'อังกฤษ:', lang_english_level: 'ขั้นสูง (C1)', lang_french: 'ฝรั่งเศส:', lang_french_level: 'ขั้นกลางสูง (B2)', lang_turkish: 'ตุรกี:', lang_turkish_level: 'เริ่มต้น', },
-            zh: { nav_profile: '个人资料', nav_experience: '经历', nav_education: '教育', nav_skills: '技能', nav_languages: '语言', print_btn_text: '打印/另存为PDF', profile_title: '个人资料', profile_text: '凭借在语言教育领域的国际背景，我以整体方法为指导，设计整合学习的社会、情感、认知和文化维度的课程。受到尊重、同情和正直价值观的启发，我努力创造包容和文化响应的学习环境，庆祝多元文化联系，培养全球公民意识。', experience_title: '工作经历', job1_title: 'MYP西班牙语与全球视野教师', job1_desc1: '协助MYP西班牙语和全球视野课程。', job2_title: '西班牙语教师', job2_desc1: '为预科和九年级学生教授西班牙语（A1-A2级）。', job2_desc2: '改编和创作互动材料和活动。', job2_desc3: '管理和组织语言日活动。', job2_desc4: '支持作为DELE考试中心的认证过程。', job3_title: '沟通与跨文化世界教师', job3_desc1: '为中学生教授英语（A1-B2级）。', job3_desc2: '设计和实施评估。', job3_desc3: '辅导一个环境跨课程项目。', job4_title: '西班牙语和英语教师', job4_desc1: '采用基于地方的教育方法为中小学教授英语和西班牙语。', education_title: '教育背景', edu1_title: 'IB教学证书', edu2_title: '国际教育专业文凭', edu3_title: '西班牙语教学硕士学位（ELE）', edu4_title: '西班牙语和外语教育学士', skills_title: '主要技能', skills_soft_title: '软技能', skill_adaptability: '适应性', skill_empathy: '同理心和耐心', skill_cultural: '跨文化意识', skill_teamwork: '团队合作', skill_resilience: '抗压能力', skill_proactiveness: '积极主动', skill_creativity: '创造力', skills_tech_title: '技术与平台', languages_title: '语言', lang_spanish: '西班牙语：', lang_spanish_level: '第一语言', lang_english: '英语：', lang_english_level: '高级（C1）', lang_french: '法语：', lang_french_level: '中高级（B2）', lang_turkish: '土耳其语：', lang_turkish_level: '初级', },
-            tr: { nav_profile: 'Profil', nav_experience: 'Deneyim', nav_education: 'Eğitim', nav_skills: 'Yetenekler', nav_languages: 'Diller', print_btn_text: 'Yazdır / PDF Olarak Kaydet', profile_title: 'Profil', profile_text: 'Dil eğitiminde uluslararası bir geçmişe sahip olarak, öğrenmenin sosyal, duygusal, bilişsel ve kültürel boyutlarını bütünleştiren dersler tasarlamak için bütünsel bir yaklaşımla yönlendiriliyorum. Saygı, şefkat ve dürüstlük değerlerinden ilham alarak, çok kültürlü bağlantıları kutlayan ve küresel vatandaşlık duygusunu teşvik eden kapsayıcı ve kültürel olarak duyarlı öğrenme ortamları yaratmaya çalışıyorum.', experience_title: 'İş Deneyimi', job1_title: 'MYP İspanyolca ve Küresel Perspektifler Öğretmeni', job1_desc1: 'MYP İspanyolca ve Küresel Perspektifler derslerini kolaylaştırdı.', job2_title: 'İspanyolca Dil Öğretmeni', job2_desc1: 'Hazırlık ve 9. sınıf öğrencilerine İspanyolca öğretti (Seviye A1-A2).', job2_desc2: 'Etkileşimli materyaller ve etkinlikler uyarladı ve oluşturdu.', job2_desc3: 'Dil Günü etkinliklerini yönetti ve organize etti.', job2_desc4: 'DELE sınav merkezi olarak akreditasyon sürecini destekledi.', job3_title: 'İletişim ve Kültürlerarası Dünya Öğretmeni', job3_desc1: 'Ortaokul öğrencilerine İngilizce öğretti (Seviyeler A1-B2).', job3_desc2: 'Değerlendirmeler tasarladı ve uyguladı.', job3_desc3: 'Çevre konulu disiplinlerarası bir projede danışmanlık yaptı.', job4_title: 'İspanyolca ve İngilizce Öğretmeni', job4_desc1: 'Yer temelli bir eğitim yaklaşımıyla ilkokul ve ortaokul için İngilizce ve İspanyolca öğretti.', education_title: 'Eğitim', edu1_title: 'Öğretme ve Öğrenmede IB Sertifikası', edu2_title: 'Uluslararası Eğitimde Uzmanlık Diploması', edu3_title: 'İspanyolca Öğretimi Yüksek Lisans Derecesi (ELE)', edu4_title: 'İspanyolca ve Yabancı Diller Eğitimi Lisans Derecesi', skills_title: 'Temel Yetenekler', skills_soft_title: 'Sosyal Beceriler', skill_adaptability: 'Uyum Sağlama', skill_empathy: 'Empati ve Sabır', skill_cultural: 'Kültürlerarası farkındalık', skill_teamwork: 'Takım Çalışması', skill_resilience: 'Dayanıklılık', skill_proactiveness: 'Proaktiflik', skill_creativity: 'Yaratıcılık', skills_tech_title: 'Teknolojiler ve Platformlar', languages_title: 'Diller', lang_spanish: 'İspanyolca:', lang_spanish_level: 'Anadil', lang_english: 'İngilizce:', lang_english_level: 'İleri (C1)', lang_french: 'Fransızca:', lang_french_level: 'Orta Üstü (B2)', lang_turkish: 'Türkçe:', lang_turkish_level: 'Başlangıç', },
-            ar: { nav_profile: 'الملف الشخصي', nav_experience: 'الخبرة', nav_education: 'التعليم', nav_skills: 'المهارات', nav_languages: 'اللغات', print_btn_text: 'طباعة / حفظ بصيغة PDF', profile_title: 'الملف الشخصي', profile_text: 'بخلفية دولية في تعليم اللغات، أسترشد بنهج شمولي لتصميم دروس تدمج الأبعاد الاجتماعية والعاطفية والمعرفية والثقافية للتعلم. مستوحاة من قيم الاحترام والرحمة والنزاهة، أسعى جاهدة لخلق بيئات تعليمية شاملة ومستجيبة ثقافيًا تحتفي بالروابط متعددة الثقافات وتعزز الشعور بالمواطنة العالمية.', experience_title: 'الخبرة العملية', job1_title: 'مدرس اللغة الإسبانية ووجهات النظر العالمية في برنامج MYP', job1_desc1: 'تيسير فصول اللغة الإسبانية ووجهات النظر العالمية في برنامج MYP.', job2_title: 'مدرس لغة إسبانية', job2_desc1: 'تدريس اللغة الإسبانية لطلاب المرحلة الإعدادية والصف التاسع (المستوى A1-A2).', job2_desc2: 'تكييف وإنشاء مواد وأنشطة تفاعلية.', job2_desc3: 'إدارة وتنظيم فعاليات يوم اللغة.', job2_desc4: 'دعم عملية الاعتماد كمركز امتحانات DELE.', job3_title: 'مدرس التواصل والعالم متعدد الثقافات', job3_desc1: 'تدريس اللغة الإنجليزية لطلاب المدارس الثانوية (المستويات A1-B2).', job3_desc2: 'تصميم وتنفيذ التقييمات.', job3_desc3: 'الإشراف على مشروع بيئي متعدد التخصصات.', job4_title: 'مدرس لغة إسبانية وإنجليزية', job4_desc1: 'تدريس اللغة الإنجليزية والإسبانية للمدارس الابتدائية والثانوية بنهج تعليمي قائم على المكان.', education_title: 'التعليم', edu1_title: 'شهادة البكالوريا الدولية في التدريس والتعلم', edu2_title: 'دبلوم التخصص في التعليم الدولي', edu3_title: 'درجة الماجستير في تدريس اللغة الإسبانية (ELE)', edu4_title: 'بكالوريوس التربية في اللغة الإسبانية واللغات الأجنبية', skills_title: 'المهارات الأساسية', skills_soft_title: 'المهارات الشخصية', skill_adaptability: 'القدرة على التكيف', skill_empathy: 'التعاطف والصبر', skill_cultural: 'الوعي متعدد الثقافات', skill_teamwork: 'العمل الجماعي', skill_resilience: 'المرونة', skill_proactiveness: 'المبادرة', skill_creativity: 'الإبداع', skills_tech_title: 'التقنيات والمنصات', languages_title: 'اللغات', lang_spanish: 'الإسبانية:', lang_spanish_level: 'اللغة الأم', lang_english: 'الإنجليزية:', lang_english_level: 'متقدم (C1)', lang_french: 'الفرنسية:', lang_french_level: 'فوق المتوسط (B2)', lang_turkish: 'التركية:', lang_turkish_level: 'مبتدئ', },
-        };
+        // 2. Guarda la preferencia
+        localStorage.setItem('cv-lang', lang);
+        languageSelect.value = lang;
 
-        const languageSelect = document.getElementById('language-select');
-        const translatableElements = document.querySelectorAll('[data-lang-key]');
-
-        const switchLanguage = (lang) => {
-            const langTranslations = translations[lang] || translations.en;
-            translatableElements.forEach(el => {
-                const key = el.getAttribute('data-lang-key');
-                if (langTranslations[key]) {
-                    el.innerText = langTranslations[key];
+        // 3. Carga el archivo JSON si no está en caché
+        if (!loadedTranslations[lang]) {
+            try {
+                const response = await fetch(`locales/${lang}.json`);
+                if (!response.ok) {
+                    throw new Error(`Could not load ${lang}.json`);
                 }
-            });
-            languageSelect.value = lang;
-            localStorage.setItem('cv-lang', lang);
-            // For RTL languages like Arabic
-            if (lang === 'ar') {
-                document.body.dir = 'rtl';
-            } else {
-                document.body.dir = 'ltr';
+                loadedTranslations[lang] = await response.json();
+            } catch (error) {
+                console.error(error);
+                // Si falla, vuelve a cargar inglés como fallback
+                if (lang !== 'en') {
+                    // Solo intenta cargar inglés si el idioma fallido no era inglés
+                    await switchLanguage('en');
+                }
+                return;
             }
-        };
+        }
+        
+        const langTranslations = loadedTranslations[lang];
 
-        languageSelect.addEventListener('change', (e) => {
-            switchLanguage(e.target.value);
+        // 4. Aplica las traducciones
+        translatableElements.forEach(el => {
+            const key = el.getAttribute('data-lang-key');
+            if (langTranslations[key]) {
+                el.innerText = langTranslations[key];
+            }
         });
+    };
 
-        // Detect language on initial load
-        const storedLang = localStorage.getItem('cv-lang');
-        const browserLang = navigator.language.split('-')[0]; // e.g., 'en-US' -> 'en'
-        const initialLang = storedLang || (translations[browserLang] ? browserLang : 'en');
-        switchLanguage(initialLang);
+    languageSelect.addEventListener('change', (e) => {
+        switchLanguage(e.target.value);
+    });
 
+    // Carga inicial
+    const storedLang = localStorage.getItem('cv-lang');
+    // Revisa si el idioma del navegador existe en el <select>
+    const browserLang = navigator.language.split('-')[0];
+    const langExists = languageSelect.querySelector(`[value="${browserLang}"]`);
+    
+    const initialLang = storedLang || (langExists ? browserLang : 'en');
+    
+    // Inicia la carga del idioma
+    switchLanguage(initialLang);
 
-        // --- Print Button Functionality ---
-        const printButton = document.getElementById('print-btn');
+    
+    // --- 2. FUNCIONALIDAD DEL BOTÓN DE IMPRIMIR (ORIGINAL) ---
+    const printButton = document.getElementById('print-btn');
+    if (printButton) {
         printButton.addEventListener('click', () => {
             window.print();
         });
+    }
 
-        // --- Intersection Observer for Fade-in Animation on Scroll ---
-        const animatedSections = document.querySelectorAll('.section');
-        const animationObserver = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        animatedSections.forEach(section => {
-            animationObserver.observe(section);
+    // --- 3. ANIMACIÓN FADE-IN AL HACER SCROLL (ORIGINAL) ---
+    const animatedSections = document.querySelectorAll('.section');
+    const animationObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
         });
+    }, { threshold: 0.1 });
 
-        // --- Intersection Observer for Active Nav Link Highlighting ---
-        const navLinks = document.querySelectorAll('.nav-link');
-        const sectionsForNav = document.querySelectorAll('section');
-        const navObserverOptions = { rootMargin: '-40% 0px -60% 0px' };
-
-        const navObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute('id');
-                    navLinks.forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === `#${id}`) {
-                            link.classList.add('active');
-                        }
-                    });
-                }
-            });
-        }, navObserverOptions);
-
-        sectionsForNav.forEach(section => {
-            navObserver.observe(section);
-        });
+    animatedSections.forEach(section => {
+        animationObserver.observe(section);
     });
-</script>
+
+    // --- 4. RESALTADO DEL LINK DE NAVEGACIÓN ACTIVO (ORIGINAL) ---
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sectionsForNav = document.querySelectorAll('section[id]'); // Asegúrate que las secciones tengan ID
+    const navObserverOptions = {
+        rootMargin: '-40% 0px -60% 0px'
+    };
+
+    const navObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, navObserverOptions);
+
+    sectionsForNav.forEach(section => {
+        navObserver.observe(section);
+    });
+
+});
