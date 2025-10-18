@@ -3,13 +3,20 @@
    ========================================================================== */
 
 :root {
-    --background: #f7f9fc;       /* Fondo muy claro, ligeramente azulado */
-    --surface: #ffffff;          /* Contenedores blancos puros */
-    --text-primary: #333333;     /* Negro/Gris oscuro para títulos y texto principal */
-    --text-secondary: #6c757d;   /* Gris profesional para detalles */
-    --accent: #3498db;           /* Azul cian */
-    --accent-hover: #2980b9;
-    --border: #e9ecef;           /* Líneas divisorias muy sutiles */
+    /* 🎨 PALETA DE COLORES (Light Mode - Estilo Nuevo) */
+    --background: #f4f7f9;
+    --surface: #ffffff;
+    --text-primary: #2c3e50;
+    --text-secondary: #7f8c8d;
+    --accent: #3498db;
+    --accent-hover: #2980b9; /* Color de hover que corresponde al azul */
+    --border: #ecf0f1;
+    --nav-background: rgba(255, 255, 255, 0.9);
+
+    /* ✨ Variables semánticas para sombras (ajustadas a la nueva estética) */
+    --shadow-color-rgb: 0, 0, 0;
+    --shadow-elevation-low: 0 2px 10px rgba(var(--shadow-color-rgb), 0.05);
+    --shadow-elevation-medium: 0 10px 30px rgba(var(--shadow-color-rgb), 0.1);
 }
 
 * {
@@ -130,13 +137,13 @@ h1 {
 }
 
 .section h2 {
-    display: inline-block;
-    font-size: 20px;
-    color: var(--text-primary);
-    border-bottom: 3px solid var(--accent);
-    padding-bottom: 5px;
-    margin-bottom: 25px;
+    font-size: 22px;
+    color: var(--accent);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
     font-weight: 700;
+    display: block; /* Asegura que la línea ocupe todo el ancho */
 }
 
 .job h3,
@@ -154,10 +161,11 @@ h1 {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    border: 5px solid var(--surface);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border: 5px solid var(--surface); /* <-- CAMBIA A --surface */
+    box-shadow: var(--shadow-elevation-low);
     margin-bottom: 20px;
     overflow: hidden;
+    transition: border-color 0.3s ease;
 }
 
 .profile-img {
