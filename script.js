@@ -1,6 +1,19 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Performance optimization: Use requestAnimationFrame for smooth animations
+    // 🚀 Performance optimization: Use requestAnimationFrame for smooth animations
     let animationFrameId;
+    
+    // Performance: Debounce scroll events
+    let scrollTimeout;
+    const debounce = (func, wait) => {
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(scrollTimeout);
+                func(...args);
+            };
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(later, wait);
+        };
+    };
     
     // --- 1. LÓGICA DE TRADUCCIÓN (NUEVA) ---
     const languageSelect = document.getElementById('language-select');
@@ -120,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // --- 3. ANIMACIÓN FADE-IN AL HACER SCROLL (MEJORADA) ---
+    // --- 3. ANIMACIÓN FADE-IN AL HACER SCROLL (OPTIMIZADA) ---
     const animatedSections = document.querySelectorAll('.section');
     const animationObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
@@ -128,6 +141,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Use requestAnimationFrame for smooth animations
                 animationFrameId = requestAnimationFrame(() => {
                     entry.target.classList.add('visible');
+                    // Performance: Unobserve after animation to reduce overhead
+                    animationObserver.unobserve(entry.target);
                 });
             }
         });
