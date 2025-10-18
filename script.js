@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
-
+    // Performance optimization: Use requestAnimationFrame for smooth animations
+    let animationFrameId;
+    
     // --- 1. LÓGICA DE TRADUCCIÓN (NUEVA) ---
     const languageSelect = document.getElementById('language-select');
     const translatableElements = document.querySelectorAll('[data-lang-key]');
@@ -8,6 +10,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const themeToggleIcon = document.getElementById('theme-toggle-icon');
     const body = document.body;
+    
+    // Add loading state management
+    const showLoading = () => {
+        document.body.classList.add('loading');
+    };
+    
+    const hideLoading = () => {
+        document.body.classList.remove('loading');
+    };
 
     // Función para actualizar el tema y el icono
     const updateTheme = (theme) => {
@@ -109,22 +120,44 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // --- 3. ANIMACIÓN FADE-IN AL HACER SCROLL (ORIGINAL) ---
+    // --- 3. ANIMACIÓN FADE-IN AL HACER SCROLL (MEJORADA) ---
     const animatedSections = document.querySelectorAll('.section');
     const animationObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+                // Use requestAnimationFrame for smooth animations
+                animationFrameId = requestAnimationFrame(() => {
+                    entry.target.classList.add('visible');
+                });
             }
         });
-    }, { threshold: 0.1 });
+    }, { 
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
 
     animatedSections.forEach(section => {
         animationObserver.observe(section);
     });
+    
+    // Add smooth scrolling for navigation links
+    const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
 
     // --- 4. RESALTADO DEL LINK DE NAVEGACIÓN ACTIVO (ORIGINAL) ---
-    const navLinks = document.querySelectorAll('.nav-link');
     const sectionsForNav = document.querySelectorAll('section[id]'); // Asegúrate que las secciones tengan ID
     const navObserverOptions = {
         rootMargin: '-40% 0px -60% 0px'
