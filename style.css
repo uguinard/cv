@@ -289,6 +289,22 @@ h1 {
     margin-right: 8px;
 }
 
+/* LinkedIn en el navbar */
+.linkedin-nav-link {
+    color: var(--text-secondary) !important;
+    font-size: 18px;
+    padding: 10px 15px;
+}
+
+.linkedin-nav-link:hover {
+    color: #0077b5 !important;
+    transform: scale(1.1);
+}
+
+.linkedin-nav-link i {
+    margin-right: 0;
+}
+
 #language-select {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -409,6 +425,15 @@ body.dark-mode .theme-toggle-button:hover {
     color: var(--accent);
 }
 
+/* LinkedIn en modo oscuro */
+body.dark-mode .linkedin-nav-link {
+    color: var(--text-secondary) !important;
+}
+
+body.dark-mode .linkedin-nav-link:hover {
+    color: #0077b5 !important;
+}
+
 /* ==========================================================================
    8. Media Queries (Responsive y Print)
    ========================================================================== */
@@ -445,6 +470,10 @@ body.dark-mode .theme-toggle-button:hover {
     .main-nav a {
         padding: 8px;
         font-size: 14px;
+    }
+    .linkedin-nav-link {
+        font-size: 16px;
+        padding: 8px;
     }
     .theme-toggle-button {
         order: 1;
