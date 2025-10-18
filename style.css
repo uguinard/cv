@@ -7,7 +7,7 @@
     --surface: #ffffff;          /* Contenedores blancos puros */
     --text-primary: #333333;     /* Negro/Gris oscuro para títulos y texto principal */
     --text-secondary: #6c757d;   /* Gris profesional para detalles */
-    --accent: #17a2b8;           /* Azul cian/verde azulado */
+    --accent: #3498db;           /* Azul cian */
     --accent-hover: #2980b9;
     --border: #e9ecef;           /* Líneas divisorias muy sutiles */
 }
