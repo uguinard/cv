@@ -67,7 +67,7 @@
         /* Fallback icons - solo se muestran si FontAwesome no carga */
         .fontawesome-fallback .fa-moon::before { content: "🌙"; }
         .fontawesome-fallback .fa-sun::before { content: "☀️"; }
-        .fontawesome-fallback .fa-print::before { content: "🖨️"; }
+        .fontawesome-fallback .fa-file-pdf::before { content: "📄"; }
         .fontawesome-fallback .fa-linkedin::before { content: "💼"; }
         .fontawesome-fallback .fa-map-marker-alt::before { content: "📍"; }
         .fontawesome-fallback .fa-envelope::before { content: "✉️"; }
@@ -92,8 +92,9 @@
             margin-right: 5px;
         }
         
-        .fontawesome-fallback .fa-print {
-            margin-right: 8px;
+        .fontawesome-fallback .fa-file-pdf {
+            margin-right: 5px;
+            font-size: 16px;
         }
         
         .fontawesome-fallback .fa-linkedin {
@@ -110,7 +111,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
     
     <!-- Preload critical resources -->
     <link rel="preload" href="style.css" as="style">
@@ -159,7 +161,8 @@
         @media (max-width:800px){.container{margin:0;border-radius:0;padding:25px} h1{font-size:28px} .contact-info{flex-direction:column;align-items:center;gap:10px}}
     </style>
     
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="style.css"></noscript>
     <link rel="alternate" hreflang="en" href="https://www.sergiouribe.co?lang=en">
     <link rel="alternate" hreflang="es" href="https://www.sergiouribe.co?lang=es">
     <link rel="alternate" hreflang="th" href="https://www.sergiouribe.co?lang=th">
@@ -182,23 +185,29 @@
             <li><a href="#skills" class="nav-link" data-lang-key="nav_skills">Skills</a></li>
             <li><a href="#languages" class="nav-link" data-lang-key="nav_languages">Languages</a></li>
             <li><a href="https://www.linkedin.com/in/sergio-ug/" target="_blank" rel="noopener noreferrer" class="nav-link linkedin-nav-link"><i class="fab fa-linkedin"></i></a></li>
+            <li><button id="print-btn" class="nav-print-button" aria-label="Save as PDF" title="Save as PDF">
+                <i class="fas fa-file-pdf"></i>
+                <span class="print-text">Save as PDF</span>
+            </button></li>
         </ul>
-        <button id="theme-toggle-btn" class="theme-toggle-button" aria-label="Toggle dark mode">
-            <i id="theme-toggle-icon" class="fas fa-moon"></i>
-        </button>
-        <div class="language-selector">
-            <label for="language-select" class="visually-hidden">Select Language</label>
-            <select id="language-select">
-                <option value="en">English</option>
-                <option value="es">Español</option>
-                <option value="th">ภาษาไทย</option>
-                <option value="zh">中文</option>
-                <option value="tr">Türkçe</option>
-                <option value="ar">العربية</option>
-                <option value="fr">Français</option>
-                <option value="it">Italiano</option>
-                <option value="de">Deutsch</option>
-            </select>
+        <div class="navbar-controls">
+            <button id="theme-toggle-btn" class="theme-toggle-button" aria-label="Toggle dark mode">
+                <i id="theme-toggle-icon" class="fas fa-moon"></i>
+            </button>
+            <div class="language-selector">
+                <label for="language-select" class="visually-hidden">Select Language</label>
+                <select id="language-select">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="th">ภาษาไทย</option>
+                    <option value="zh">中文</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="ar">العربية</option>
+                    <option value="fr">Français</option>
+                    <option value="it">Italiano</option>
+                    <option value="de">Deutsch</option>
+                </select>
+            </div>
         </div>
     </nav>
     
@@ -276,7 +285,6 @@
             testElement.className = 'fas fa-moon';
             testElement.style.position = 'absolute';
             testElement.style.left = '-9999px';
-            testElement.style.visibility = 'hidden';
             document.body.appendChild(testElement);
             
             const computedStyle = window.getComputedStyle(testElement);
@@ -300,13 +308,16 @@
         
         // Verificar cuando la página se carga (solo una vez)
         window.addEventListener('load', function() {
-            setTimeout(checkFontAwesome, 1000);
+            setTimeout(checkFontAwesome, 2000);
         });
         
         // También verificar cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(checkFontAwesome, 500);
+            setTimeout(checkFontAwesome, 1000);
         });
+        
+        // Verificar inmediatamente si FontAwesome ya está disponible
+        setTimeout(checkFontAwesome, 100);
     </script>
     
     <!-- Fallback para cuando JavaScript no carga -->

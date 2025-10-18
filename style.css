@@ -89,8 +89,9 @@ header {
     padding: 10px 30px;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    gap: 20px;
 }
 
 .main-nav ul {
@@ -99,6 +100,7 @@ header {
     justify-content: center;
     gap: 15px;
     flex-grow: 1;
+    align-items: center;
 }
 
 .main-nav a {
@@ -310,6 +312,64 @@ h1 {
     margin-right: 0;
 }
 
+/* Botón de imprimir en el navbar */
+.nav-print-button {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 18px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-print-button:hover {
+    color: var(--accent);
+    transform: scale(1.1);
+}
+
+.nav-print-button i {
+    font-size: 16px;
+}
+
+.nav-print-button .print-text {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--text-primary);
+    color: var(--surface);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.nav-print-button .print-text::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: var(--text-primary);
+}
+
+.nav-print-button:hover .print-text {
+    opacity: 1;
+    visibility: visible;
+    top: -40px;
+}
+
 #language-select {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -350,6 +410,18 @@ h1 {
 .theme-toggle-button:hover {
     border-color: var(--accent);
     color: var(--accent);
+}
+
+/* Contenedor de controles del navbar */
+.navbar-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.language-selector {
+    display: flex;
+    align-items: center;
 }
 
 /* ==========================================================================
@@ -439,6 +511,24 @@ body.dark-mode .linkedin-nav-link:hover {
     color: #0077b5 !important;
 }
 
+/* Botón de imprimir en modo oscuro */
+body.dark-mode .nav-print-button {
+    color: var(--text-secondary);
+}
+
+body.dark-mode .nav-print-button:hover {
+    color: var(--accent);
+}
+
+body.dark-mode .nav-print-button .print-text {
+    background-color: var(--text-primary);
+    color: var(--surface);
+}
+
+body.dark-mode .nav-print-button .print-text::after {
+    border-top-color: var(--text-primary);
+}
+
 /* ==========================================================================
    8. Media Queries (Responsive y Print)
    ========================================================================== */
@@ -485,6 +575,17 @@ body.dark-mode .linkedin-nav-link:hover {
         margin-right: 0;
         margin-left: 10px;
     }
+    .nav-print-button {
+        font-size: 16px;
+        padding: 8px;
+    }
+    .nav-print-button .print-text {
+        font-size: 11px;
+        top: -30px;
+    }
+    .nav-print-button:hover .print-text {
+        top: -35px;
+    }
 }
 
 @media print {
@@ -523,9 +624,41 @@ body.dark-mode .linkedin-nav-link:hover {
         margin: 10px 0 8px 0;
     }
     .contact-info {
-        gap: 12px;
-        flex-wrap: nowrap;
-        font-size: 8.5pt;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 20px !important;
+        font-size: 10pt !important;
+        justify-content: center !important;
+        align-items: center !important;
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 0 20px 0 !important;
+    }
+    
+    .contact-info li {
+        display: inline-block !important;
+        white-space: nowrap !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .contact-info li:not(:last-child)::after {
+        content: " • " !important;
+        margin: 0 8px !important;
+        color: #666 !important;
+    }
+    
+    /* Forzar que los elementos de contacto estén en línea */
+    .contact-info li i {
+        display: inline !important;
+        margin-right: 5px !important;
+    }
+    
+    .contact-info li a {
+        display: inline !important;
+        text-decoration: none !important;
+        color: inherit !important;
     }
     .section {
         opacity: 1 !important;
