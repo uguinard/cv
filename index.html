@@ -79,6 +79,15 @@
         .fa-envelope::before { content: "✉️"; }
         .fa-phone::before { content: "📞"; }
         
+        /* Asegurar que los fallbacks se muestren */
+        .fas::before, .fab::before {
+            display: inline-block !important;
+            font-style: normal !important;
+            font-variant: normal !important;
+            text-rendering: auto !important;
+            line-height: 1 !important;
+        }
+        
         /* Mejorar apariencia de fallbacks */
         .fa-moon, .fa-sun {
             font-size: 16px;
@@ -259,21 +268,19 @@
     
     <!-- Script para detectar cuando FontAwesome se carga -->
     <script>
-        // Detectar cuando FontAwesome se carga
+        // Función simple para verificar FontAwesome
         function checkFontAwesome() {
-            if (window.FontAwesome) {
-                // FontAwesome está cargado, remover fallbacks
-                document.querySelectorAll('.fas, .fab').forEach(icon => {
-                    icon.style.fontFamily = 'Font Awesome 6 Free, Font Awesome 6 Brands';
-                });
-            } else {
-                // FontAwesome no está cargado, reintentar en 100ms
-                setTimeout(checkFontAwesome, 100);
-            }
+            console.log('Verificando FontAwesome...');
+            console.log('window.FontAwesome:', window.FontAwesome);
+            console.log('Elementos con clase fas:', document.querySelectorAll('.fas').length);
+            console.log('Elementos con clase fab:', document.querySelectorAll('.fab').length);
         }
         
-        // Iniciar verificación después de que el DOM esté listo
-        document.addEventListener('DOMContentLoaded', checkFontAwesome);
+        // Verificar cuando la página se carga
+        window.addEventListener('load', checkFontAwesome);
+        
+        // También verificar después de un delay
+        setTimeout(checkFontAwesome, 2000);
     </script>
     
     <!-- Fallback para cuando JavaScript no carga -->
