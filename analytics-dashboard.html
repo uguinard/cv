@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Analytics Dashboard - Sergio Uribe CV</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            border-left: 4px solid #3498db;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .chart-container {
+            margin: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .chart-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .events-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .event-item {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .event-item:last-child {
+            border-bottom: none;
+        }
+
+        .event-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .event-time {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .event-data {
+            background: #ecf0f1;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            color: #2c3e50;
+        }
+
+        .refresh-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background: #2980b9;
+        }
+
+        .export-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .export-btn:hover {
+            background: #229954;
+        }
+
+        .controls {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #7f8c8d;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 50px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>📊 Analytics Dashboard</h1>
+            <p>Datos de tu sitio web CV - Sergio Uribe Guinard</p>
+        </div>
+
+        <div class="controls">
+            <button class="refresh-btn" onclick="loadAnalytics()">🔄 Actualizar Datos</button>
+            <button class="export-btn" onclick="exportData()">📥 Exportar CSV</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="total-visits">-</div>
+                <div class="stat-label">Visitas Totales</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="unique-visitors">-</div>
+                <div class="stat-label">Visitantes Únicos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avg-session-time">-</div>
+                <div class="stat-label">Tiempo Promedio</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="print-count">-</div>
+                <div class="stat-label">CVs Impresos</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3 class="chart-title">📈 Eventos Recientes</h3>
+            <div id="events-container">
+                <div class="loading">Cargando datos...</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3 class="chart-title">🌍 Idiomas Más Usados</h3>
+            <div id="languages-chart">
+                <div class="loading">Cargando datos...</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3 class="chart-title">📱 Dispositivos</h3>
+            <div id="devices-chart">
+                <div class="loading">Cargando datos...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class AnalyticsDashboard {
+            constructor() {
+                this.data = [];
+                this.loadAnalytics();
+            }
+
+            async loadAnalytics() {
+                try {
+                    // Cargar datos del localStorage
+                    const storedData = localStorage.getItem('analytics-data');
+                    if (storedData) {
+                        this.data = JSON.parse(storedData);
+                        this.processData();
+                    } else {
+                        this.showNoData();
+                    }
+                } catch (error) {
+                    console.error('Error cargando analytics:', error);
+                    this.showError();
+                }
+            }
+
+            processData() {
+                this.calculateStats();
+                this.showRecentEvents();
+                this.showLanguageStats();
+                this.showDeviceStats();
+            }
+
+            calculateStats() {
+                const allEvents = this.data.flatMap(session => session.events);
+                
+                // Visitas totales
+                const pageViews = allEvents.filter(e => e.event === 'page_view').length;
+                document.getElementById('total-visits').textContent = pageViews;
+
+                // Visitantes únicos (sesiones únicas)
+                const uniqueSessions = new Set(this.data.map(session => session.sessionId));
+                document.getElementById('unique-visitors').textContent = uniqueSessions.size;
+
+                // Tiempo promedio de sesión
+                const avgTime = this.calculateAverageSessionTime();
+                document.getElementById('avg-session-time').textContent = avgTime;
+
+                // CVs impresos
+                const printEvents = allEvents.filter(e => e.event === 'print_cv').length;
+                document.getElementById('print-count').textContent = printEvents;
+            }
+
+            calculateAverageSessionTime() {
+                const sessionTimes = this.data.map(session => {
+                    const events = session.events;
+                    if (events.length < 2) return 0;
+                    
+                    const firstEvent = new Date(events[0].timestamp);
+                    const lastEvent = new Date(events[events.length - 1].timestamp);
+                    return (lastEvent - firstEvent) / 1000; // en segundos
+                });
+
+                const avgSeconds = sessionTimes.reduce((a, b) => a + b, 0) / sessionTimes.length;
+                return Math.round(avgSeconds) + 's';
+            }
+
+            showRecentEvents() {
+                const allEvents = this.data.flatMap(session => session.events);
+                const recentEvents = allEvents
+                    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                    .slice(0, 20);
+
+                const container = document.getElementById('events-container');
+                
+                if (recentEvents.length === 0) {
+                    container.innerHTML = '<div class="no-data">No hay eventos recientes</div>';
+                    return;
+                }
+
+                container.innerHTML = `
+                    <div class="events-list">
+                        ${recentEvents.map(event => `
+                            <div class="event-item">
+                                <div>
+                                    <div class="event-name">${this.getEventDisplayName(event.event)}</div>
+                                    <div class="event-time">${new Date(event.timestamp).toLocaleString()}</div>
+                                </div>
+                                <div class="event-data">${JSON.stringify(event.data)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            showLanguageStats() {
+                const allEvents = this.data.flatMap(session => session.events);
+                const languageEvents = allEvents.filter(e => e.event === 'language_change');
+                
+                const languageCounts = {};
+                languageEvents.forEach(event => {
+                    const lang = event.data.language;
+                    languageCounts[lang] = (languageCounts[lang] || 0) + 1;
+                });
+
+                const container = document.getElementById('languages-chart');
+                container.innerHTML = Object.entries(languageCounts)
+                    .sort(([,a], [,b]) => b - a)
+                    .map(([lang, count]) => `
+                        <div style="margin: 10px 0; padding: 10px; background: #ecf0f1; border-radius: 5px;">
+                            <strong>${this.getLanguageName(lang)}:</strong> ${count} cambios
+                        </div>
+                    `).join('') || '<div class="no-data">No hay datos de idiomas</div>';
+            }
+
+            showDeviceStats() {
+                const allEvents = this.data.flatMap(session => session.events);
+                const pageViewEvents = allEvents.filter(e => e.event === 'page_view');
+                
+                const deviceCounts = { mobile: 0, desktop: 0, tablet: 0 };
+                
+                pageViewEvents.forEach(event => {
+                    const screen = event.data.screen;
+                    if (screen) {
+                        const width = parseInt(screen.split('x')[0]);
+                        if (width < 768) deviceCounts.mobile++;
+                        else if (width < 1024) deviceCounts.tablet++;
+                        else deviceCounts.desktop++;
+                    }
+                });
+
+                const container = document.getElementById('devices-chart');
+                container.innerHTML = Object.entries(deviceCounts)
+                    .map(([device, count]) => `
+                        <div style="margin: 10px 0; padding: 10px; background: #ecf0f1; border-radius: 5px;">
+                            <strong>${device.charAt(0).toUpperCase() + device.slice(1)}:</strong> ${count} visitas
+                        </div>
+                    `).join('');
+            }
+
+            getEventDisplayName(eventName) {
+                const names = {
+                    'page_view': '👁️ Vista de Página',
+                    'section_view': '📑 Vista de Sección',
+                    'language_change': '🌍 Cambio de Idioma',
+                    'theme_toggle': '🌙 Cambio de Tema',
+                    'print_cv': '🖨️ Impresión de CV',
+                    'link_click': '🔗 Clic en Enlace',
+                    'performance_metric': '⚡ Métrica de Performance'
+                };
+                return names[eventName] || eventName;
+            }
+
+            getLanguageName(code) {
+                const names = {
+                    'en': 'English',
+                    'es': 'Español',
+                    'th': 'ไทย',
+                    'zh': '中文',
+                    'tr': 'Türkçe',
+                    'ar': 'العربية',
+                    'fr': 'Français',
+                    'it': 'Italiano',
+                    'de': 'Deutsch'
+                };
+                return names[code] || code;
+            }
+
+            showNoData() {
+                document.getElementById('events-container').innerHTML = 
+                    '<div class="no-data">No hay datos de analytics disponibles</div>';
+            }
+
+            showError() {
+                document.getElementById('events-container').innerHTML = 
+                    '<div class="no-data" style="color: #e74c3c;">Error cargando datos</div>';
+            }
+
+            exportData() {
+                const csv = this.convertToCSV();
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `analytics-${new Date().toISOString().split('T')[0]}.csv`;
+                a.click();
+                window.URL.revokeObjectURL(url);
+            }
+
+            convertToCSV() {
+                const allEvents = this.data.flatMap(session => session.events);
+                const headers = ['Timestamp', 'Event', 'Session ID', 'URL', 'Data'];
+                const rows = allEvents.map(event => [
+                    event.timestamp,
+                    event.event,
+                    event.sessionId,
+                    event.url,
+                    JSON.stringify(event.data)
+                ]);
+
+                return [headers, ...rows].map(row => 
+                    row.map(field => `"${field}"`).join(',')
+                ).join('\n');
+            }
+        }
+
+        // Inicializar dashboard
+        const dashboard = new AnalyticsDashboard();
+
+        // Función global para actualizar
+        function loadAnalytics() {
+            dashboard.loadAnalytics();
+        }
+
+        function exportData() {
+            dashboard.exportData();
+        }
+    </script>
+</body>
+</html>
