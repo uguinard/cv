@@ -59,14 +59,23 @@
     }
     </script>
 
-    <!-- FontAwesome desde CDN directo para evitar CORS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
+    <!-- FontAwesome desde CDN directo -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
     
-    <!-- FontAwesome Fallback CSS -->
+    <!-- FontAwesome Fallback CSS - Solo se activa si FontAwesome falla -->
     <style>
-        /* FontAwesome fallback icons */
-        .fas, .fab {
+        /* Fallback icons - solo se muestran si FontAwesome no carga */
+        .fontawesome-fallback .fa-moon::before { content: "🌙"; }
+        .fontawesome-fallback .fa-sun::before { content: "☀️"; }
+        .fontawesome-fallback .fa-print::before { content: "🖨️"; }
+        .fontawesome-fallback .fa-linkedin::before { content: "💼"; }
+        .fontawesome-fallback .fa-map-marker-alt::before { content: "📍"; }
+        .fontawesome-fallback .fa-envelope::before { content: "✉️"; }
+        .fontawesome-fallback .fa-phone::before { content: "📞"; }
+        
+        /* Estilos para fallbacks cuando FontAwesome no está disponible */
+        .fontawesome-fallback .fas, 
+        .fontawesome-fallback .fab {
             display: inline-block;
             font-style: normal;
             font-variant: normal;
@@ -76,39 +85,24 @@
             text-align: center;
         }
         
-        /* Fallback icons before FontAwesome loads */
-        .fa-moon::before { content: "🌙"; }
-        .fa-sun::before { content: "☀️"; }
-        .fa-print::before { content: "🖨️"; }
-        .fa-linkedin::before { content: "💼"; }
-        .fa-map-marker-alt::before { content: "📍"; }
-        .fa-envelope::before { content: "✉️"; }
-        .fa-phone::before { content: "📞"; }
-        
-        /* Asegurar que los fallbacks se muestren */
-        .fas::before, .fab::before {
-            display: inline-block !important;
-            font-style: normal !important;
-            font-variant: normal !important;
-            text-rendering: auto !important;
-            line-height: 1 !important;
-        }
-        
         /* Mejorar apariencia de fallbacks */
-        .fa-moon, .fa-sun {
+        .fontawesome-fallback .fa-moon, 
+        .fontawesome-fallback .fa-sun {
             font-size: 16px;
             margin-right: 5px;
         }
         
-        .fa-print {
+        .fontawesome-fallback .fa-print {
             margin-right: 8px;
         }
         
-        .fa-linkedin {
+        .fontawesome-fallback .fa-linkedin {
             font-size: 18px;
         }
         
-        .fa-map-marker-alt, .fa-envelope, .fa-phone {
+        .fontawesome-fallback .fa-map-marker-alt, 
+        .fontawesome-fallback .fa-envelope, 
+        .fontawesome-fallback .fa-phone {
             margin-right: 8px;
             font-size: 14px;
         }
@@ -116,8 +110,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     
     <!-- Preload critical resources -->
     <link rel="preload" href="style.css" as="style">
@@ -166,8 +159,7 @@
         @media (max-width:800px){.container{margin:0;border-radius:0;padding:25px} h1{font-size:28px} .contact-info{flex-direction:column;align-items:center;gap:10px}}
     </style>
     
-    <link rel="stylesheet" href="style.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="style.css"></noscript>
+    <link rel="stylesheet" href="style.css">
     <link rel="alternate" hreflang="en" href="https://www.sergiouribe.co?lang=en">
     <link rel="alternate" hreflang="es" href="https://www.sergiouribe.co?lang=es">
     <link rel="alternate" hreflang="th" href="https://www.sergiouribe.co?lang=th">
@@ -284,6 +276,7 @@
             testElement.className = 'fas fa-moon';
             testElement.style.position = 'absolute';
             testElement.style.left = '-9999px';
+            testElement.style.visibility = 'hidden';
             document.body.appendChild(testElement);
             
             const computedStyle = window.getComputedStyle(testElement);
@@ -291,15 +284,15 @@
             
             console.log('Font family detectada:', fontFamily);
             
-            if (fontFamily.includes('Font Awesome')) {
+            if (fontFamily.includes('Font Awesome') || fontFamily.includes('FontAwesome')) {
                 console.log('✅ FontAwesome CSS cargado correctamente');
                 fontAwesomeChecked = true;
-                // Remover fallbacks
-                document.querySelectorAll('.fas, .fab').forEach(icon => {
-                    icon.style.content = '';
-                });
+                // Asegurar que no se use fallback
+                document.body.classList.remove('fontawesome-fallback');
             } else {
-                console.log('❌ FontAwesome CSS no detectado, usando fallbacks');
+                console.log('❌ FontAwesome CSS no detectado, activando fallbacks');
+                // Activar fallbacks
+                document.body.classList.add('fontawesome-fallback');
             }
             
             document.body.removeChild(testElement);
@@ -308,6 +301,11 @@
         // Verificar cuando la página se carga (solo una vez)
         window.addEventListener('load', function() {
             setTimeout(checkFontAwesome, 1000);
+        });
+        
+        // También verificar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(checkFontAwesome, 500);
         });
     </script>
     
