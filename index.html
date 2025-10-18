@@ -55,7 +55,8 @@
     }
     </script>
 
-    <script src="https://kit.fontawesome.com/15d28c0573.js" crossorigin="anonymous"></script>
+    <!-- FontAwesome desde CDN directo para evitar CORS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
     
     <!-- FontAwesome Fallback CSS -->
     <style>
@@ -268,19 +269,44 @@
     
     <!-- Script para detectar cuando FontAwesome se carga -->
     <script>
-        // Función simple para verificar FontAwesome
+        // Función para verificar FontAwesome CSS
         function checkFontAwesome() {
-            console.log('Verificando FontAwesome...');
-            console.log('window.FontAwesome:', window.FontAwesome);
-            console.log('Elementos con clase fas:', document.querySelectorAll('.fas').length);
-            console.log('Elementos con clase fab:', document.querySelectorAll('.fab').length);
+            console.log('Verificando FontAwesome CSS...');
+            
+            // Verificar si las fuentes FontAwesome están cargadas
+            const testElement = document.createElement('i');
+            testElement.className = 'fas fa-moon';
+            testElement.style.position = 'absolute';
+            testElement.style.left = '-9999px';
+            document.body.appendChild(testElement);
+            
+            const computedStyle = window.getComputedStyle(testElement);
+            const fontFamily = computedStyle.fontFamily;
+            
+            console.log('Font family detectada:', fontFamily);
+            
+            if (fontFamily.includes('Font Awesome')) {
+                console.log('✅ FontAwesome CSS cargado correctamente');
+                // Remover fallbacks
+                document.querySelectorAll('.fas, .fab').forEach(icon => {
+                    icon.style.content = '';
+                });
+            } else {
+                console.log('❌ FontAwesome CSS no detectado, usando fallbacks');
+            }
+            
+            document.body.removeChild(testElement);
         }
         
         // Verificar cuando la página se carga
-        window.addEventListener('load', checkFontAwesome);
+        window.addEventListener('load', function() {
+            setTimeout(checkFontAwesome, 1000);
+        });
         
-        // También verificar después de un delay
-        setTimeout(checkFontAwesome, 2000);
+        // También verificar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(checkFontAwesome, 500);
+        });
     </script>
     
     <!-- Fallback para cuando JavaScript no carga -->
