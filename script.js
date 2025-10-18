@@ -3,6 +3,46 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- 1. LÓGICA DE TRADUCCIÓN (NUEVA) ---
     const languageSelect = document.getElementById('language-select');
     const translatableElements = document.querySelectorAll('[data-lang-key]');
+
+    // --- 2. LÓGICA DEL MODO OSCURO (NUEVA) ---
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const themeToggleIcon = document.getElementById('theme-toggle-icon');
+    const body = document.body;
+
+    // Función para actualizar el tema y el icono
+    const updateTheme = (theme) => {
+        if (theme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggleIcon.classList.remove('fa-sun'); // Cambia a icono de luna
+            themeToggleIcon.classList.add('fa-moon');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            body.classList.remove('dark-mode');
+            themeToggleIcon.classList.remove('fa-moon'); // Cambia a icono de sol
+            themeToggleIcon.classList.add('fa-sun');
+            localStorage.setItem('theme', 'light');
+        }
+    };
+
+    // Carga inicial del tema
+    // 1. Revisa si hay una preferencia guardada en localStorage
+    let currentTheme = localStorage.getItem('theme');
+    
+    // 2. Si no hay guardada, revisa la preferencia del sistema
+    if (!currentTheme) {
+        currentTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    // 3. Aplica el tema al cargar la página
+    updateTheme(currentTheme);
+
+    // Event listener para el botón
+    themeToggleBtn.addEventListener('click', () => {
+        // Revisa cuál es el tema *actual* y cámbialo al opuesto
+        const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+        updateTheme(newTheme);
+    });
+    // --- FIN DE LA LÓGICA DEL MODO OSCURO ---
     
     // Objeto para caché de traducciones
     const loadedTranslations = {};
