@@ -5,11 +5,11 @@
 :root {
     --background: #f7f9fc;       /* Fondo muy claro, ligeramente azulado */
     --surface: #ffffff;          /* Contenedores blancos puros */
-    --text-primary: #333333;     /* Negro/Gris oscuro para títulos y texto principal */
+    --text-primary: #212529;     /* Negro/Gris oscuro para títulos y texto principal */
     --text-secondary: #6c757d;   /* Gris profesional para detalles */
-    --accent: #3498db;           /* Azul cian */
+    --accent: #007BFF;           /* Azul cian */
     --accent-hover: #2980b9;
-    --border: #e9ecef;           /* Líneas divisorias muy sutiles */
+    --border: #dee2e6;           /* Líneas divisorias muy sutiles */
 }
 
 * {
@@ -31,14 +31,22 @@ body {
 /* ==========================================================================
    2. Layout y Contenedores Principales
    ========================================================================== */
-
+/* Reemplaza el estilo de .container para quitar la sombra */
 .container {
     max-width: 900px;
     margin: 40px auto;
     padding: 50px;
     background-color: var(--surface);
     border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: none; /* <-- Quitar la sombra */
+}
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 50px;
+    background-color: var(--surface);
+    border-radius: 10px;
+    box-shadow: none;
 }
 
 header {
@@ -130,18 +138,23 @@ h1 {
 }
 
 .section h2 {
-    display: inline-block;
-    font-size: 20px;
-    color: var(--text-primary);
-    border-bottom: 3px solid var(--accent);
-    padding-bottom: 5px;
-    margin-bottom: 25px;
+font-size: 18px;
     font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;   /* <-- Pone el texto en mayúsculas */
+    letter-spacing: 1.5px;       /* <-- Añade espacio entre letras */
+    border-top: 1px solid #e9ecef; /* <-- Línea superior gris */
+    border-bottom: none;         /* <-- Quitamos la línea inferior */
+    padding-top: 25px;           /* <-- Espacio sobre el texto */
+    margin-bottom: 25px;
+    width: 100%;                 /* <-- Para que la línea ocupe todo el ancho */
+    display: block;              /* <-- Asegura que ocupe todo el ancho */
 }
 
-.job h3,
-.education-item h3 {
+.job h3, .education-item h3 {
     font-size: 18px;
+    font-weight: 700; /* <-- Hacemos el título del puesto más grueso */
+    color: var(--text-primary);
     margin-bottom: 5px;
 }
 
@@ -198,20 +211,19 @@ h1 {
     margin-bottom: 25px;
 }
 
-.job-details,
-.education-details {
+.job-details, .education-details {
     display: flex;
     justify-content: space-between;
-    color: var(--text-secondary);
-    margin-bottom: 15px;
-    font-style: italic;
+    color: var(--text-secondary); /* <-- Color gris para empresa y fecha */
+    margin-bottom: 10px;
+    font-style: normal; /* <-- Quitamos la cursiva */
 }
 
 .job ul {
     font-size: 15px;
-    list-style-position: inside;
-    padding-left: 5px;
-    color: var(--text-secondary);
+    list-style-position: outside; /* <-- Viñetas fuera del texto */
+    padding-left: 20px;           /* <-- Añadimos indentación */
+    color: var(--text-primary);   /* <-- El texto principal de la lista más oscuro */
 }
 
 .job ul li {
