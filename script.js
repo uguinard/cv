@@ -236,6 +236,25 @@ document.addEventListener('DOMContentLoaded', function () {
             document.body.style.fontFamily = 'Times New Roman, serif';
             document.body.style.textRendering = 'optimizeLegibility';
             
+            // Optimizar espaciado para mejor uso del espacio
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.marginBottom = '12px';
+                section.style.pageBreakInside = 'auto';
+            });
+            
+            // Optimizar párrafos del perfil
+            document.querySelectorAll('#profile p').forEach(p => {
+                p.style.lineHeight = '1.5';
+                p.style.wordSpacing = '0.05em';
+                p.style.marginBottom = '8px';
+            });
+            
+            // Optimizar elementos de trabajo y educación
+            document.querySelectorAll('.job, .education-item').forEach(item => {
+                item.style.marginBottom = '12px';
+                item.style.pageBreakInside = 'avoid';
+            });
+            
             // Asegurar que los caracteres especiales se rendericen correctamente
             document.querySelectorAll('p, li, h1, h2, h3').forEach(el => {
                 el.style.fontFamily = 'Times New Roman, serif';
@@ -258,6 +277,25 @@ document.addEventListener('DOMContentLoaded', function () {
         if (currentLang === 'es') {
             document.body.style.fontFamily = '';
             document.body.style.textRendering = '';
+            
+            // Limpiar estilos de secciones
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.marginBottom = '';
+                section.style.pageBreakInside = '';
+            });
+            
+            // Limpiar estilos de párrafos
+            document.querySelectorAll('#profile p').forEach(p => {
+                p.style.lineHeight = '';
+                p.style.wordSpacing = '';
+                p.style.marginBottom = '';
+            });
+            
+            // Limpiar estilos de elementos
+            document.querySelectorAll('.job, .education-item').forEach(item => {
+                item.style.marginBottom = '';
+                item.style.pageBreakInside = '';
+            });
             
             document.querySelectorAll('p, li, h1, h2, h3').forEach(el => {
                 el.style.fontFamily = '';

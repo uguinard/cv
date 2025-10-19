@@ -710,19 +710,36 @@ body.dark-mode .linkedin-nav-link:hover {
     body[lang="es"] #profile p {
         font-size: 9pt;
         text-align: justify;
-        line-height: 1.6;
-        word-spacing: 0.1em;
-        letter-spacing: 0.02em;
+        line-height: 1.5;
+        word-spacing: 0.05em;
+        letter-spacing: 0.01em;
+        margin-bottom: 8px;
     }
     
     body[lang="es"] .job ul li {
-        line-height: 1.4;
-        word-spacing: 0.05em;
+        line-height: 1.3;
+        word-spacing: 0.03em;
+        font-size: 8.5pt;
+        margin-bottom: 3px;
     }
     
     body[lang="es"] .section h2 {
-        font-size: 13pt;
-        letter-spacing: 0.5px;
+        font-size: 12pt;
+        letter-spacing: 0.3px;
+        margin-top: 12px;
+        margin-bottom: 8px;
+    }
+    
+    body[lang="es"] .job h3,
+    body[lang="es"] .education-item h3 {
+        font-size: 10pt;
+        margin-bottom: 3px;
+    }
+    
+    body[lang="es"] .job-details,
+    body[lang="es"] .education-details {
+        font-size: 8pt;
+        margin-bottom: 5px;
     }
     
     /* Ensure proper spacing */
@@ -731,7 +748,7 @@ body.dark-mode .linkedin-nav-link:hover {
         print-color-adjust: exact;
     }
     
-    /* Page breaks */
+    /* Page breaks - Optimized for Spanish content */
     .section:not(:last-child) {
         page-break-after: auto;
     }
@@ -743,6 +760,65 @@ body.dark-mode .linkedin-nav-link:hover {
     
     .job-details, .education-details {
         page-break-after: avoid;
+    }
+    
+    /* Specific fixes for Spanish layout */
+    body[lang="es"] .section {
+        page-break-inside: auto;
+        margin-bottom: 15px;
+    }
+    
+    body[lang="es"] .section:first-of-type {
+        page-break-before: avoid;
+    }
+    
+    body[lang="es"] .job,
+    body[lang="es"] .education-item {
+        page-break-inside: avoid;
+        margin-bottom: 12px;
+    }
+    
+    /* Ensure content flows properly */
+    body[lang="es"] .container {
+        page-break-inside: auto;
+    }
+    
+    body[lang="es"] header {
+        page-break-after: avoid;
+        margin-bottom: 15px;
+    }
+    
+    /* Optimize spacing for Spanish text density */
+    body[lang="es"] .section h2 {
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+    
+    body[lang="es"] #profile {
+        page-break-after: auto;
+    }
+    
+    /* Force better content distribution for Spanish */
+    body[lang="es"] .container > * {
+        page-break-inside: auto;
+    }
+    
+    body[lang="es"] .container {
+        page-break-inside: auto;
+        orphans: 2;
+        widows: 2;
+    }
+    
+    /* Ensure first page has more content */
+    body[lang="es"] header + section {
+        page-break-before: avoid;
+        margin-top: 5px;
+    }
+    
+    /* Compact spacing for Spanish */
+    body[lang="es"] .section {
+        page-break-inside: auto;
+        break-inside: auto;
     }
 }
 
