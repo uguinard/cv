@@ -526,86 +526,258 @@ body.dark-mode .linkedin-nav-link:hover {
 @media print {
     @page {
         margin: 1.5cm;
+        size: A4;
     }
+    
+    /* Hide navigation and interactive elements */
     .main-nav,
-    .print-button {
+    .print-button,
+    .theme-toggle-button,
+    .language-selector {
         display: none !important;
     }
+    
+    /* Reset body for print */
     body {
         background-color: #fff !important;
         color: #000 !important;
-        font-size: 9pt;
-        line-height: 1.3;
+        font-size: 10pt;
+        line-height: 1.4;
+        font-family: 'Times New Roman', serif;
     }
+    
+    /* Container adjustments */
     .container {
         box-shadow: none !important;
         margin: 0 !important;
         padding: 0 !important;
         border-radius: 0 !important;
         max-width: 100% !important;
+        background: white !important;
     }
+    
+    /* Header styling */
     header {
-        margin-bottom: 15px;
+        margin-bottom: 20px;
+        text-align: center;
+        border-bottom: 2px solid #333;
+        padding-bottom: 15px;
     }
+    
     .profile-img-container {
         box-shadow: none;
-        border: 3px solid #ddd;
-        width: 100px;
-        height: 100px;
-        margin-bottom: 10px;
+        border: 2px solid #333;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 10px auto;
     }
+    
+    .profile-img {
+        transform: scale(1) !important;
+    }
+    
     h1 {
-        font-size: 24pt;
+        font-size: 20pt;
         margin: 10px 0 8px 0;
+        font-weight: bold;
+        letter-spacing: 1px;
     }
+    
     .contact-info {
-        gap: 12px;
-        flex-wrap: nowrap;
-        font-size: 8.5pt;
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+        font-size: 9pt;
+        margin-top: 10px;
     }
+    
+    .contact-info li {
+        display: inline-block;
+        margin: 0 10px;
+    }
+    
+    /* Section styling */
     .section {
         opacity: 1 !important;
         transform: none !important;
-        margin-bottom: 12px;
+        margin-bottom: 20px;
         page-break-inside: avoid;
     }
+    
+    .section h2 {
+        border-bottom: 1px solid #333;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+        font-size: 14pt;
+        color: #000 !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    /* Experience and Education */
     .job,
     .education-item {
-        margin-bottom: 15px;
+        margin-bottom: 18px;
         page-break-inside: avoid;
     }
-    h2,
-    h3 {
-        color: #000 !important;
-    }
-    .section h2 {
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 4px;
-        margin-bottom: 12px;
-        font-size: 14pt;
-    }
+    
     .job h3,
     .education-item h3 {
         font-size: 11pt;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #000 !important;
     }
+    
+    .job-details,
+    .education-details {
+        font-style: italic;
+        margin-bottom: 8px;
+        font-size: 9pt;
+    }
+    
+    .job ul {
+        margin-left: 0;
+        padding-left: 0;
+    }
+    
+    .job ul li {
+        margin-bottom: 4px;
+        list-style-type: disc;
+        margin-left: 20px;
+        font-size: 9pt;
+    }
+    
+    /* Skills */
+    .skills-container {
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+    
     .skill {
-        background-color: #f0f0f0 !important;
+        background-color: #f5f5f5 !important;
         color: #000 !important;
         border: 1px solid #ccc;
-        padding: 4px 8px;
-        font-size: 8.5pt;
+        padding: 3px 8px;
+        font-size: 8pt;
+        border-radius: 3px;
     }
+    
+    /* Languages */
+    .languages .language {
+        margin-bottom: 12px;
+    }
+    
+    .languages .language p {
+        margin-bottom: 3px;
+        font-size: 9pt;
+    }
+    
+    .languages .progress-bar {
+        background-color: #e0e0e0 !important;
+        border: 1px solid #ccc;
+        height: 6px;
+    }
+    
+    .languages .progress {
+        background-color: #666 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    /* Links */
     a {
         color: #000 !important;
         text-decoration: none;
     }
-    .languages .progress-bar {
-        background-color: #e0e0e0 !important;
-        border: 1px solid #ccc;
+    
+    /* Profile section */
+    #profile p {
+        font-size: 9pt;
+        text-align: justify;
+        line-height: 1.5;
     }
-    .languages .progress {
-        background-color: #aeaeae !important;
+    
+    /* Ensure proper spacing */
+    * {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
+    }
+    
+    /* Page breaks */
+    .section:not(:last-child) {
+        page-break-after: auto;
+    }
+    
+    /* Avoid breaking inside important elements */
+    h1, h2, h3 {
+        page-break-after: avoid;
+    }
+    
+    .job-details, .education-details {
+        page-break-after: avoid;
+    }
+}
+
+/* Additional print preparation styles */
+body.printing .main-nav {
+    display: none !important;
+}
+
+body.printing .theme-toggle-button,
+body.printing .language-selector {
+    display: none !important;
+}
+
+/* Print button improvements */
+.print-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.print-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.print-button:hover::before {
+    left: 100%;
+}
+
+/* Print-specific optimizations */
+@media print {
+    /* Ensure URLs are visible for important links */
+    a[href^="mailto:"]:after,
+    a[href^="tel:"]:after,
+    a[href^="http"]:after {
+        content: " (" attr(href) ")";
+        font-size: 8pt;
+        color: #666;
+    }
+    
+    /* Hide decorative elements */
+    .profile-img-link:hover {
+        transform: none !important;
+    }
+    
+    /* Optimize font rendering */
+    * {
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+    }
+    
+    /* Ensure consistent spacing */
+    .section:first-child {
+        margin-top: 0;
+    }
+    
+    .section:last-child {
+        margin-bottom: 0;
     }
 }

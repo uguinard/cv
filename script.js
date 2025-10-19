@@ -199,13 +199,51 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeCV();
 
     
-    // --- 2. FUNCIONALIDAD DEL BOTÓN DE IMPRIMIR (ORIGINAL) ---
+    // --- 2. FUNCIONALIDAD DEL BOTÓN DE IMPRIMIR MEJORADA ---
     const printButton = document.getElementById('print-btn');
     if (printButton) {
         printButton.addEventListener('click', () => {
-            window.print();
+            // Preparar página para impresión
+            prepareForPrint();
+            
+            // Pequeño delay para que los estilos se apliquen
+            setTimeout(() => {
+                window.print();
+                // Restaurar después de imprimir
+                setTimeout(restoreAfterPrint, 100);
+            }, 100);
         });
     }
+
+    // Función para preparar la página para impresión
+    function prepareForPrint() {
+        // Agregar clase para modo impresión
+        document.body.classList.add('printing');
+        
+        // Asegurar que todas las secciones sean visibles
+        document.querySelectorAll('.section').forEach(section => {
+            section.classList.add('visible');
+        });
+        
+        // Ocultar elementos interactivos
+        document.querySelectorAll('.theme-toggle-button, .language-selector').forEach(el => {
+            el.style.display = 'none';
+        });
+    }
+
+    // Función para restaurar después de imprimir
+    function restoreAfterPrint() {
+        document.body.classList.remove('printing');
+        
+        // Restaurar elementos interactivos
+        document.querySelectorAll('.theme-toggle-button, .language-selector').forEach(el => {
+            el.style.display = '';
+        });
+    }
+
+    // Detectar cuando se cancela la impresión
+    window.addEventListener('beforeprint', prepareForPrint);
+    window.addEventListener('afterprint', restoreAfterPrint);
 
     // --- 3. ANIMACIÓN FADE-IN AL HACER SCROLL (ORIGINAL) ---
     const animatedSections = document.querySelectorAll('.section');
