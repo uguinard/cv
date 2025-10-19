@@ -108,12 +108,12 @@
     {
       "name_key": "lang_english",
       "level_key": "lang_english_level",
-      "proficiency": 95
+      "proficiency": 85
     },
     {
       "name_key": "lang_french", 
       "level_key": "lang_french_level",
-      "proficiency": 75
+      "proficiency": 70
     },
     {
       "name_key": "lang_turkish",
