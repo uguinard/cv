@@ -71,6 +71,32 @@ document.addEventListener('DOMContentLoaded', function () {
     // Objeto para caché de traducciones
     const loadedTranslations = {};
 
+// Función para obtener traducciones embebidas como fallback
+function getEmbeddedTranslations(lang) {
+    const translations = {
+        'en': {
+            "nav_profile": "Profile",
+            "nav_experience": "Experience", 
+            "nav_education": "Education",
+            "nav_skills": "Skills",
+            "nav_languages": "Languages",
+            "profile_title": "Profile",
+            "profile_text": "With an international background in language education, I am guided by a holistic approach to design lessons that integrate the social, emotional, cognitive, and cultural dimensions of learning. Inspired by the values of respect, compassion, and integrity, I strive to create inclusive and culturally responsive learning environments that celebrate multicultural connections and foster a sense of global citizenship."
+        },
+        'es': {
+            "nav_profile": "Perfil",
+            "nav_experience": "Experiencia",
+            "nav_education": "Educación", 
+            "nav_skills": "Habilidades",
+            "nav_languages": "Idiomas",
+            "profile_title": "Perfil",
+            "profile_text": "Con una formación internacional en educación de idiomas, me guío por un enfoque holístico para diseñar lecciones que integren las dimensiones sociales, emocionales, cognitivas y culturales del aprendizaje. Inspirado por los valores de respeto, compasión e integridad, me esfuerzo por crear entornos de aprendizaje inclusivos y culturalmente receptivos que celebren las conexiones multiculturales y fomenten un sentido de ciudadanía global."
+        }
+    };
+    
+    return translations[lang] || translations['en'];
+}
+
     const switchLanguage = async (lang) => {
         // 1. Pone el atributo 'dir' (RTL/LTR)
         document.body.dir = (lang === 'ar') ? 'rtl' : 'ltr';
@@ -79,24 +105,22 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem('cv-lang', lang);
         languageSelect.value = lang;
 
-        // 3. Carga el archivo JSON si no está en caché
-        if (!loadedTranslations[lang]) {
-            try {
-                const response = await fetch(`locales/${lang}.json`);
-                if (!response.ok) {
-                    throw new Error(`Could not load ${lang}.json`);
-                }
+    // 3. Carga las traducciones desde datos embebidos
+    if (!loadedTranslations[lang]) {
+        try {
+            // Intentar cargar desde archivo JSON primero
+            const response = await fetch(`locales/${lang}.json`);
+            if (response.ok) {
                 loadedTranslations[lang] = await response.json();
-            } catch (error) {
-                console.error(error);
-                // Si falla, vuelve a cargar inglés como fallback
-                if (lang !== 'en') {
-                    // Solo intenta cargar inglés si el idioma fallido no era inglés
-                    await switchLanguage('en');
-                }
-                return;
+            } else {
+                throw new Error(`Could not load ${lang}.json`);
             }
+        } catch (error) {
+            console.error('Error loading JSON, using embedded translations:', error);
+            // Usar traducciones embebidas como fallback
+            loadedTranslations[lang] = getEmbeddedTranslations(lang);
         }
+    }
         
         const langTranslations = loadedTranslations[lang];
 
