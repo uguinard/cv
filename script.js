@@ -230,9 +230,10 @@ document.addEventListener('DOMContentLoaded', function () {
             el.style.display = 'none';
         });
         
-        // Optimizar para español si es el idioma actual
+        // Optimizar para lenguas romances si es el idioma actual
         const currentLang = document.body.getAttribute('lang') || 'en';
-        if (currentLang === 'es') {
+        const romanceLanguages = ['es', 'fr', 'it'];
+        if (romanceLanguages.includes(currentLang)) {
             document.body.style.fontFamily = 'Times New Roman, serif';
             document.body.style.textRendering = 'optimizeLegibility';
             
@@ -272,9 +273,10 @@ document.addEventListener('DOMContentLoaded', function () {
             el.style.display = '';
         });
         
-        // Limpiar estilos específicos del español
+        // Limpiar estilos específicos de las lenguas romances
         const currentLang = document.body.getAttribute('lang') || 'en';
-        if (currentLang === 'es') {
+        const romanceLanguages = ['es', 'fr', 'it'];
+        if (romanceLanguages.includes(currentLang)) {
             document.body.style.fontFamily = '';
             document.body.style.textRendering = '';
             

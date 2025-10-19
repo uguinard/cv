@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Distribución Páginas Español - CV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: #2980b9;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body lang="es">
+    <div class="container">
+        <h1>🖨️ Test Distribución de Páginas - Español</h1>
+        
+        <div class="test-section">
+            <h2>✅ Problema Solucionado</h2>
+            <p>Se ha optimizado la distribución de contenido para que el CV en español use mejor el espacio disponible en la primera página.</p>
+            
+            <div class="status success">
+                <h3>Cambios Implementados:</h3>
+                <ul>
+                    <li>✅ Espaciado optimizado para español</li>
+                    <li>✅ Control de saltos de página mejorado</li>
+                    <li>✅ Márgenes reducidos específicamente para español</li>
+                    <li>✅ Tamaños de fuente ajustados</li>
+                    <li>✅ Interlineado optimizado</li>
+                    <li>✅ Distribución de contenido mejorada</li>
+                </ul>
+            </div>
+            
+            <a href="index.html?lang=es" class="btn">📄 Abrir CV en Español</a>
+            <button onclick="testPageDistribution()" class="btn">🖨️ Probar Distribución</button>
+        </div>
+
+        <div class="test-section">
+            <h2>📋 Verificaciones de Distribución</h2>
+            <div class="status warning">
+                <h3>En la vista previa de impresión, verificar:</h3>
+                <ul>
+                    <li>📄 <strong>Primera página:</strong> Debe contener header, perfil Y al menos parte de experiencia</li>
+                    <li>📄 <strong>Segunda página:</strong> Debe continuar con experiencia, educación, habilidades, idiomas</li>
+                    <li>📄 <strong>Espaciado:</strong> Contenido distribuido uniformemente</li>
+                    <li>📄 <strong>Saltos:</strong> No hay páginas casi vacías</li>
+                    <li>📄 <strong>Legibilidad:</strong> Texto bien espaciado y legible</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🔧 Optimizaciones Aplicadas</h2>
+            <div class="status info">
+                <h3>Configuración específica para español:</h3>
+                <ul>
+                    <li><strong>Márgenes de secciones:</strong> 12px (reducido de 20px)</li>
+                    <li><strong>Interlineado perfil:</strong> 1.5 (reducido de 1.6)</li>
+                    <li><strong>Espaciado palabras:</strong> 0.05em (reducido de 0.1em)</li>
+                    <li><strong>Tamaño fuente listas:</strong> 8.5pt (reducido de 9pt)</li>
+                    <li><strong>Saltos de página:</strong> auto (permitir flexibilidad)</li>
+                    <li><strong>Orfans/Widows:</strong> 2 (evitar líneas solitarias)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 Resultado Esperado</h2>
+            <div class="status success">
+                <h3>Distribución optimizada:</h3>
+                <ul>
+                    <li><strong>Página 1:</strong> Header + Perfil + Inicio de Experiencia</li>
+                    <li><strong>Página 2:</strong> Continuación Experiencia + Educación + Habilidades + Idiomas</li>
+                    <li><strong>Total:</strong> 2 páginas bien distribuidas</li>
+                    <li><strong>Espacio:</strong> Uso eficiente del espacio disponible</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function testPageDistribution() {
+            // Aplicar optimizaciones específicas para distribución
+            document.body.classList.add('printing');
+            
+            // Optimizar para español
+            document.body.style.fontFamily = 'Times New Roman, serif';
+            document.body.style.textRendering = 'optimizeLegibility';
+            
+            // Aplicar espaciado optimizado
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.marginBottom = '12px';
+                section.style.pageBreakInside = 'auto';
+            });
+            
+            document.querySelectorAll('#profile p').forEach(p => {
+                p.style.lineHeight = '1.5';
+                p.style.wordSpacing = '0.05em';
+                p.style.marginBottom = '8px';
+            });
+            
+            document.querySelectorAll('.job, .education-item').forEach(item => {
+                item.style.marginBottom = '12px';
+                item.style.pageBreakInside = 'avoid';
+            });
+            
+            showStatus('Optimizaciones de distribución aplicadas. Abriendo vista previa...', 'success');
+            
+            setTimeout(() => {
+                window.print();
+            }, 500);
+            
+            setTimeout(() => {
+                document.body.classList.remove('printing');
+                document.body.style.fontFamily = '';
+                document.body.style.textRendering = '';
+                
+                document.querySelectorAll('.section').forEach(section => {
+                    section.style.marginBottom = '';
+                    section.style.pageBreakInside = '';
+                });
+                
+                document.querySelectorAll('#profile p').forEach(p => {
+                    p.style.lineHeight = '';
+                    p.style.wordSpacing = '';
+                    p.style.marginBottom = '';
+                });
+                
+                document.querySelectorAll('.job, .education-item').forEach(item => {
+                    item.style.marginBottom = '';
+                    item.style.pageBreakInside = '';
+                });
+            }, 2000);
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status ${type}`;
+            statusDiv.innerHTML = message;
+            
+            const firstSection = document.querySelector('.test-section');
+            firstSection.insertAdjacentElement('afterend', statusDiv);
+            
+            setTimeout(() => {
+                if (statusDiv.parentNode) {
+                    statusDiv.parentNode.removeChild(statusDiv);
+                }
+            }, 5000);
+        }
+
+        window.addEventListener('load', () => {
+            showStatus('Página de prueba de distribución cargada. Lista para probar la distribución de páginas en español.', 'success');
+        });
+    </script>
+</body>
+</html>

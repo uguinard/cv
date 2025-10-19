@@ -706,8 +706,10 @@ body.dark-mode .linkedin-nav-link:hover {
         line-height: 1.5;
     }
     
-    /* Spanish-specific text handling */
-    body[lang="es"] #profile p {
+    /* Romance languages text handling */
+    body[lang="es"] #profile p,
+    body[lang="fr"] #profile p,
+    body[lang="it"] #profile p {
         font-size: 9pt;
         text-align: justify;
         line-height: 1.5;
@@ -716,14 +718,18 @@ body.dark-mode .linkedin-nav-link:hover {
         margin-bottom: 8px;
     }
     
-    body[lang="es"] .job ul li {
+    body[lang="es"] .job ul li,
+    body[lang="fr"] .job ul li,
+    body[lang="it"] .job ul li {
         line-height: 1.3;
         word-spacing: 0.03em;
         font-size: 8.5pt;
         margin-bottom: 3px;
     }
     
-    body[lang="es"] .section h2 {
+    body[lang="es"] .section h2,
+    body[lang="fr"] .section h2,
+    body[lang="it"] .section h2 {
         font-size: 12pt;
         letter-spacing: 0.3px;
         margin-top: 12px;
@@ -731,13 +737,21 @@ body.dark-mode .linkedin-nav-link:hover {
     }
     
     body[lang="es"] .job h3,
-    body[lang="es"] .education-item h3 {
+    body[lang="es"] .education-item h3,
+    body[lang="fr"] .job h3,
+    body[lang="fr"] .education-item h3,
+    body[lang="it"] .job h3,
+    body[lang="it"] .education-item h3 {
         font-size: 10pt;
         margin-bottom: 3px;
     }
     
     body[lang="es"] .job-details,
-    body[lang="es"] .education-details {
+    body[lang="es"] .education-details,
+    body[lang="fr"] .job-details,
+    body[lang="fr"] .education-details,
+    body[lang="it"] .job-details,
+    body[lang="it"] .education-details {
         font-size: 8pt;
         margin-bottom: 5px;
     }
@@ -762,61 +776,85 @@ body.dark-mode .linkedin-nav-link:hover {
         page-break-after: avoid;
     }
     
-    /* Specific fixes for Spanish layout */
-    body[lang="es"] .section {
+    /* Specific fixes for Romance languages layout */
+    body[lang="es"] .section,
+    body[lang="fr"] .section,
+    body[lang="it"] .section {
         page-break-inside: auto;
         margin-bottom: 15px;
     }
     
-    body[lang="es"] .section:first-of-type {
+    body[lang="es"] .section:first-of-type,
+    body[lang="fr"] .section:first-of-type,
+    body[lang="it"] .section:first-of-type {
         page-break-before: avoid;
     }
     
     body[lang="es"] .job,
-    body[lang="es"] .education-item {
+    body[lang="es"] .education-item,
+    body[lang="fr"] .job,
+    body[lang="fr"] .education-item,
+    body[lang="it"] .job,
+    body[lang="it"] .education-item {
         page-break-inside: avoid;
         margin-bottom: 12px;
     }
     
-    /* Ensure content flows properly */
-    body[lang="es"] .container {
+    /* Ensure content flows properly for Romance languages */
+    body[lang="es"] .container,
+    body[lang="fr"] .container,
+    body[lang="it"] .container {
         page-break-inside: auto;
     }
     
-    body[lang="es"] header {
+    body[lang="es"] header,
+    body[lang="fr"] header,
+    body[lang="it"] header {
         page-break-after: avoid;
         margin-bottom: 15px;
     }
     
-    /* Optimize spacing for Spanish text density */
-    body[lang="es"] .section h2 {
+    /* Optimize spacing for Romance languages text density */
+    body[lang="es"] .section h2,
+    body[lang="fr"] .section h2,
+    body[lang="it"] .section h2 {
         margin-top: 15px;
         margin-bottom: 10px;
     }
     
-    body[lang="es"] #profile {
+    body[lang="es"] #profile,
+    body[lang="fr"] #profile,
+    body[lang="it"] #profile {
         page-break-after: auto;
     }
     
-    /* Force better content distribution for Spanish */
-    body[lang="es"] .container > * {
+    /* Force better content distribution for Romance languages */
+    body[lang="es"] .container > *,
+    body[lang="fr"] .container > *,
+    body[lang="it"] .container > * {
         page-break-inside: auto;
     }
     
-    body[lang="es"] .container {
+    body[lang="es"] .container,
+    body[lang="fr"] .container,
+    body[lang="it"] .container {
         page-break-inside: auto;
         orphans: 2;
         widows: 2;
     }
     
-    /* Ensure first page has more content */
-    body[lang="es"] header + section {
+    /* Ensure first page has more content for Romance languages */
+    body[lang="es"] header + section,
+    body[lang="fr"] header + section,
+    body[lang="it"] header + section {
         page-break-before: avoid;
         margin-top: 5px;
     }
     
-    /* Compact spacing for Spanish */
-    body[lang="es"] .section {
+    /* Compact spacing for Romance languages */
+    body[lang="es"] .section,
+    body[lang="fr"] .section,
+    body[lang="it"] .section {
         page-break-inside: auto;
         break-inside: auto;
     }
@@ -875,8 +913,10 @@ body.printing .language-selector {
         -webkit-font-smoothing: antialiased;
     }
     
-    /* Spanish character optimization */
-    body[lang="es"] * {
+    /* Romance languages character optimization */
+    body[lang="es"] *,
+    body[lang="fr"] *,
+    body[lang="it"] * {
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
