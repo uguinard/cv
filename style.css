@@ -86,6 +86,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 20px;
 }
 
 .main-nav ul {
@@ -93,7 +94,8 @@ header {
     display: flex;
     justify-content: center;
     gap: 15px;
-    flex-grow: 1;
+    margin: 0;
+    padding: 0;
 }
 
 .main-nav a {
@@ -455,17 +457,19 @@ body.dark-mode .linkedin-nav-link:hover {
     .main-nav {
         padding: 5px 10px;
         flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
     }
     .main-nav ul {
-        gap: 0;
+        gap: 5px;
         order: 2;
         width: 100%;
-        justify-content: space-around;
+        justify-content: center;
+        flex-wrap: wrap;
     }
     #language-select {
         order: 1;
-        margin-left: auto;
-        margin-bottom: 5px;
+        margin: 0 auto 5px auto;
     }
     .main-nav a {
         padding: 8px;
@@ -477,8 +481,7 @@ body.dark-mode .linkedin-nav-link:hover {
     }
     .theme-toggle-button {
         order: 1;
-        margin-right: 0;
-        margin-left: 10px;
+        margin: 0 5px 5px 5px;
     }
 }
 
