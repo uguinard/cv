@@ -155,4 +155,37 @@ document.addEventListener('DOMContentLoaded', function () {
         navObserver.observe(section);
     });
 
+    // --- 5. FUNCIONALIDAD DEL POPUP DE CONTACTO ---
+    const contactBtn = document.getElementById('contact-btn');
+    const contactPopup = document.getElementById('contact-popup');
+    const contactPopupClose = document.getElementById('contact-popup-close');
+
+    // Abrir popup
+    contactBtn.addEventListener('click', () => {
+        contactPopup.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevenir scroll del body
+    });
+
+    // Cerrar popup con botón X
+    contactPopupClose.addEventListener('click', () => {
+        contactPopup.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    });
+
+    // Cerrar popup haciendo clic fuera del contenido
+    contactPopup.addEventListener('click', (e) => {
+        if (e.target === contactPopup) {
+            contactPopup.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    // Cerrar popup con tecla ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && contactPopup.classList.contains('active')) {
+            contactPopup.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    });
+
 });

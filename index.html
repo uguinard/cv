@@ -73,7 +73,13 @@
                 <img src="xer.jpeg" alt="Photo of Sergio Uribe" class="profile-img" width="150" height="150" loading="lazy">
             </div>
             <h1>SERGIO URIBE GUINARD</h1>
-            <ul class="contact-info">
+            <!-- Botón de contacto para pantalla -->
+            <button id="contact-btn" class="contact-button" data-lang-key="contact_btn_text">
+                <i class="fas fa-address-card"></i> <span>Contact Info</span>
+            </button>
+            
+            <!-- Información de contacto para impresión (oculta en pantalla) -->
+            <ul class="contact-info print-only">
                 <li><i class="fas fa-map-marker-alt"></i> Thalang, Thailand 🇹🇭</li>
                 <li><i class="fas fa-envelope"></i> <a href="mailto:uguinard@gmail.com">uguinard@gmail.com</a></li>
                 <li><i class="fas fa-phone"></i> <a href="tel:+34666209033">(+34) 666 209 033</a></li>
@@ -135,6 +141,36 @@
                 </div>
             </section>
         </main>
+    </div>
+
+    <!-- Popup de contacto -->
+    <div id="contact-popup" class="contact-popup">
+        <div class="contact-popup-content">
+            <div class="contact-popup-header">
+                <h3 data-lang-key="contact_title">Contact Information</h3>
+                <button id="contact-popup-close" class="contact-popup-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="contact-popup-body">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Thalang, Thailand 🇹🇭</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:uguinard@gmail.com">uguinard@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <a href="tel:+34666209033">(+34) 666 209 033</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <a href="tel:+660928106277">(+66) 092 810 6277</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="script.js" defer></script>

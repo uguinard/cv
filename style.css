@@ -182,6 +182,34 @@ h1 {
     transform: scale(1.25);
 }
 
+/* Botón de contacto */
+.contact-button {
+    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.contact-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+}
+
+.contact-button i {
+    font-size: 18px;
+}
+
+/* Información de contacto para impresión */
 .contact-info {
     display: flex;
     flex-wrap: wrap;
@@ -192,6 +220,10 @@ h1 {
     color: var(--text-secondary);
 }
 
+.contact-info.print-only {
+    display: none; /* Oculto en pantalla */
+}
+
 .contact-info a {
     color: var(--accent);
     text-decoration: none;
@@ -200,6 +232,113 @@ h1 {
 
 .contact-info a:hover {
     color: var(--accent-hover);
+}
+
+/* Popup de contacto */
+.contact-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.contact-popup.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.contact-popup-content {
+    background: var(--surface);
+    border-radius: 15px;
+    padding: 0;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: scale(0.7);
+    transition: transform 0.3s ease;
+}
+
+.contact-popup.active .contact-popup-content {
+    transform: scale(1);
+}
+
+.contact-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 1px solid var(--border);
+}
+
+.contact-popup-header h3 {
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.contact-popup-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-popup-close:hover {
+    background-color: var(--border);
+    color: var(--text-primary);
+}
+
+.contact-popup-body {
+    padding: 25px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.contact-item:last-child {
+    border-bottom: none;
+}
+
+.contact-item i {
+    color: var(--accent);
+    font-size: 18px;
+    width: 20px;
+    text-align: center;
+}
+
+.contact-item span,
+.contact-item a {
+    color: var(--text-primary);
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.contact-item a:hover {
+    color: var(--accent);
 }
 
 /* Experiencia y Educación */
@@ -526,10 +665,19 @@ body.dark-mode .linkedin-nav-link:hover {
         font-size: 24pt;
         margin: 10px 0 8px 0;
     }
-    .contact-info {
+    .contact-button {
+        display: none !important; /* Ocultar botón en impresión */
+    }
+    
+    .contact-info.print-only {
+        display: flex !important; /* Mostrar info de contacto en impresión */
         gap: 12px;
         flex-wrap: nowrap;
         font-size: 8.5pt;
+    }
+    
+    .contact-popup {
+        display: none !important; /* Ocultar popup en impresión */
     }
     .section {
         opacity: 1 !important;
