@@ -90,6 +90,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 el.innerText = langTranslations[key];
             }
         });
+        
+        // 5. Aplica las traducciones al template de impresión
+        const printTemplateElements = document.querySelectorAll('.print-template [data-lang-key]');
+        printTemplateElements.forEach(el => {
+            const key = el.getAttribute('data-lang-key');
+            if (langTranslations && langTranslations[key]) {
+                el.innerText = langTranslations[key];
+            }
+        });
     };
 
     languageSelect.addEventListener('change', (e) => {
@@ -187,5 +196,6 @@ document.addEventListener('DOMContentLoaded', function () {
             document.body.style.overflow = 'auto';
         }
     });
+
 
 });

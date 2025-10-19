@@ -168,6 +168,19 @@ h1 {
     margin-bottom: 20px;
     overflow: hidden;
     transition: border-color 0.3s ease;
+    position: relative;
+}
+
+.profile-img-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.profile-img-link:hover {
+    text-decoration: none;
 }
 
 .profile-img {
@@ -176,10 +189,39 @@ h1 {
     object-fit: cover;
     transform: scale(1.45);
     transition: transform 0.4s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .profile-img-container:hover .profile-img {
     transform: scale(1.25);
+}
+
+/* Indicador visual de que la imagen es clickeable */
+.profile-img-container::after {
+    content: "🔗";
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: rgba(0, 123, 255, 0.9);
+    color: white;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.profile-img-container:hover::after {
+    opacity: 1;
 }
 
 /* Botón de contacto */
@@ -630,13 +672,216 @@ body.dark-mode .linkedin-nav-link:hover {
     }
 }
 
+/* Template de impresión - Oculto por defecto */
+.print-template {
+    display: none;
+}
+
 @media print {
     @page {
         margin: 1.5cm;
+        size: A4;
     }
+    
+    /* Ocultar todo el contenido normal */
     .main-nav,
-    .print-button {
+    .print-button,
+    .container,
+    .contact-button,
+    .contact-info.print-only,
+    .contact-popup {
         display: none !important;
+    }
+    
+    /* Mostrar solo el template de impresión */
+    .print-template {
+        display: block !important;
+    }
+    
+    /* Estilos base para impresión */
+    body {
+        background-color: #fff !important;
+        color: #000 !important;
+        font-family: 'Arial', sans-serif;
+        font-size: 10pt;
+        line-height: 1.4;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Header de impresión */
+    .print-header {
+        text-align: center;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #333;
+        padding-bottom: 15px;
+    }
+    
+    .print-name {
+        font-size: 28pt;
+        font-weight: bold;
+        color: #000;
+        margin-bottom: 10px;
+        letter-spacing: 1px;
+    }
+    
+    .print-contact-single-line {
+        font-size: 10pt;
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 0 auto;
+        max-width: 100%;
+    }
+    
+    /* Contenido de impresión */
+    .print-content {
+        width: 100%;
+    }
+    
+    .print-section {
+        margin-bottom: 20px;
+        page-break-inside: avoid;
+    }
+    
+    .print-section-title {
+        font-size: 16pt;
+        font-weight: bold;
+        color: #000;
+        margin: 20px 0 10px 0;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #666;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .print-text {
+        font-size: 10pt;
+        line-height: 1.4;
+        text-align: justify;
+        margin-bottom: 10px;
+    }
+    
+    /* Trabajos */
+    .print-job {
+        margin-bottom: 15px;
+        page-break-inside: avoid;
+    }
+    
+    .print-job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 5px;
+    }
+    
+    .print-job-header strong {
+        font-size: 12pt;
+        color: #000;
+        font-weight: bold;
+    }
+    
+    .print-date {
+        font-size: 9pt;
+        color: #666;
+        font-weight: normal;
+    }
+    
+    .print-job-location {
+        font-size: 10pt;
+        color: #333;
+        margin-bottom: 8px;
+        font-style: italic;
+    }
+    
+    .print-job-details {
+        margin: 0;
+        padding-left: 15px;
+    }
+    
+    .print-job-details li {
+        font-size: 9pt;
+        line-height: 1.3;
+        margin-bottom: 3px;
+        color: #000;
+    }
+    
+    /* Educación */
+    .print-education-item {
+        margin-bottom: 12px;
+        page-break-inside: avoid;
+    }
+    
+    .print-education-item strong {
+        font-size: 11pt;
+        color: #000;
+        font-weight: bold;
+    }
+    
+    .print-education-location {
+        font-size: 9pt;
+        color: #333;
+        margin-top: 2px;
+        font-style: italic;
+    }
+    
+    /* Habilidades */
+    .print-skills {
+        margin-bottom: 10px;
+    }
+    
+    .print-skill-category {
+        font-size: 10pt;
+        margin-bottom: 8px;
+        line-height: 1.3;
+    }
+    
+    .print-skill-category strong {
+        color: #000;
+        font-weight: bold;
+    }
+    
+    /* Idiomas */
+    .print-languages {
+        margin-bottom: 15px;
+    }
+    
+    .print-language {
+        margin-bottom: 8px;
+        page-break-inside: avoid;
+    }
+    
+    .print-language strong {
+        font-size: 10pt;
+        color: #000;
+        font-weight: bold;
+    }
+    
+    .print-progress-bar {
+        width: 100%;
+        height: 6px;
+        background-color: #e0e0e0;
+        border-radius: 3px;
+        overflow: hidden;
+        margin-top: 3px;
+    }
+    
+    .print-progress {
+        height: 100%;
+        background-color: #333;
+        transition: none;
+    }
+    
+    /* Optimizaciones para impresión */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+    
+    /* Evitar saltos de página innecesarios */
+    .print-section:last-child {
+        page-break-after: avoid;
     }
     body {
         background-color: #fff !important;
