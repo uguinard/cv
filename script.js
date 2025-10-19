@@ -1,5 +1,33 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    // --- 0. CARGA DE DATOS CV DESDE JSON ---
+    let cvData = null;
+    
+    // Función para cargar datos del CV
+    const loadCVData = async () => {
+        try {
+            const response = await fetch('data/cv.json');
+            if (!response.ok) {
+                throw new Error('Could not load CV data');
+            }
+            cvData = await response.json();
+            console.log('CV data loaded successfully');
+        } catch (error) {
+            console.error('Error loading CV data:', error);
+            // Fallback: usar datos embebidos si falla la carga
+            cvData = {
+                personal: {
+                    name: "SERGIO URIBE GUINARD",
+                    location: "Thalang, Thailand 🇹🇭",
+                    email: "uguinard@gmail.com",
+                    phones: ["(+34) 666 209 033", "(+66) 092 810 6277"],
+                    linkedin: "https://www.linkedin.com/in/sergio-ug/",
+                    photo: "xer.jpeg"
+                }
+            };
+        }
+    };
+
     // --- 1. LÓGICA DE TRADUCCIÓN (NUEVA) ---
     const languageSelect = document.getElementById('language-select');
     const translatableElements = document.querySelectorAll('[data-lang-key]');
@@ -89,25 +117,158 @@ document.addEventListener('DOMContentLoaded', function () {
         switchLanguage(e.target.value);
     });
 
+    // Función para actualizar datos personales desde JSON
+    const updatePersonalData = () => {
+        if (!cvData || !cvData.personal) return;
+        
+        const personal = cvData.personal;
+        
+        // Actualizar nombre
+        const nameElement = document.querySelector('h1');
+        if (nameElement && personal.name) {
+            nameElement.textContent = personal.name;
+        }
+        
+        // Actualizar información de contacto
+        const contactInfo = document.querySelector('.contact-info');
+        if (contactInfo && personal.location) {
+            const locationItem = contactInfo.querySelector('li:first-child');
+            if (locationItem) {
+                locationItem.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${personal.location}`;
+            }
+        }
+        
+        // Actualizar email
+        if (personal.email) {
+            const emailLink = document.querySelector('a[href^="mailto:"]');
+            if (emailLink) {
+                emailLink.href = `mailto:${personal.email}`;
+                emailLink.textContent = personal.email;
+            }
+        }
+        
+        // Actualizar teléfonos
+        if (personal.phones && personal.phones.length > 0) {
+            const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+            personal.phones.forEach((phone, index) => {
+                if (phoneLinks[index]) {
+                    phoneLinks[index].href = `tel:${phone.replace(/[^\d+]/g, '')}`;
+                    phoneLinks[index].textContent = phone;
+                }
+            });
+        }
+        
+        // Actualizar LinkedIn
+        if (personal.linkedin) {
+            const linkedinLinks = document.querySelectorAll('a[href*="linkedin"]');
+            linkedinLinks.forEach(link => {
+                link.href = personal.linkedin;
+            });
+        }
+        
+        // Actualizar foto
+        if (personal.photo) {
+            const profileImg = document.querySelector('.profile-img');
+            if (profileImg) {
+                profileImg.src = personal.photo;
+                if (personal.alt) {
+                    profileImg.alt = personal.alt;
+                }
+            }
+        }
+    };
+
     // Carga inicial
-    const storedLang = localStorage.getItem('cv-lang');
-    // Revisa si el idioma del navegador existe en el <select>
-    const browserLang = navigator.language.split('-')[0];
-    const langExists = languageSelect.querySelector(`[value="${browserLang}"]`);
+    const initializeCV = async () => {
+        // Cargar datos del CV
+        await loadCVData();
+        updatePersonalData();
+        
+        // Cargar idioma
+        const storedLang = localStorage.getItem('cv-lang');
+        const browserLang = navigator.language.split('-')[0];
+        const langExists = languageSelect.querySelector(`[value="${browserLang}"]`);
+        
+        const initialLang = storedLang || (langExists ? browserLang : 'en');
+        
+        // Inicia la carga del idioma
+        switchLanguage(initialLang);
+    };
     
-    const initialLang = storedLang || (langExists ? browserLang : 'en');
-    
-    // Inicia la carga del idioma
-    switchLanguage(initialLang);
+    // Inicializar CV
+    initializeCV();
 
     
-    // --- 2. FUNCIONALIDAD DEL BOTÓN DE IMPRIMIR (ORIGINAL) ---
+    // --- 2. FUNCIONALIDAD DEL BOTÓN DE IMPRIMIR MEJORADA ---
     const printButton = document.getElementById('print-btn');
     if (printButton) {
         printButton.addEventListener('click', () => {
-            window.print();
+            // Preparar página para impresión
+            prepareForPrint();
+            
+            // Pequeño delay para que los estilos se apliquen
+            setTimeout(() => {
+                window.print();
+                // Restaurar después de imprimir
+                setTimeout(restoreAfterPrint, 100);
+            }, 100);
         });
     }
+
+    // Función para preparar la página para impresión
+    function prepareForPrint() {
+        // Agregar clase para modo impresión
+        document.body.classList.add('printing');
+        
+        // Asegurar que todas las secciones sean visibles
+        document.querySelectorAll('.section').forEach(section => {
+            section.classList.add('visible');
+        });
+        
+        // Ocultar elementos interactivos
+        document.querySelectorAll('.theme-toggle-button, .language-selector').forEach(el => {
+            el.style.display = 'none';
+        });
+        
+        // Optimizar para español si es el idioma actual
+        const currentLang = document.body.getAttribute('lang') || 'en';
+        if (currentLang === 'es') {
+            document.body.style.fontFamily = 'Times New Roman, serif';
+            document.body.style.textRendering = 'optimizeLegibility';
+            
+            // Asegurar que los caracteres especiales se rendericen correctamente
+            document.querySelectorAll('p, li, h1, h2, h3').forEach(el => {
+                el.style.fontFamily = 'Times New Roman, serif';
+                el.style.textRendering = 'optimizeLegibility';
+            });
+        }
+    }
+
+    // Función para restaurar después de imprimir
+    function restoreAfterPrint() {
+        document.body.classList.remove('printing');
+        
+        // Restaurar elementos interactivos
+        document.querySelectorAll('.theme-toggle-button, .language-selector').forEach(el => {
+            el.style.display = '';
+        });
+        
+        // Limpiar estilos específicos del español
+        const currentLang = document.body.getAttribute('lang') || 'en';
+        if (currentLang === 'es') {
+            document.body.style.fontFamily = '';
+            document.body.style.textRendering = '';
+            
+            document.querySelectorAll('p, li, h1, h2, h3').forEach(el => {
+                el.style.fontFamily = '';
+                el.style.textRendering = '';
+            });
+        }
+    }
+
+    // Detectar cuando se cancela la impresión
+    window.addEventListener('beforeprint', prepareForPrint);
+    window.addEventListener('afterprint', restoreAfterPrint);
 
     // --- 3. ANIMACIÓN FADE-IN AL HACER SCROLL (ORIGINAL) ---
     const animatedSections = document.querySelectorAll('.section');
