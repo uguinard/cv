@@ -181,10 +181,21 @@ h1 {
     object-fit: cover;
     transform: scale(1.45);
     transition: transform 0.4s ease;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
 }
 
 .profile-img-container:hover .profile-img {
     transform: scale(1.25);
+}
+
+.profile-img:hover {
+    transform: scale(1.5) !important;
+    filter: brightness(1.1);
 }
 
 .contact-info {
@@ -274,27 +285,6 @@ h1 {
 }
 
 /* Botones y Selectores */
-.print-button {
-    margin-top: 20px;
-    background-color: var(--accent);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 14px;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.print-button:hover {
-    background-color: var(--accent-hover);
-    transform: translateY(-2px);
-}
-
-.print-button i {
-    margin-right: 8px;
-}
 
 /* LinkedIn en el navbar */
 .linkedin-nav-link {
@@ -452,10 +442,6 @@ body[dir="rtl"] #language-select {
     padding: 5px 10px 5px 30px;
 }
 
-body[dir="rtl"] .print-button i {
-    margin-right: 0;
-    margin-left: 8px;
-}
 
 body[dir="rtl"] .job ul {
     padding-left: 0;
@@ -592,8 +578,7 @@ body.dark-mode .nav-print-button .print-text::after {
     @page {
         margin: 1.5cm;
     }
-    .main-nav,
-    .print-button {
+    .main-nav {
         display: none !important;
     }
     body {

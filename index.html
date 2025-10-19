@@ -147,9 +147,6 @@
         .languages .language{margin-bottom:15px}
         .languages .progress-bar{width:100%;height:8px;background-color:#ecf0f1;border-radius:4px;overflow:hidden;margin-top:5px}
         .languages .progress{height:100%;background-color:#3498db;border-radius:4px}
-        .print-button{margin-top:20px;background-color:#3498db;color:white;border:none;padding:10px 20px;border-radius:25px;cursor:pointer;font-weight:700;font-size:14px;transition:background-color 0.3s,transform 0.3s}
-        .print-button:hover{background-color:#2980b9;transform:translateY(-2px)}
-        .print-button i{margin-right:8px}
         .linkedin-nav-link{color:#7f8c8d !important;font-size:18px;padding:10px 15px}
         .linkedin-nav-link:hover{color:#0077b5 !important;transform:scale(1.1)}
         .linkedin-nav-link i{margin-right:0}
@@ -214,7 +211,7 @@
     <div class="container">
         <header>
             <div class="profile-img-container">
-                <img src="xer.jpeg" alt="Photo of Sergio Uribe" class="profile-img" width="150" height="150" loading="eager" fetchpriority="high">
+                <img id="profile-img" src="xer.jpeg" alt="Photo of Sergio Uribe" class="profile-img" width="150" height="150" loading="eager" fetchpriority="high" draggable="false" ondragstart="return false;" oncontextmenu="return false;">
             </div>
             <h1>SERGIO URIBE GUINARD</h1>
             <ul class="contact-info">
@@ -223,7 +220,6 @@
                 <li><i class="fas fa-phone"></i> <a href="tel:+34666209033">(+34) 666 209 033</a></li>
                 <li><i class="fas fa-phone"></i> <a href="tel:+660928106277">(+66) 092 810 6277</a></li>
             </ul>
-            <button id="print-btn" class="print-button"><i class="fas fa-print"></i> <span data-lang-key="print_btn_text">Print / Save as PDF</span></button>
         </header>
         <main>
             <section id="profile" class="section">

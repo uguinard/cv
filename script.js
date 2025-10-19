@@ -133,6 +133,20 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // --- 2.1. FUNCIONALIDAD DE IMPRIMIR AL HACER CLIC EN LA IMAGEN ---
+    const profileImg = document.getElementById('profile-img');
+    if (profileImg) {
+        profileImg.addEventListener('click', () => {
+            window.print();
+        });
+        
+        // Deshabilitar clic derecho en la imagen
+        profileImg.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            return false;
+        });
+    }
+
     // --- 3. ANIMACIÓN FADE-IN AL HACER SCROLL (OPTIMIZADA) ---
     const animatedSections = document.querySelectorAll('.section');
     const animationObserver = new IntersectionObserver(entries => {
