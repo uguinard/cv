@@ -1,0 +1,130 @@
+{
+  "personal": {
+    "name": "SERGIO URIBE GUINARD",
+    "title": "Educador Internacional y Profesor de Español",
+    "location": "Thalang, Thailand 🇹🇭",
+    "email": "uguinard@gmail.com",
+    "phones": [
+      "(+34) 666 209 033",
+      "(+66) 092 810 6277"
+    ],
+    "linkedin": "https://www.linkedin.com/in/sergio-ug/",
+    "photo": "xer.jpeg",
+    "alt": "Photo of Sergio Uribe"
+  },
+  "experience": [
+    {
+      "id": "job1",
+      "title_key": "job1_title",
+      "company": "UWC Thailand",
+      "location": "Thalang, Thailand 🇹🇭",
+      "period": "08/2025 - 10/2025",
+      "descriptions": ["job1_desc1"]
+    },
+    {
+      "id": "job2", 
+      "title_key": "job2_title",
+      "company": "Tarsus American College",
+      "location": "Tarsus, Türkiye 🇹🇷",
+      "period": "11/2021 - 07/2023",
+      "descriptions": ["job2_desc1", "job2_desc2", "job2_desc3", "job2_desc4"]
+    },
+    {
+      "id": "job3",
+      "title_key": "job3_title", 
+      "company": "Colegio Alvernia Bilingüe",
+      "location": "Bogotá, Colombia 🇨🇴",
+      "period": "01/2020 - 07/2021",
+      "descriptions": ["job3_desc1", "job3_desc2", "job3_desc3"]
+    },
+    {
+      "id": "job4",
+      "title_key": "job4_title",
+      "company": "Vicariato Apostólico de Inírida", 
+      "location": "Guainía, Colombia 🇨🇴",
+      "period": "04/2019 - 09/2019",
+      "descriptions": ["job4_desc1"]
+    }
+  ],
+  "education": [
+    {
+      "id": "edu1",
+      "title_key": "edu1_title",
+      "institution": "Universidad Camilo José Cela",
+      "location": "Spain 🇪🇸",
+      "period": "09/2025"
+    },
+    {
+      "id": "edu2", 
+      "title_key": "edu2_title",
+      "institution": "Universidad Camilo José Cela",
+      "location": "Spain 🇪🇸", 
+      "period": "09/2025"
+    },
+    {
+      "id": "edu3",
+      "title_key": "edu3_title",
+      "institution": "Universidad de Sevilla",
+      "location": "Spain 🇪🇸",
+      "period": "06/2024"
+    },
+    {
+      "id": "edu4",
+      "title_key": "edu4_title", 
+      "institution": "Universidad Pedagógica Nacional",
+      "location": "Colombia 🇨🇴",
+      "period": "11/2018"
+    }
+  ],
+  "skills": {
+    "soft": [
+      "skill_adaptability",
+      "skill_empathy", 
+      "skill_cultural",
+      "skill_teamwork",
+      "skill_resilience",
+      "skill_proactiveness",
+      "skill_creativity"
+    ],
+    "technical": [
+      "ManageBac",
+      "Canvas Instructure", 
+      "Blackboard",
+      "Moodle",
+      "H5P",
+      "Python 3",
+      "WordPress",
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ]
+  },
+  "languages": [
+    {
+      "name_key": "lang_spanish",
+      "level_key": "lang_spanish_level", 
+      "proficiency": 100
+    },
+    {
+      "name_key": "lang_english",
+      "level_key": "lang_english_level",
+      "proficiency": 95
+    },
+    {
+      "name_key": "lang_french", 
+      "level_key": "lang_french_level",
+      "proficiency": 75
+    },
+    {
+      "name_key": "lang_turkish",
+      "level_key": "lang_turkish_level",
+      "proficiency": 20
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "lastUpdated": "2024-01-20",
+    "supportedLanguages": ["en", "es", "th", "zh", "tr", "ar", "fr", "it", "de"],
+    "defaultLanguage": "en"
+  }
+}

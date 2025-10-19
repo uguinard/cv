@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test JSON Loading</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .success { color: green; }
+        .error { color: red; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Test de Carga de JSON</h1>
+    <div id="status">Cargando...</div>
+    <div id="data"></div>
+
+    <script>
+        async function testJSONLoading() {
+            const statusDiv = document.getElementById('status');
+            const dataDiv = document.getElementById('data');
+            
+            try {
+                // Test 1: Cargar cv.json
+                const cvResponse = await fetch('data/cv.json');
+                if (!cvResponse.ok) {
+                    throw new Error(`HTTP ${cvResponse.status}: ${cvResponse.statusText}`);
+                }
+                const cvData = await cvResponse.json();
+                
+                // Test 2: Cargar config.json
+                const configResponse = await fetch('data/config.json');
+                if (!configResponse.ok) {
+                    throw new Error(`HTTP ${configResponse.status}: ${configResponse.statusText}`);
+                }
+                const configData = await configResponse.json();
+                
+                statusDiv.innerHTML = '<p class="success">✅ Todos los archivos JSON se cargaron correctamente</p>';
+                
+                dataDiv.innerHTML = `
+                    <h2>Datos del CV:</h2>
+                    <pre>${JSON.stringify(cvData, null, 2)}</pre>
+                    
+                    <h2>Configuración:</h2>
+                    <pre>${JSON.stringify(configData, null, 2)}</pre>
+                `;
+                
+            } catch (error) {
+                statusDiv.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+                console.error('Error:', error);
+            }
+        }
+        
+        // Ejecutar test al cargar la página
+        testJSONLoading();
+    </script>
+</body>
+</html>
