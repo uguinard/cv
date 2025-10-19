@@ -1,20 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // 🚀 Performance optimization: Use requestAnimationFrame for smooth animations
-    let animationFrameId;
-    
-    // Performance: Debounce scroll events
-    let scrollTimeout;
-    const debounce = (func, wait) => {
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(scrollTimeout);
-                func(...args);
-            };
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(later, wait);
-        };
-    };
-    
+
     // --- 1. LÓGICA DE TRADUCCIÓN (NUEVA) ---
     const languageSelect = document.getElementById('language-select');
     const translatableElements = document.querySelectorAll('[data-lang-key]');
@@ -23,15 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const themeToggleIcon = document.getElementById('theme-toggle-icon');
     const body = document.body;
-    
-    // Add loading state management
-    const showLoading = () => {
-        document.body.classList.add('loading');
-    };
-    
-    const hideLoading = () => {
-        document.body.classList.remove('loading');
-    };
 
     // Función para actualizar el tema y el icono
     const updateTheme = (theme) => {
@@ -71,32 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Objeto para caché de traducciones
     const loadedTranslations = {};
 
-// Función para obtener traducciones embebidas como fallback
-function getEmbeddedTranslations(lang) {
-    const translations = {
-        'en': {
-            "nav_profile": "Profile",
-            "nav_experience": "Experience", 
-            "nav_education": "Education",
-            "nav_skills": "Skills",
-            "nav_languages": "Languages",
-            "profile_title": "Profile",
-            "profile_text": "With an international background in language education, I am guided by a holistic approach to design lessons that integrate the social, emotional, cognitive, and cultural dimensions of learning. Inspired by the values of respect, compassion, and integrity, I strive to create inclusive and culturally responsive learning environments that celebrate multicultural connections and foster a sense of global citizenship."
-        },
-        'es': {
-            "nav_profile": "Perfil",
-            "nav_experience": "Experiencia",
-            "nav_education": "Educación", 
-            "nav_skills": "Habilidades",
-            "nav_languages": "Idiomas",
-            "profile_title": "Perfil",
-            "profile_text": "Con una formación internacional en educación de idiomas, me guío por un enfoque holístico para diseñar lecciones que integren las dimensiones sociales, emocionales, cognitivas y culturales del aprendizaje. Inspirado por los valores de respeto, compasión e integridad, me esfuerzo por crear entornos de aprendizaje inclusivos y culturalmente receptivos que celebren las conexiones multiculturales y fomenten un sentido de ciudadanía global."
-        }
-    };
-    
-    return translations[lang] || translations['en'];
-}
-
     const switchLanguage = async (lang) => {
         // 1. Pone el atributo 'dir' (RTL/LTR)
         document.body.dir = (lang === 'ar') ? 'rtl' : 'ltr';
@@ -105,22 +55,24 @@ function getEmbeddedTranslations(lang) {
         localStorage.setItem('cv-lang', lang);
         languageSelect.value = lang;
 
-    // 3. Carga las traducciones desde datos embebidos
-    if (!loadedTranslations[lang]) {
-        try {
-            // Intentar cargar desde archivo JSON primero
-            const response = await fetch(`locales/${lang}.json`);
-            if (response.ok) {
+        // 3. Carga el archivo JSON si no está en caché
+        if (!loadedTranslations[lang]) {
+            try {
+                const response = await fetch(`locales/${lang}.json`);
+                if (!response.ok) {
+                    throw new Error(`Could not load ${lang}.json`);
+                }
                 loadedTranslations[lang] = await response.json();
-            } else {
-                throw new Error(`Could not load ${lang}.json`);
+            } catch (error) {
+                console.error(error);
+                // Si falla, vuelve a cargar inglés como fallback
+                if (lang !== 'en') {
+                    // Solo intenta cargar inglés si el idioma fallido no era inglés
+                    await switchLanguage('en');
+                }
+                return;
             }
-        } catch (error) {
-            console.error('Error loading JSON, using embedded translations:', error);
-            // Usar traducciones embebidas como fallback
-            loadedTranslations[lang] = getEmbeddedTranslations(lang);
         }
-    }
         
         const langTranslations = loadedTranslations[lang];
 
@@ -157,60 +109,22 @@ function getEmbeddedTranslations(lang) {
         });
     }
 
-    // --- 2.1. FUNCIONALIDAD DE IMPRIMIR AL HACER CLIC EN LA IMAGEN ---
-    const profileImg = document.getElementById('profile-img');
-    if (profileImg) {
-        profileImg.addEventListener('click', () => {
-            window.print();
-        });
-        
-        // Deshabilitar clic derecho en la imagen
-        profileImg.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            return false;
-        });
-    }
-
-    // --- 3. ANIMACIÓN FADE-IN AL HACER SCROLL (OPTIMIZADA) ---
+    // --- 3. ANIMACIÓN FADE-IN AL HACER SCROLL (ORIGINAL) ---
     const animatedSections = document.querySelectorAll('.section');
     const animationObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Use requestAnimationFrame for smooth animations
-                animationFrameId = requestAnimationFrame(() => {
-                    entry.target.classList.add('visible');
-                    // Performance: Unobserve after animation to reduce overhead
-                    animationObserver.unobserve(entry.target);
-                });
+                entry.target.classList.add('visible');
             }
         });
-    }, { 
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
+    }, { threshold: 0.1 });
 
     animatedSections.forEach(section => {
         animationObserver.observe(section);
     });
-    
-    // Add smooth scrolling for navigation links
-    const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href').substring(1);
-            const targetElement = document.getElementById(targetId);
-            
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
 
     // --- 4. RESALTADO DEL LINK DE NAVEGACIÓN ACTIVO (ORIGINAL) ---
+    const navLinks = document.querySelectorAll('.nav-link');
     const sectionsForNav = document.querySelectorAll('section[id]'); // Asegúrate que las secciones tengan ID
     const navObserverOptions = {
         rootMargin: '-40% 0px -60% 0px'
