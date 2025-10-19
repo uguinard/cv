@@ -671,9 +671,26 @@ body.dark-mode .linkedin-nav-link:hover {
     
     .contact-info.print-only {
         display: flex !important; /* Mostrar info de contacto en impresión */
-        gap: 12px;
+        gap: 20px;
         flex-wrap: nowrap;
         font-size: 8.5pt;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .contact-info.print-only li {
+        white-space: nowrap;
+        margin: 0;
+    }
+    
+    .contact-info.print-only li::after {
+        content: " | ";
+        margin: 0 5px;
+        color: #666;
+    }
+    
+    .contact-info.print-only li:last-child::after {
+        content: "";
     }
     
     .contact-popup {
