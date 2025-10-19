@@ -68,7 +68,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Si falla, vuelve a cargar inglés como fallback
                 if (lang !== 'en') {
                     // Solo intenta cargar inglés si el idioma fallido no era inglés
-                    await switchLanguage('en');
+                    try {
+                        const fallbackResponse = await fetch('locales/en.json');
+                        if (fallbackResponse.ok) {
+                            loadedTranslations['en'] = await fallbackResponse.json();
+                        }
+                    } catch (fallbackError) {
+                        console.error('Failed to load fallback language:', fallbackError);
+                    }
                 }
                 return;
             }
@@ -79,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 4. Aplica las traducciones
         translatableElements.forEach(el => {
             const key = el.getAttribute('data-lang-key');
-            if (langTranslations[key]) {
+            if (langTranslations && langTranslations[key]) {
                 el.innerText = langTranslations[key];
             }
         });
