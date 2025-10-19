@@ -217,27 +217,32 @@ h1 {
 
 /* Indicador visual de que la imagen es clickeable */
 .profile-img-container::after {
-    content: "🔗";
+    content: "\f08c"; /* Código del ícono de LinkedIn en Font Awesome */
+    font-family: "Font Awesome 5 Brands";
+    font-weight: 900;
     position: absolute;
-    bottom: 5px;
-    right: 5px;
-    background: rgba(0, 123, 255, 0.9);
-    color: white;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.8); /* Fondo blanco transparente */
+    color: rgba(0, 119, 181, 0.8); /* Color de LinkedIn transparente */
     border-radius: 50%;
-    width: 25px;
-    height: 25px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: 18px;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: all 0.3s ease;
     pointer-events: none;
     z-index: 10;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .profile-img-container:hover::after {
-    opacity: 1;
+    opacity: 0.8; /* Transparencia del elemento completo */
+    transform: translateX(-50%) scale(1.1);
 }
 
 /* Botón de contacto */
