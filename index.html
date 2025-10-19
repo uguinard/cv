@@ -3,7 +3,7 @@
 <head>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Sergio Uribe Guinard | Educador Internacional y Profesor de Español</title>
     <meta name="description" content="CV de Sergio Uribe Guinard, educador internacional con experiencia en enseñanza de idiomas (ELE, IB) y un enfoque holístico en Turquía y Colombia.">
   
@@ -26,6 +26,9 @@
     <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" as="image" href="xer.jpeg" type="image/jpeg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
@@ -80,7 +83,7 @@
         <header>
             <div class="profile-img-container">
                 <a href="https://www.linkedin.com/in/sergio-ug/" target="_blank" rel="noopener noreferrer" class="profile-img-link">
-                    <img src="xer.jpeg" alt="Photo of Sergio Uribe" class="profile-img" width="150" height="150" loading="lazy" oncontextmenu="return false;" draggable="false">
+                    <img src="xer.jpeg" alt="Photo of Sergio Uribe" class="profile-img" width="150" height="150" fetchpriority="high" oncontextmenu="return false;" draggable="false">
                 </a>
             </div>
             <h1>SERGIO URIBE GUINARD</h1>

@@ -472,6 +472,15 @@ body.dark-mode .linkedin-nav-link:hover {
     h1 {
         font-size: 28px;
     }
+    /* Optimización LCP para móvil */
+    .profile-img-container {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 15px;
+    }
+    .profile-img {
+        transform: scale(1.2);
+    }
     .contact-info {
         flex-direction: column;
         align-items: center;
