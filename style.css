@@ -676,17 +676,9 @@ body.dark-mode .linkedin-nav-link:hover {
         margin: 10px 0 !important;
         padding: 0 !important;
         line-height: 1.2 !important;
-    }
-    
-    .contact-info.print-only span {
         white-space: nowrap !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-    
-    .contact-info.print-only a {
-        color: #000 !important;
-        text-decoration: none !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
     }
     
     .contact-popup {
