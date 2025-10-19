@@ -670,27 +670,23 @@ body.dark-mode .linkedin-nav-link:hover {
     }
     
     .contact-info.print-only {
-        display: flex !important; /* Mostrar info de contacto en impresión */
-        gap: 20px;
-        flex-wrap: nowrap;
-        font-size: 8.5pt;
-        justify-content: center;
-        align-items: center;
+        display: block !important;
+        text-align: center !important;
+        font-size: 8pt !important;
+        margin: 10px 0 !important;
+        padding: 0 !important;
+        line-height: 1.2 !important;
     }
     
-    .contact-info.print-only li {
-        white-space: nowrap;
-        margin: 0;
+    .contact-info.print-only span {
+        white-space: nowrap !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
     
-    .contact-info.print-only li::after {
-        content: " | ";
-        margin: 0 5px;
-        color: #666;
-    }
-    
-    .contact-info.print-only li:last-child::after {
-        content: "";
+    .contact-info.print-only a {
+        color: #000 !important;
+        text-decoration: none !important;
     }
     
     .contact-popup {
