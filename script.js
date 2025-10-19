@@ -229,6 +229,19 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.theme-toggle-button, .language-selector').forEach(el => {
             el.style.display = 'none';
         });
+        
+        // Optimizar para español si es el idioma actual
+        const currentLang = document.body.getAttribute('lang') || 'en';
+        if (currentLang === 'es') {
+            document.body.style.fontFamily = 'Times New Roman, serif';
+            document.body.style.textRendering = 'optimizeLegibility';
+            
+            // Asegurar que los caracteres especiales se rendericen correctamente
+            document.querySelectorAll('p, li, h1, h2, h3').forEach(el => {
+                el.style.fontFamily = 'Times New Roman, serif';
+                el.style.textRendering = 'optimizeLegibility';
+            });
+        }
     }
 
     // Función para restaurar después de imprimir
@@ -239,6 +252,18 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.theme-toggle-button, .language-selector').forEach(el => {
             el.style.display = '';
         });
+        
+        // Limpiar estilos específicos del español
+        const currentLang = document.body.getAttribute('lang') || 'en';
+        if (currentLang === 'es') {
+            document.body.style.fontFamily = '';
+            document.body.style.textRendering = '';
+            
+            document.querySelectorAll('p, li, h1, h2, h3').forEach(el => {
+                el.style.fontFamily = '';
+                el.style.textRendering = '';
+            });
+        }
     }
 
     // Detectar cuando se cancela la impresión

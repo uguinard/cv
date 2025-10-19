@@ -546,6 +546,14 @@ body.dark-mode .linkedin-nav-link:hover {
         font-family: 'Times New Roman', serif;
     }
     
+    /* Ensure proper character encoding for Spanish */
+    body[lang="es"] {
+        font-family: 'Times New Roman', serif;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    
     /* Container adjustments */
     .container {
         box-shadow: none !important;
@@ -698,6 +706,25 @@ body.dark-mode .linkedin-nav-link:hover {
         line-height: 1.5;
     }
     
+    /* Spanish-specific text handling */
+    body[lang="es"] #profile p {
+        font-size: 9pt;
+        text-align: justify;
+        line-height: 1.6;
+        word-spacing: 0.1em;
+        letter-spacing: 0.02em;
+    }
+    
+    body[lang="es"] .job ul li {
+        line-height: 1.4;
+        word-spacing: 0.05em;
+    }
+    
+    body[lang="es"] .section h2 {
+        font-size: 13pt;
+        letter-spacing: 0.5px;
+    }
+    
     /* Ensure proper spacing */
     * {
         -webkit-print-color-adjust: exact;
@@ -770,6 +797,14 @@ body.printing .language-selector {
     * {
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
+    }
+    
+    /* Spanish character optimization */
+    body[lang="es"] * {
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-variant-ligatures: common-ligatures;
     }
     
     /* Ensure consistent spacing */
