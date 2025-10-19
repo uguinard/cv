@@ -148,4 +148,47 @@ document.addEventListener('DOMContentLoaded', function () {
         navObserver.observe(section);
     });
 
+    // --- PROTECCIÓN DE IMAGEN ---
+    // Deshabilitar clic derecho en toda la página
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+    });
+
+    // Deshabilitar teclas de acceso rápido para herramientas de desarrollador
+    document.addEventListener('keydown', function(e) {
+        // Deshabilitar F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+        if (e.key === 'F12' || 
+            (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+            (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+            (e.ctrlKey && e.key === 'u')) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    // Proteger contra arrastre de imagen
+    document.addEventListener('dragstart', function(e) {
+        if (e.target.tagName === 'IMG') {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    // Proteger contra selección de texto en imagen
+    document.addEventListener('selectstart', function(e) {
+        if (e.target.tagName === 'IMG') {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    // Deshabilitar guardar página
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && (e.key === 's' || e.key === 'S')) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
 });
