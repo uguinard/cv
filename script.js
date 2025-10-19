@@ -1,4 +1,25 @@
+/* 
+© 2024 Sergio Uribe Guinard. All rights reserved.
+SUG2024-AB7C9D2E-F8A1B3C5
+*/
+
 document.addEventListener('DOMContentLoaded', function () {
+    // Protección básica contra DevTools
+    let devtools = {open: false, orientation: null};
+    const threshold = 160;
+    
+    setInterval(function() {
+        if (window.outerHeight - window.innerHeight > threshold || 
+            window.outerWidth - window.innerWidth > threshold) {
+            if (!devtools.open) {
+                devtools.open = true;
+                console.clear();
+                console.log('%c⚠️ Acceso no autorizado detectado', 'color: red; font-size: 20px;');
+            }
+        } else {
+            devtools.open = false;
+        }
+    }, 500);
 
     // --- 1. LÓGICA DE TRADUCCIÓN (NUEVA) ---
     const languageSelect = document.getElementById('language-select');
@@ -197,5 +218,55 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // --- PROTECCIÓN AVANZADA DE LA IMAGEN DE PERFIL ---
+    const profileImg = document.querySelector('.profile-img-bg');
+    const profileContainer = document.querySelector('.profile-img-container');
+    
+    // Prevenir clic derecho en toda la página cuando está sobre la imagen
+    document.addEventListener('contextmenu', function(e) {
+        if (e.target === profileImg || profileContainer.contains(e.target)) {
+            e.preventDefault();
+            return false;
+        }
+    });
+    
+    // Prevenir arrastrar la imagen
+    document.addEventListener('dragstart', function(e) {
+        if (e.target === profileImg || profileContainer.contains(e.target)) {
+            e.preventDefault();
+            return false;
+        }
+    });
+    
+    // Prevenir selección de la imagen
+    document.addEventListener('selectstart', function(e) {
+        if (e.target === profileImg || profileContainer.contains(e.target)) {
+            e.preventDefault();
+            return false;
+        }
+    });
+    
+    // Prevenir atajos de teclado cuando está enfocada la imagen
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'x' || e.key === 's' || e.key === 'a')) {
+            if (e.target === profileImg || profileContainer.contains(e.target)) {
+                e.preventDefault();
+                return false;
+            }
+        }
+    });
+    
+    // Marcar intentos sospechosos
+    let rightClickAttempts = 0;
+    if (profileContainer) {
+        profileContainer.addEventListener('mousedown', function(e) {
+            if (e.button === 2) { // Clic derecho
+                rightClickAttempts++;
+                if (rightClickAttempts > 2) {
+                    console.log('⚠️ Múltiples intentos de acceso no autorizado detectados');
+                }
+            }
+        });
+    }
 
 });

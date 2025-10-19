@@ -1,0 +1,33 @@
+# Protección del CV de Sergio Uribe Guinard
+# © 2024 Sergio Uribe Guinard. All rights reserved.
+
+# Prevenir acceso directo a archivos de código
+<Files "script.js">
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+</Files>
+
+<Files "style.css">
+    Header set X-Content-Type-Options "nosniff"
+</Files>
+
+# Prevenir hotlinking de imágenes
+RewriteEngine On
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^https?://(www\.)?sergiouribe\.co [NC]
+RewriteRule \.(jpe?g|png|gif)$ - [F]
+
+# Headers de seguridad
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-XSS-Protection "1; mode=block"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+# Prevenir listado de directorios
+Options -Indexes
+
+# Proteger archivos sensibles
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|inc|bak)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
