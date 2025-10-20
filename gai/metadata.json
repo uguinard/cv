@@ -1,0 +1,5 @@
+{
+  "name": "CV",
+  "description": "An interactive, multi-language CV website for Sergio Uribe Guinard, an international language educator. Built with React and Tailwind CSS, featuring dark mode, high-contrast theme, and dynamic animations.",
+  "requestFramePermissions": []
+}
