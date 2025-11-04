@@ -4,22 +4,6 @@ SUG2024-AB7C9D2E-F8A1B3C5
 */
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Protección básica contra DevTools
-    let devtools = {open: false, orientation: null};
-    const threshold = 160;
-    
-    setInterval(function() {
-        if (window.outerHeight - window.innerHeight > threshold || 
-            window.outerWidth - window.innerWidth > threshold) {
-            if (!devtools.open) {
-                devtools.open = true;
-                console.clear();
-                console.log('%c⚠️ Acceso no autorizado detectado', 'color: red; font-size: 20px;');
-            }
-        } else {
-            devtools.open = false;
-        }
-    }, 500);
 
     // --- 1. LÓGICA DE TRADUCCIÓN (NUEVA) ---
     const languageSelect = document.getElementById('language-select');
@@ -146,23 +130,63 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // --- 3. ANIMACIÓN FADE-IN AL HACER SCROLL (ORIGINAL) ---
+    // --- 3. ENHANCED ANIMATIONS & MICRO-INTERACTIONS ---
     const animatedSections = document.querySelectorAll('.section');
     const animationObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+                // Add staggered animation for skill tags
+                if (entry.target.id === 'skills') {
+                    const skillTags = entry.target.querySelectorAll('.skill');
+                    skillTags.forEach((tag, index) => {
+                        setTimeout(() => {
+                            tag.style.transform = 'translateY(0) scale(1)';
+                            tag.style.opacity = '1';
+                        }, index * 50);
+                    });
+                }
             }
         });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.1, rootMargin: '-50px 0px' });
 
     animatedSections.forEach(section => {
         animationObserver.observe(section);
     });
 
-    // --- 4. RESALTADO DEL LINK DE NAVEGACIÓN ACTIVO (ORIGINAL) ---
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sectionsForNav = document.querySelectorAll('section[id]'); // Asegúrate que las secciones tengan ID
+    // Enhanced skill tags animation
+    const skillTags = document.querySelectorAll('.skill');
+    skillTags.forEach(tag => {
+        tag.style.transform = 'translateY(-3px) scale(1)';
+        tag.style.opacity = '0.8';
+        tag.style.transition = 'all 0.3s ease';
+    });
+
+    // Smooth scrolling for navigation links
+    const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                    inline: 'nearest'
+                });
+                
+                // Update active state
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // --- 4. ENHANCED NAVIGATION & INTERSECTION OBSERVER ---
+    const allNavLinks = document.querySelectorAll('.nav-link');
+    const sectionsForNav = document.querySelectorAll('section[id]');
     const navObserverOptions = {
         rootMargin: '-40% 0px -60% 0px'
     };
@@ -171,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const id = entry.target.getAttribute('id');
-                navLinks.forEach(link => {
+                allNavLinks.forEach(link => {
                     link.classList.remove('active');
                     if (link.getAttribute('href') === `#${id}`) {
                         link.classList.add('active');
@@ -243,6 +267,129 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.target === profileImg || profileContainer.contains(e.target)) {
             e.preventDefault();
             return false;
+    // --- SOCIAL SHARING & KEYBOARD SHORTCUTS ---
+    
+    // Social Sharing Functionality
+    const shareBtn = document.getElementById('share-btn');
+    const shareDropdown = document.getElementById('share-dropdown');
+    const shareLinkedin = document.getElementById('share-linkedin');
+    const shareTwitter = document.getElementById('share-twitter');
+    const shareEmail = document.getElementById('share-email');
+    const copyLink = document.getElementById('copy-link');
+
+    if (shareBtn) {
+        shareBtn.addEventListener('click', () => {
+            const isOpen = shareDropdown.getAttribute('aria-hidden') === 'false';
+            shareDropdown.setAttribute('aria-hidden', !isOpen);
+        });
+    }
+
+    // Share functionality
+    const currentUrl = window.location.href;
+    const shareData = {
+        title: 'Sergio Uribe Guinard - International Education Professional',
+        text: 'Check out Sergio Uribe Guinard\'s CV - International Educator with IB & ELE experience',
+        url: currentUrl
+    };
+
+    if (shareLinkedin) {
+        shareLinkedin.href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`;
+    }
+
+    if (shareTwitter) {
+        shareTwitter.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(currentUrl)}`;
+    }
+
+    if (shareEmail) {
+        shareEmail.href = `mailto:?subject=${encodeURIComponent(shareData.title)}&body=${encodeURIComponent(shareData.text + '\n\n' + currentUrl)}`;
+    }
+
+    if (copyLink) {
+        copyLink.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(currentUrl);
+                copyLink.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    copyLink.innerHTML = '<i class="fas fa-link"></i> Copy Link';
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+            }
+        });
+    }
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+        // Only trigger shortcuts when not typing in input fields
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+            return;
+        }
+
+        // Ctrl/Cmd + P for print
+        if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+            e.preventDefault();
+            window.print();
+        }
+
+        // Ctrl/Cmd + T for theme toggle
+        if ((e.ctrlKey || e.metaKey) && e.key === 't') {
+            e.preventDefault();
+            const themeToggleBtn = document.getElementById('theme-toggle-btn');
+            if (themeToggleBtn) {
+                themeToggleBtn.click();
+            }
+        }
+
+        // Ctrl/Cmd + S for share
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+            e.preventDefault();
+            if (shareBtn) {
+                shareBtn.click();
+            }
+        }
+
+        // Number keys for navigation
+        if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+            const navLinks = [
+                { key: '1', id: 'profile' },
+                { key: '2', id: 'experience' },
+                { key: '3', id: 'education' },
+                { key: '4', id: 'skills' },
+                { key: '5', id: 'languages' }
+            ];
+
+            const navMapping = navLinks.find(nav => nav.key === e.key);
+            if (navMapping) {
+                const targetElement = document.getElementById(navMapping.id);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        }
+    });
+
+    // Close share dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!shareBtn.contains(e.target) && !shareDropdown.contains(e.target)) {
+            shareDropdown.setAttribute('aria-hidden', 'true');
+        }
+    });
+
+    // ESC key to close dropdowns
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (shareDropdown.getAttribute('aria-hidden') === 'false') {
+                shareDropdown.setAttribute('aria-hidden', 'true');
+            }
+            if (contactPopup.classList.contains('active')) {
+                contactPopup.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+    });
         }
     });
     
