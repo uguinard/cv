@@ -108,6 +108,568 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem('pwa-install-dismissed', Date.now().toString());
     };
 
+    // ===========================================
+    // MOBILE NAVIGATION & TOUCH INTERACTIONS
+    // ===========================================
+    
+    // Mobile navigation state
+    let mobileNav = {
+        isMobile: window.innerWidth <= 768,
+        currentSection: 'profile',
+        swipeStartX: 0,
+        swipeStartY: 0,
+        fabMenuOpen: false,
+        touchStartTime: 0
+    };
+    
+    // Initialize mobile navigation
+    function initMobileNavigation() {
+        // Check if mobile view
+        updateMobileState();
+        
+        // Show/hide mobile navigation based on screen size
+        window.addEventListener('resize', updateMobileState);
+        
+        // Initialize mobile navigation events
+        initBottomNavigation();
+        initFloatingActionButton();
+        initSwipeGestures();
+        initTouchFeedback();
+        initMobileOptimizations();
+    }
+    
+    // Add mobile navigation styles to the context menu
+    const mobileContextMenuStyle = `
+        .mobile-context-menu {
+            position: fixed;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 10000;
+            min-width: 150px;
+            overflow: hidden;
+        }
+        
+        .context-menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: background-color 0.2s;
+        }
+        
+        .context-menu-item:hover {
+            background-color: var(--border);
+        }
+        
+        .context-menu-item i {
+            width: 16px;
+            text-align: center;
+            color: var(--accent);
+        }
+    `;
+    
+    // Inject mobile context menu styles
+    const style = document.createElement('style');
+    style.textContent = mobileContextMenuStyle;
+    document.head.appendChild(style);
+
+    // Initialize mobile navigation when DOM is loaded
+    // Add this call after the existing DOMContentLoaded event listener
+    // Make sure this is called after the PWA install prompt setup
+    setTimeout(() => {
+        initMobileNavigation();
+    }, 1000);
+    
+    // Update mobile navigation state
+    function updateMobileState() {
+        const wasMobile = mobileNav.isMobile;
+        mobileNav.isMobile = window.innerWidth <= 768;
+        
+        const bottomNav = document.querySelector('.mobile-bottom-nav');
+        const fabContainer = document.querySelector('.mobile-fab-container');
+        const swipeIndicator = document.querySelector('.swipe-indicator');
+        
+        if (mobileNav.isMobile) {
+            // Show mobile navigation elements
+            if (bottomNav) bottomNav.classList.add('show');
+            if (fabContainer) fabContainer.style.display = 'block';
+            
+            // Hide desktop navigation on mobile
+            const mainNav = document.querySelector('.main-nav');
+            if (mainNav) mainNav.style.display = 'none';
+            
+            // Show swipe indicator after a delay
+            setTimeout(() => {
+                if (swipeIndicator) {
+                    swipeIndicator.classList.add('show');
+                    setTimeout(() => {
+                        if (swipeIndicator) swipeIndicator.classList.remove('show');
+                    }, 3000);
+                }
+            }, 2000);
+            
+        } else {
+            // Show desktop navigation on larger screens
+            if (bottomNav) bottomNav.classList.remove('show');
+            if (fabContainer) fabContainer.style.display = 'none';
+            
+            const mainNav = document.querySelector('.main-nav');
+            if (mainNav) mainNav.style.display = 'flex';
+        }
+        
+        // Update touch targets for accessibility
+        if (mobileNav.isMobile !== wasMobile) {
+            updateTouchTargets();
+        }
+    }
+    
+    // Initialize bottom navigation
+    function initBottomNavigation() {
+        const navItems = document.querySelectorAll('.mobile-nav-item');
+        
+        navItems.forEach(item => {
+            item.addEventListener('click', handleMobileNavClick);
+            item.addEventListener('touchstart', handleTouchStart, { passive: true });
+            item.addEventListener('touchend', handleTouchEnd);
+        });
+    }
+    
+    // Handle mobile navigation clicks
+    function handleMobileNavClick(event) {
+        const button = event.currentTarget;
+        const section = button.dataset.section;
+        const action = button.dataset.action;
+        
+        // Haptic feedback if supported
+        if (navigator.vibrate) {
+            navigator.vibrate(10);
+        }
+        
+        if (section) {
+            // Navigate to section
+            navigateToSection(section);
+            updateActiveNavItem(button);
+            
+        } else if (action === 'contact') {
+            // Open contact popup
+            openContactPopup();
+            updateActiveNavItem(button);
+        }
+        
+        // Visual feedback
+        button.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            button.style.transform = '';
+        }, 150);
+    }
+    
+    // Navigate to section with smooth scrolling
+    function navigateToSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+            // Update current section
+            mobileNav.currentSection = sectionId;
+            
+            // Update URL without page jump
+            history.pushState(null, null, `#${sectionId}`);
+        }
+    }
+    
+    // Update active navigation item
+    function updateActiveNavItem(activeItem) {
+        document.querySelectorAll('.mobile-nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        activeItem.classList.add('active');
+    }
+    
+    // Initialize floating action button
+    function initFloatingActionButton() {
+        const fab = document.getElementById('mobile-fab');
+        const fabMenu = document.getElementById('mobile-fab-menu');
+        
+        if (fab && fabMenu) {
+            fab.addEventListener('click', toggleFabMenu);
+            
+            // Show FAB after a delay on mobile
+            setTimeout(() => {
+                if (mobileNav.isMobile) {
+                    fab.classList.add('show');
+                }
+            }, 3000);
+            
+            // Handle FAB action clicks
+            const fabActions = fabMenu.querySelectorAll('.fab-action');
+            fabActions.forEach(action => {
+                action.addEventListener('click', handleFabAction);
+            });
+            
+            // Close FAB menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!fab.contains(e.target) && !fabMenu.contains(e.target)) {
+                    closeFabMenu();
+                }
+            });
+        }
+    }
+    
+    // Toggle FAB menu
+    function toggleFabMenu() {
+        const fab = document.getElementById('mobile-fab');
+        const fabMenu = document.getElementById('mobile-fab-menu');
+        
+        if (fab && fabMenu) {
+            mobileNav.fabMenuOpen = !mobileNav.fabMenuOpen;
+            
+            if (mobileNav.fabMenuOpen) {
+                fab.classList.add('active');
+                fabMenu.classList.add('show');
+                
+                // Haptic feedback
+                if (navigator.vibrate) {
+                    navigator.vibrate([10, 50, 10]);
+                }
+                
+            } else {
+                fab.classList.remove('active');
+                fabMenu.classList.remove('show');
+            }
+        }
+    }
+    
+    // Close FAB menu
+    function closeFabMenu() {
+        const fab = document.getElementById('mobile-fab');
+        const fabMenu = document.getElementById('mobile-fab-menu');
+        
+        if (fab && fabMenu) {
+            mobileNav.fabMenuOpen = false;
+            fab.classList.remove('active');
+            fabMenu.classList.remove('show');
+        }
+    }
+    
+    // Handle FAB actions
+    function handleFabAction(event) {
+        const action = event.currentTarget.dataset.action;
+        
+        // Haptic feedback
+        if (navigator.vibrate) {
+            navigator.vibrate(5);
+        }
+        
+        switch (action) {
+            case 'share':
+                handleShareAction();
+                break;
+            case 'print':
+                handlePrintAction();
+                break;
+            case 'theme':
+                handleThemeAction();
+                break;
+            case 'languages':
+                handleLanguageAction();
+                break;
+        }
+        
+        closeFabMenu();
+    }
+    
+    // Handle share action
+    function handleShareAction() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Sergio Uribe Guinard - CV',
+                text: 'Check out this professional CV',
+                url: window.location.href
+            }).catch(console.error);
+        } else {
+            // Fallback to our sharing functionality
+            const shareDropdown = document.querySelector('.share-dropdown');
+            if (shareDropdown) {
+                shareDropdown.setAttribute('aria-hidden', 'false');
+            }
+        }
+    }
+    
+    // Handle print action
+    function handlePrintAction() {
+        window.print();
+    }
+    
+    // Handle theme action
+    function handleThemeAction() {
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        if (themeToggleBtn) {
+            themeToggleBtn.click();
+        }
+    }
+    
+    // Handle language action
+    function handleLanguageAction() {
+        const languageSelect = document.getElementById('language-select');
+        if (languageSelect) {
+            languageSelect.click();
+        }
+    }
+    
+    // Initialize swipe gestures
+    function initSwipeGestures() {
+        const mainContent = document.querySelector('.container');
+        
+        if (mainContent) {
+            let startX, startY, startTime;
+            
+            mainContent.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                startTime = Date.now();
+                mobileNav.touchStartTime = startTime;
+            }, { passive: true });
+            
+            mainContent.addEventListener('touchend', (e) => {
+                if (!startX || !startY) return;
+                
+                const endX = e.changedTouches[0].clientX;
+                const endY = e.changedTouches[0].clientY;
+                const deltaX = endX - startX;
+                const deltaY = endY - startY;
+                const deltaTime = Date.now() - startTime;
+                
+                // Determine if it's a swipe (fast movement)
+                if (deltaTime < 300 && Math.abs(deltaX) > 50 && Math.abs(deltaY) < 100) {
+                    handleSwipeGesture(deltaX);
+                }
+                
+                startX = startY = null;
+            }, { passive: true });
+        }
+    }
+    
+    // Handle swipe gestures
+    function handleSwipeGesture(deltaX) {
+        const sections = ['profile', 'experience', 'education', 'skills', 'languages'];
+        const currentIndex = sections.indexOf(mobileNav.currentSection);
+        
+        let nextIndex;
+        if (deltaX > 0) {
+            // Swipe right - previous section
+            nextIndex = Math.max(0, currentIndex - 1);
+        } else {
+            // Swipe left - next section
+            nextIndex = Math.min(sections.length - 1, currentIndex + 1);
+        }
+        
+        if (nextIndex !== currentIndex) {
+            const nextSection = sections[nextIndex];
+            navigateToSection(nextSection);
+            updateMobileNavActiveItem(nextSection);
+            
+            // Haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate(15);
+            }
+        }
+    }
+    
+    // Update mobile navigation active item
+    function updateMobileNavActiveItem(sectionId) {
+        document.querySelectorAll('.mobile-nav-item[data-section]').forEach(item => {
+            item.classList.remove('active');
+            if (item.dataset.section === sectionId) {
+                item.classList.add('active');
+            }
+        });
+    }
+    
+    // Initialize touch feedback
+    function initTouchFeedback() {
+        // Add visual feedback for all interactive elements
+        const interactiveElements = document.querySelectorAll(
+            'button, .nav-link, .skill, .contact-button, .print-button, .theme-toggle-button'
+        );
+        
+        interactiveElements.forEach(element => {
+            element.addEventListener('touchstart', (e) => {
+                element.style.transform = 'scale(0.98)';
+                element.style.transition = 'transform 0.1s ease';
+            }, { passive: true });
+            
+            element.addEventListener('touchend', (e) => {
+                element.style.transform = '';
+            }, { passive: true });
+            
+            element.addEventListener('touchcancel', (e) => {
+                element.style.transform = '';
+            }, { passive: true });
+        });
+    }
+    
+    // Handle touch start
+    function handleTouchStart(event) {
+        mobileNav.touchStartTime = Date.now();
+    }
+    
+    // Handle touch end with duration check
+    function handleTouchEnd(event) {
+        const touchDuration = Date.now() - mobileNav.touchStartTime;
+        
+        // If it's a long press, show additional options
+        if (touchDuration > 500) {
+            handleLongPress(event.currentTarget);
+        }
+    }
+    
+    // Handle long press
+    function handleLongPress(element) {
+        const section = element.dataset.section;
+        if (section) {
+            // Show context menu or additional options
+            showSectionContextMenu(section, element);
+            
+            // Haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate([20, 50, 20]);
+            }
+        }
+    }
+    
+    // Show section context menu
+    function showSectionContextMenu(section, element) {
+        // Create a simple context menu
+        const menu = document.createElement('div');
+        menu.className = 'mobile-context-menu';
+        menu.innerHTML = `
+            <div class="context-menu-item" onclick="navigateToSection('${section}')">
+                <i class="fas fa-eye"></i> View Details
+            </div>
+            <div class="context-menu-item" onclick="shareSection('${section}')">
+                <i class="fas fa-share"></i> Share Section
+            </div>
+        `;
+        
+        document.body.appendChild(menu);
+        
+        // Position menu near the element
+        const rect = element.getBoundingClientRect();
+        menu.style.top = `${rect.bottom + 10}px`;
+        menu.style.left = `${rect.left}px`;
+        
+        // Auto-hide after 3 seconds
+        setTimeout(() => {
+            if (menu.parentNode) {
+                menu.parentNode.removeChild(menu);
+            }
+        }, 3000);
+    }
+    
+    // Initialize mobile optimizations
+    function initMobileOptimizations() {
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (event) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+        
+        // Handle viewport changes
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                updateMobileState();
+                window.scrollTo(0, 0);
+            }, 500);
+        });
+        
+        // Optimize scroll performance
+        let ticking = false;
+        function updateScrollPosition() {
+            updateActiveSectionOnScroll();
+            ticking = false;
+        }
+        
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateScrollPosition);
+                ticking = true;
+            }
+        });
+    }
+    
+    // Update active section based on scroll position
+    function updateActiveSectionOnScroll() {
+        const sections = document.querySelectorAll('.section');
+        const scrollPosition = window.scrollY + 200;
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionBottom = sectionTop + section.offsetHeight;
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                const sectionId = section.id;
+                if (sectionId && sectionId !== mobileNav.currentSection) {
+                    mobileNav.currentSection = sectionId;
+                    updateMobileNavActiveItem(sectionId);
+                }
+            }
+        });
+    }
+    
+    // Update touch targets for better accessibility
+    function updateTouchTargets() {
+        const touchTargets = document.querySelectorAll('a, button, input, select, textarea');
+        touchTargets.forEach(target => {
+            const computedStyle = window.getComputedStyle(target);
+            const minHeight = parseInt(computedStyle.minHeight) || 0;
+            const minWidth = parseInt(computedStyle.minWidth) || 0;
+            
+            // Ensure minimum touch target size of 44px
+            if (minHeight < 44) {
+                target.style.minHeight = '44px';
+            }
+            if (minWidth < 44) {
+                target.style.minWidth = '44px';
+            }
+        });
+    }
+    
+    // Open contact popup (mobile optimized)
+    function openContactPopup() {
+        const contactBtn = document.getElementById('contact-btn');
+        if (contactBtn) {
+            contactBtn.click();
+        }
+    }
+    
+    // Global functions for mobile context menu
+    window.navigateToSection = navigateToSection;
+    window.shareSection = function(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            const text = section.textContent.substring(0, 100) + '...';
+            if (navigator.share) {
+                navigator.share({
+                    title: `CV Section: ${sectionId}`,
+                    text: text,
+                    url: `${window.location.href}#${sectionId}`
+                });
+            }
+        }
+    };
+
     // --- 1. LÓGICA DE TRADUCCIÓN (NUEVA) ---
     const languageSelect = document.getElementById('language-select');
     const translatableElements = document.querySelectorAll('[data-lang-key]');

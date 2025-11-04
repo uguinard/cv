@@ -506,6 +506,63 @@
         </div>
     </div>
 
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav" role="navigation" aria-label="Mobile navigation">
+        <button class="mobile-nav-item" data-section="profile" aria-label="Profile">
+            <i class="fas fa-user" aria-hidden="true"></i>
+            <span>Profile</span>
+        </button>
+        <button class="mobile-nav-item" data-section="experience" aria-label="Experience">
+            <i class="fas fa-briefcase" aria-hidden="true"></i>
+            <span>Experience</span>
+        </button>
+        <button class="mobile-nav-item" data-section="education" aria-label="Education">
+            <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+            <span>Education</span>
+        </button>
+        <button class="mobile-nav-item" data-section="skills" aria-label="Skills">
+            <i class="fas fa-cogs" aria-hidden="true"></i>
+            <span>Skills</span>
+        </button>
+        <button class="mobile-nav-item" data-section="languages" aria-label="Languages">
+            <i class="fas fa-globe" aria-hidden="true"></i>
+            <span>Languages</span>
+        </button>
+        <button class="mobile-nav-item mobile-contact-btn" data-action="contact" aria-label="Contact">
+            <i class="fas fa-phone" aria-hidden="true"></i>
+            <span>Contact</span>
+        </button>
+    </nav>
+
+    <!-- Mobile Floating Action Button for Quick Actions -->
+    <div class="mobile-fab-container">
+        <button class="mobile-fab" id="mobile-fab" aria-label="Quick actions">
+            <i class="fas fa-plus"></i>
+        </button>
+        <div class="mobile-fab-menu" id="mobile-fab-menu" aria-hidden="true">
+            <button class="fab-action" data-action="share" aria-label="Share CV">
+                <i class="fas fa-share-alt"></i>
+            </button>
+            <button class="fab-action" data-action="print" aria-label="Print CV">
+                <i class="fas fa-print"></i>
+            </button>
+            <button class="fab-action" data-action="theme" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="fab-action" data-action="languages" aria-label="Change language">
+                <i class="fas fa-language"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Swipe Indicator -->
+    <div class="swipe-indicator" id="swipe-indicator">
+        <div class="swipe-hint">
+            <i class="fas fa-hand-point-right"></i>
+            <span>Swipe to navigate</span>
+        </div>
+    </div>
+
     <!-- Service Worker Registration -->
     <script>
         // Register service worker for offline functionality
