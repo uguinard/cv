@@ -4,6 +4,109 @@ SUG2024-AB7C9D2E-F8A1B3C5
 */
 
 document.addEventListener('DOMContentLoaded', function () {
+    
+    // PWA Install Prompt Management
+    let deferredPrompt;
+    let installBannerShown = false;
+
+    // Listen for the beforeinstallprompt event
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent the mini-infobar from appearing on mobile
+        e.preventDefault();
+        // Store the event so it can be triggered later
+        deferredPrompt = e;
+        
+        // Show install banner after user has been on site for a bit
+        setTimeout(() => {
+            if (!installBannerShown && !window.matchMedia('(display-mode: standalone)').matches) {
+                showPWAInstallBanner();
+            }
+        }, 5000); // Show after 5 seconds
+    });
+
+    // Listen for successful app installation
+    window.addEventListener('appinstalled', (evt) => {
+        console.log('🎉 CV was successfully installed as a PWA');
+        hidePWAInstallBanner();
+        
+        // Track installation analytics (you can add your analytics here)
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'pwa_install', {
+                event_category: 'PWA',
+                event_label: 'CV Installation'
+            });
+        }
+    });
+
+    // Show PWA Install Banner
+    function showPWAInstallBanner() {
+        if (installBannerShown) return;
+        
+        const banner = document.createElement('div');
+        banner.className = 'pwa-install-banner';
+        banner.innerHTML = `
+            <img src="profile-small.jpg" alt="CV Icon" class="pwa-install-icon">
+            <div class="pwa-install-content">
+                <div class="pwa-install-title">Install CV App</div>
+                <div class="pwa-install-text">Install this CV for quick offline access and app-like experience</div>
+                <div class="pwa-install-actions">
+                    <button class="pwa-install-btn primary" onclick="installPWA()">Install</button>
+                    <button class="pwa-install-btn" onclick="dismissPWAInstall()">Not Now</button>
+                </div>
+            </div>
+            <button class="pwa-install-close" onclick="dismissPWAInstall()" aria-label="Close install banner">&times;</button>
+        `;
+        
+        document.body.appendChild(banner);
+        
+        // Trigger animation
+        setTimeout(() => banner.classList.add('show'), 100);
+        
+        installBannerShown = true;
+    }
+
+    // Hide PWA Install Banner
+    function hidePWAInstallBanner() {
+        const banner = document.querySelector('.pwa-install-banner');
+        if (banner) {
+            banner.classList.remove('show');
+            setTimeout(() => banner.remove(), 300);
+        }
+    }
+
+    // Install PWA function (global scope for onclick handlers)
+    window.installPWA = async function() {
+        if (!deferredPrompt) {
+            console.log('PWA installation not available');
+            return;
+        }
+        
+        try {
+            // Show the install prompt
+            deferredPrompt.prompt();
+            
+            // Wait for the user to respond to the prompt
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            console.log(`PWA installation ${outcome}`);
+            
+            // Clear the deferred prompt
+            deferredPrompt = null;
+            hidePWAInstallBanner();
+            
+        } catch (error) {
+            console.error('PWA installation failed:', error);
+        }
+    };
+
+    // Dismiss PWA Install function (global scope for onclick handlers)
+    window.dismissPWAInstall = function() {
+        hidePWAInstallBanner();
+        installBannerShown = true; // Don't show again in this session
+        
+        // Optional: Set a flag to not show for a certain period
+        localStorage.setItem('pwa-install-dismissed', Date.now().toString());
+    };
 
     // --- 1. LÓGICA DE TRADUCCIÓN (NUEVA) ---
     const languageSelect = document.getElementById('language-select');

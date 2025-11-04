@@ -1,0 +1,117 @@
+{
+  "name": "Sergio Uribe Guinard - CV",
+  "short_name": "Sergio CV",
+  "description": "International Education Professional - CV and Portfolio",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f7f9",
+  "theme_color": "#3498db",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["productivity", "business", "education"],
+  "icons": [
+    {
+      "src": "profile-small.jpg",
+      "sizes": "150x150",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "profile-optimized.jpg",
+      "sizes": "300x300",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "profile-large.jpg",
+      "sizes": "600x600",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "profile-optimized.jpg",
+      "sizes": "300x300",
+      "type": "image/jpeg",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "profile-large.jpg",
+      "sizes": "600x600",
+      "type": "image/jpeg",
+      "form_factor": "wide"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+sergiouribe",
+      "url": "/?handler=%s"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Contact Information",
+      "short_name": "Contact",
+      "description": "View contact details",
+      "url": "/#contact",
+      "icons": [
+        {
+          "src": "profile-small.jpg",
+          "sizes": "150x150"
+        }
+      ]
+    },
+    {
+      "name": "Work Experience",
+      "short_name": "Experience",
+      "description": "View work experience",
+      "url": "/#experience",
+      "icons": [
+        {
+          "src": "profile-small.jpg",
+          "sizes": "150x150"
+        }
+      ]
+    },
+    {
+      "name": "Languages",
+      "short_name": "Languages",
+      "description": "View language skills",
+      "url": "/#languages",
+      "icons": [
+        {
+          "src": "profile-small.jpg",
+          "sizes": "150x150"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "application/pdf": [".pdf"],
+        "text/plain": [".txt"]
+      }
+    }
+  ]
+}

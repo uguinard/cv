@@ -714,6 +714,181 @@ h1 {
 }
 
 /* ==========================================================================
+   6. PWA (Progressive Web App) Styles
+   ========================================================================== */
+
+/* PWA Install Banner Styles */
+.pwa-install-banner {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    font-family: 'Lato', sans-serif;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.pwa-install-banner.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.pwa-install-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.pwa-install-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.pwa-install-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+.pwa-install-text {
+    font-size: 12px;
+    opacity: 0.9;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+}
+
+.pwa-install-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.pwa-install-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.pwa-install-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.pwa-install-btn.primary {
+    background: white;
+    color: #4a90e2;
+}
+
+.pwa-install-btn.primary:hover {
+    background: #f8f9fa;
+}
+
+.pwa-install-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+}
+
+.pwa-install-close:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* PWA Update Notification Styles */
+.pwa-update-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4a90e2;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 10000;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    max-width: 300px;
+    animation: slideInFromRight 0.3s ease-out;
+}
+
+@keyframes slideInFromRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Standalone mode adjustments */
+@media all and (display-mode: standalone) {
+    .pwa-install-banner {
+        display: none !important;
+    }
+    
+    /* Hide browser UI elements in standalone mode */
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+}
+
+/* iOS Safari specific PWA styles */
+@supports (-webkit-touch-callout: none) {
+    .pwa-install-banner {
+        bottom: calc(20px + env(safe-area-inset-bottom));
+    }
+    
+    .pwa-update-toast {
+        top: calc(20px + env(safe-area-inset-top));
+    }
+}
+
+/* High contrast mode support for PWA elements */
+@media (prefers-contrast: high) {
+    .pwa-install-banner {
+        border: 2px solid white;
+    }
+    
+    .pwa-install-btn {
+        border: 1px solid currentColor;
+    }
+}
+
+/* Reduced motion support for PWA animations */
+@media (prefers-reduced-motion: reduce) {
+    .pwa-install-banner,
+    .pwa-update-toast {
+        animation: none;
+        transition: none;
+    }
+}
+
+/* ==========================================================================
    7. Utilidades (Helpers)
    ========================================================================== */
 

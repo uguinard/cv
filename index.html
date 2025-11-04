@@ -137,6 +137,14 @@
     }
     </script>
 
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Sergio CV">
+    <link rel="apple-touch-icon" href="profile-optimized.jpg">
+    
     <!-- Critical CSS for faster first paint -->
     <style>
         /* Critical styles for above-the-fold content */
@@ -498,6 +506,122 @@
         </div>
     </div>
 
+    <!-- Service Worker Registration -->
+    <script>
+        // Register service worker for offline functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async () => {
+                try {
+                    const registration = await navigator.serviceWorker.register('/sw.js', {
+                        scope: '/'
+                    });
+                    
+                    console.log('✅ Service Worker registered successfully:', registration.scope);
+                    
+                    // Listen for updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        if (newWorker) {
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // New version available
+                                    console.log('🔄 New version of CV available');
+                                    showUpdateNotification();
+                                }
+                            });
+                        }
+                    });
+                    
+                    // Check for updates periodically
+                    setInterval(() => registration.update(), 1000 * 60 * 30); // Every 30 minutes
+                    
+                } catch (error) {
+                    console.error('❌ Service Worker registration failed:', error);
+                }
+            });
+        }
+        
+        // Show update notification to user
+        function showUpdateNotification() {
+            const notification = document.createElement('div');
+            notification.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #4a90e2;
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                    z-index: 10000;
+                    font-family: Arial, sans-serif;
+                    font-size: 14px;
+                    max-width: 300px;
+                    animation: slideIn 0.3s ease-out;
+                ">
+                    <div style="margin-bottom: 10px;">🔄 CV Updated!</div>
+                    <div style="margin-bottom: 15px; font-size: 12px; opacity: 0.9;">
+                        A new version is available with the latest improvements.
+                    </div>
+                    <button onclick="updateApp()" style="
+                        background: white;
+                        color: #4a90e2;
+                        border: none;
+                        padding: 8px 16px;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-size: 12px;
+                        font-weight: bold;
+                        margin-right: 10px;
+                    ">Update Now</button>
+                    <button onclick="dismissUpdate()" style="
+                        background: transparent;
+                        color: white;
+                        border: 1px solid white;
+                        padding: 8px 16px;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-size: 12px;
+                    ">Later</button>
+                </div>
+                <style>
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                </style>
+            `;
+            document.body.appendChild(notification);
+            
+            // Auto dismiss after 10 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 10000);
+        }
+        
+        // Update app function
+        async function updateApp() {
+            if ('serviceWorker' in navigator) {
+                const registration = await navigator.serviceWorker.getRegistration();
+                if (registration && registration.waiting) {
+                    registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                    window.location.reload();
+                }
+            }
+        }
+        
+        // Dismiss update notification
+        function dismissUpdate() {
+            const notification = document.querySelector('div[style*="position: fixed"][style*="background: #4a90e2"]');
+            if (notification && notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }
+    </script>
+    
     <script src="script.js" defer></script>
 </body>
 </html>
