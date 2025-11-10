@@ -199,9 +199,9 @@ document.addEventListener('DOMContentLoaded', function () {
             if (bottomNav) bottomNav.classList.add('show');
             if (fabContainer) fabContainer.style.display = 'block';
             
-            // Hide desktop navigation on mobile
+            // Keep main navigation visible but make it more compact
             const mainNav = document.querySelector('.main-nav');
-            if (mainNav) mainNav.style.display = 'none';
+            if (mainNav) mainNav.style.display = 'flex';
             
             // Show swipe indicator after a delay
             setTimeout(() => {
@@ -459,7 +459,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // Handle swipe gestures
     function handleSwipeGesture(deltaX) {
-        const sections = ['profile', 'experience', 'education', 'skills', 'languages'];
+        const sections = ['profile', 'experience', 'education', 'skills', 'languages', 'resources', 'videos'];
         const currentIndex = sections.indexOf(mobileNav.currentSection);
         
         let nextIndex;
@@ -497,7 +497,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function initTouchFeedback() {
         // Add visual feedback for all interactive elements
         const interactiveElements = document.querySelectorAll(
-            'button, .nav-link, .skill, .contact-button, .print-button, .theme-toggle-button'
+            'button, .nav-link, .skill, .print-button, .theme-toggle-button'
         );
         
         interactiveElements.forEach(element => {
@@ -874,38 +874,7 @@ document.addEventListener('DOMContentLoaded', function () {
         navObserver.observe(section);
     });
 
-    // --- 5. FUNCIONALIDAD DEL POPUP DE CONTACTO ---
-    const contactBtn = document.getElementById('contact-btn');
-    const contactPopup = document.getElementById('contact-popup');
-    const contactPopupClose = document.getElementById('contact-popup-close');
-
-    // Abrir popup
-    contactBtn.addEventListener('click', () => {
-        contactPopup.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevenir scroll del body
-    });
-
-    // Cerrar popup con botón X
-    contactPopupClose.addEventListener('click', () => {
-        contactPopup.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    });
-
-    // Cerrar popup haciendo clic fuera del contenido
-    contactPopup.addEventListener('click', (e) => {
-        if (e.target === contactPopup) {
-            contactPopup.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-    });
-
-    // Cerrar popup con tecla ESC
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && contactPopup.classList.contains('active')) {
-            contactPopup.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-    });
+    
 
     // --- PROTECCIÓN AVANZADA DE LA IMAGEN DE PERFIL ---
     const profileImg = document.querySelector('.profile-img-bg');
@@ -932,56 +901,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.target === profileImg || profileContainer.contains(e.target)) {
             e.preventDefault();
             return false;
-    // --- SOCIAL SHARING & KEYBOARD SHORTCUTS ---
     
-    // Social Sharing Functionality
-    const shareBtn = document.getElementById('share-btn');
-    const shareDropdown = document.getElementById('share-dropdown');
-    const shareLinkedin = document.getElementById('share-linkedin');
-    const shareTwitter = document.getElementById('share-twitter');
-    const shareEmail = document.getElementById('share-email');
-    const copyLink = document.getElementById('copy-link');
-
-    if (shareBtn) {
-        shareBtn.addEventListener('click', () => {
-            const isOpen = shareDropdown.getAttribute('aria-hidden') === 'false';
-            shareDropdown.setAttribute('aria-hidden', !isOpen);
-        });
-    }
-
-    // Share functionality
-    const currentUrl = window.location.href;
-    const shareData = {
-        title: 'Sergio Uribe Guinard - International Education Professional',
-        text: 'Check out Sergio Uribe Guinard\'s CV - International Educator with IB & ELE experience',
-        url: currentUrl
-    };
-
-    if (shareLinkedin) {
-        shareLinkedin.href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`;
-    }
-
-    if (shareTwitter) {
-        shareTwitter.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(currentUrl)}`;
-    }
-
-    if (shareEmail) {
-        shareEmail.href = `mailto:?subject=${encodeURIComponent(shareData.title)}&body=${encodeURIComponent(shareData.text + '\n\n' + currentUrl)}`;
-    }
-
-    if (copyLink) {
-        copyLink.addEventListener('click', async () => {
-            try {
-                await navigator.clipboard.writeText(currentUrl);
-                copyLink.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                setTimeout(() => {
-                    copyLink.innerHTML = '<i class="fas fa-link"></i> Copy Link';
-                }, 2000);
-            } catch (err) {
-                console.error('Failed to copy: ', err);
-            }
-        });
-    }
 
     // Keyboard Shortcuts
     document.addEventListener('keydown', (e) => {
@@ -1005,14 +925,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        // Ctrl/Cmd + S for share
-        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-            e.preventDefault();
-            if (shareBtn) {
-                shareBtn.click();
-            }
-        }
-
         // Number keys for navigation
         if (!e.ctrlKey && !e.metaKey && !e.altKey) {
             const navLinks = [
@@ -1020,7 +932,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 { key: '2', id: 'experience' },
                 { key: '3', id: 'education' },
                 { key: '4', id: 'skills' },
-                { key: '5', id: 'languages' }
+                { key: '5', id: 'languages' },
+                { key: '6', id: 'resources' },
+                { key: '7', id: 'videos' }
             ];
 
             const navMapping = navLinks.find(nav => nav.key === e.key);
@@ -1036,23 +950,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Close share dropdown when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!shareBtn.contains(e.target) && !shareDropdown.contains(e.target)) {
-            shareDropdown.setAttribute('aria-hidden', 'true');
-        }
-    });
-
-    // ESC key to close dropdowns
+    // ESC key to close any active modals
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            if (shareDropdown.getAttribute('aria-hidden') === 'false') {
-                shareDropdown.setAttribute('aria-hidden', 'true');
-            }
-            if (contactPopup.classList.contains('active')) {
-                contactPopup.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
+            // Handle any escape key functionality here if needed
         }
     });
         }
