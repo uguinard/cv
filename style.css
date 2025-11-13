@@ -40,22 +40,26 @@ body {
     color: var(--text-primary);
 }
 
-/* Font Awesome Icon Visibility */
-.fas, .fab {
-    font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands" !important;
+/* Lucide Icon Styling */
+[data-lucide] {
     display: inline-block !important;
+    width: 1em !important;
+    height: 1em !important;
+    stroke-width: 0 !important;
+    stroke: currentColor !important;
+    fill: none !important;
     font-style: normal !important;
     font-weight: normal !important;
     font-size: inherit !important;
     line-height: 1 !important;
 }
 
-.fas {
-    font-weight: 900 !important;
-}
-
-.fab {
-    font-weight: 400 !important;
+/* Icon container styling */
+i[data-lucide] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    vertical-align: middle !important;
 }
 
 /* ==========================================================================
@@ -180,6 +184,35 @@ h1 {
 /* ==========================================================================
    5. Componentes Específicos
    ========================================================================== */
+
+/* Profile Note Styling */
+.profile-note {
+    margin-top: 15px;
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 12px 16px;
+    background-color: var(--background);
+    border-left: 4px solid var(--accent);
+    border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+    .profile-note {
+        font-size: 13px;
+        padding: 10px 14px;
+    }
+}
+
+@media print {
+    .profile-note {
+        color: #333 !important;
+        background-color: transparent !important;
+        border-left-color: #666 !important;
+        font-size: 9pt !important;
+    }
+}
 
 /* Perfil y Contacto */
 .profile-img-container {
@@ -1676,20 +1709,13 @@ body.dark-mode .theme-toggle-button:hover {
 }
 
 /* Theme toggle icon state */
-#theme-toggle-icon.fa-sun {
-    color: #f39c12;
+#theme-toggle-icon {
+    color: var(--text-secondary) !important;
+    transition: color 0.3s ease !important;
 }
 
-#theme-toggle-icon.fa-moon {
-    color: var(--text-secondary);
-}
-
-body.dark-mode #theme-toggle-icon.fa-sun {
-    color: #f1c40f;
-}
-
-body.dark-mode #theme-toggle-icon.fa-moon {
-    color: var(--text-secondary);
+body.dark-mode #theme-toggle-icon {
+    color: #f1c40f !important;
 }
 
 /* LinkedIn en modo oscuro */

@@ -3,6 +3,9 @@
 SUG2024-AB7C9D2E-F8A1B3C5
 */
 
+// Initialize Lucide Icons
+lucide.createIcons();
+
 document.addEventListener('DOMContentLoaded', function () {
     
     // PWA Install Prompt Management
@@ -683,15 +686,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const updateTheme = (theme) => {
         if (theme === 'dark') {
             body.classList.add('dark-mode');
-            themeToggleIcon.classList.remove('fa-sun'); // Cambia a icono de luna
-            themeToggleIcon.classList.add('fa-moon');
+            themeToggleIcon.setAttribute('data-lucide', 'sun'); // Cambia a icono de sol en modo oscuro
             localStorage.setItem('theme', 'dark');
         } else {
             body.classList.remove('dark-mode');
-            themeToggleIcon.classList.remove('fa-moon'); // Cambia a icono de sol
-            themeToggleIcon.classList.add('fa-sun');
+            themeToggleIcon.setAttribute('data-lucide', 'moon'); // Cambia a icono de luna en modo claro
             localStorage.setItem('theme', 'light');
         }
+        // Re-initialize Lucide icons after changing
+        lucide.createIcons();
     };
 
     // Carga inicial del tema

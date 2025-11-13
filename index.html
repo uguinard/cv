@@ -18,7 +18,7 @@
     <meta http-equiv="Permissions-Policy" content="geolocation=(), camera=(), microphone=(), fullscreen=(self), payment=(), accelerometer=(), autoplay=(), clipboard-read=(), clipboard-write=(self), display-capture=(), encrypted-media=(), picture-in-picture=(self), screen-wake-lock=()">
     
     <!-- Content Security Policy Meta Tag -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://kit.fontawesome.com https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: http:; connect-src 'self' https://www.youtube.com https://youtube.com; frame-src 'self' https://www.youtube.com https://youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content; referrer 'strict-origin-when-cross-origin'; require-trusted-types-for 'script'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: http:; connect-src 'self' https://www.youtube.com https://youtube.com https://unpkg.com; frame-src 'self' https://www.youtube.com https://youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content; referrer 'strict-origin-when-cross-origin'; require-trusted-types-for 'script'">
     
     <!-- Cache Control -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -49,13 +49,19 @@
     <meta name="twitter:image" content="https://www.sergiouribe.co/profile-optimized.jpg">
     <meta name="twitter:image:alt" content="Sergio Uribe Guinard - International Education Professional">
     <link rel="canonical" href="https://www.sergiouribe.co">
+    
+    <!-- Favicon Links for Better Browser Support -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico">
 
-    <script src="https://kit.fontawesome.com/15d28c0573.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
     <!-- Resource Preloading for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
-    <link rel="dns-prefetch" href="https://kit.fontawesome.com">
+    
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"></noscript>
     
@@ -214,10 +220,10 @@
             <li><a href="#languages" class="nav-link" data-lang-key="nav_languages">Languages</a></li>
             <li><a href="#resources" class="nav-link" data-lang-key="nav_resources">Resources</a></li>
             <li><a href="#videos" class="nav-link" data-lang-key="nav_videos">Videos</a></li>
-            <li><a href="https://www.linkedin.com/in/sergio-ug/" target="_blank" rel="noopener noreferrer" class="nav-link linkedin-nav-link"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/sergio-ug/" target="_blank" rel="noopener noreferrer" class="nav-link linkedin-nav-link"><i data-lucide="linkedin"></i></a></li>
         </ul>
         <button id="theme-toggle-btn" class="theme-toggle-button" aria-label="Toggle dark mode">
-            <i id="theme-toggle-icon" class="fas fa-moon"></i>
+            <i id="theme-toggle-icon" data-lucide="moon"></i>
         </button>
         <div class="language-selector">
             <label for="language-select" class="visually-hidden">Select Language</label>
@@ -233,7 +239,7 @@
                 <option value="de">Deutsch</option>
             </select>
         </div>
-        <button id="print-btn" class="print-button"><i class="fas fa-save"></i> <span data-lang-key="print_btn_text">PDF</span></button>
+        <button id="print-btn" class="print-button"><i data-lucide="download"></i> <span data-lang-key="print_btn_text">PDF</span></button>
     </nav>
 
     <!-- Skip Navigation Links for Enhanced Accessibility -->
@@ -277,14 +283,16 @@
             <section id="profile" class="section">
                 <h2 data-lang-key="profile_title">Profile</h2>
                 <p data-lang-key="profile_text">With an international background in language education, I am guided by a holistic approach to design lessons that integrate the social, emotional, cognitive, and cultural dimensions of learning. Inspired by the values of respect, compassion, and integrity, I strive to create inclusive and culturally responsive learning environments that celebrate multicultural connections and foster a sense of global citizenship.</p>
+                
+                <p class="profile-note" data-lang-key="profile_note">During the period 2023-2025, I focused on advancing my professional qualifications by pursuing a Master's degree in Teaching Spanish (ELE) from Universidad de Sevilla and completing specialized certifications in International Education and IB Teaching and Learning from Universidad Camilo José Cela, enhancing my expertise in modern pedagogical approaches and international curriculum development.</p>
             </section>
             
             <section id="experience" class="section">
                 <h2 data-lang-key="experience_title">Work Experience</h2>
-                <div class="job"><h3 data-lang-key="job1_title">MYP Spanish & Global Perspectives Teacher</h3><div class="job-details"><span>UWC Thailand | Thalang, Thailand 🇹🇭</span><span class="date">08/2025 - 10/2025</span></div><ul><li data-lang-key="job1_desc1">Facilitated MYP Spanish and Global Perspectives classes.</li></ul></div>
-                <div class="job"><h3 data-lang-key="job2_title">Spanish Language Teacher</h3><div class="job-details"><span>Tarsus American College | Tarsus, Türkiye 🇹🇷</span><span class="date">11/2021 - 07/2023</span></div><ul><li data-lang-key="job2_desc1">Taught Spanish for prep and 9th graders (Level A1-A2).</li><li data-lang-key="job2_desc2">Adapted and created interactive materials and activities.</li><li data-lang-key="job2_desc3">Managed and organized Language Day events.</li><li data-lang-key="job2_desc4">Supported the accreditation process as a DELE examination center.</li></ul></div>
-                <div class="job"><h3 data-lang-key="job3_title">Communication & Intercultural World Teacher</h3><div class="job-details"><span>Colegio Alvernia Bilingüe | Bogotá, Colombia 🇨🇴</span><span class="date">01/2020 - 07/2021</span></div><ul><li data-lang-key="job3_desc1">Taught English for secondary school students (Levels A1-B2).</li><li data-lang-key="job3_desc2">Designed and implemented assessments.</li><li data-lang-key="job3_desc3">Tutored an environmental cross-curricular project.</li></ul></div>
-                <div class="job"><h3 data-lang-key="job4_title">Spanish and English Teacher</h3><div class="job-details"><span>Vicariato Apostólico de Inírida | Guainía, Colombia 🇨🇴</span><span class="date">04/2019 - 09/2019</span></div><ul><li data-lang-key="job4_desc1">Taught English and Spanish for primary and secondary school with a place-based education approach.</li></ul></div>
+                
+                <div class="job"><h3 data-lang-key="job1_title">Spanish Language Teacher</h3><div class="job-details"><span>Tarsus American College | Tarsus, Türkiye 🇹🇷</span><span class="date">11/2021 - 07/2023</span></div><ul><li data-lang-key="job1_desc1">Plan and deliver Spanish curriculum for preparatory and 9th grade students (A1-A2 Level).</li><li data-lang-key="job1_desc2">Develop interactive educational resources (+30) using H5P and HTML/CSS, achieving notable improvement in student engagement.</li><li data-lang-key="job1_desc3">Lead the organization of cultural events such as Language Day to promote multilingualism in the school community.</li><li data-lang-key="job1_desc4">Actively collaborate in the preparation and logistics for the center's accreditation as an official DELE examination venue.</li></ul></div>
+                <div class="job"><h3 data-lang-key="job2_title">Communication & Intercultural World Teacher</h3><div class="job-details"><span>Colegio Alvernia Bilingüe | Bogotá, Colombia 🇨🇴</span><span class="date">01/2020 - 07/2021</span></div><ul><li data-lang-key="job2_desc1">Teach English to secondary school students, achieving measurable improvement in communicative competencies (A1-B2 Levels).</li><li data-lang-key="job2_desc2">Implement formative and summative assessment systems, using LMS platforms to optimize student feedback.</li><li data-lang-key="job2_desc3">Tutor and guide a cross-curricular environmental project, integrating language learning objectives with ecological awareness.</li></ul></div>
+                <div class="job"><h3 data-lang-key="job3_title">Spanish and English Teacher</h3><div class="job-details"><span>Vicariato Apostólico de Inírida | Guainía, Colombia 🇨🇴</span><span class="date">04/2019 - 09/2019</span></div><ul><li data-lang-key="job3_desc1">Adapt language curriculum for primary and secondary school to a 'place-based education' approach, connecting learning with the local cultural and natural environment.</li></ul></div>
             </section>
             
             <section id="education" class="section">
@@ -410,56 +418,49 @@
             <div class="print-section">
                 <h2 class="print-section-title" data-lang-key="profile_title">Profile</h2>
                 <p class="print-text" data-lang-key="profile_text">With an international background in language education, I am guided by a holistic approach to design lessons that integrate the social, emotional, cognitive, and cultural dimensions of learning. Inspired by the values of respect, compassion, and integrity, I strive to create inclusive and culturally responsive learning environments that celebrate multicultural connections and foster a sense of global citizenship.</p>
+                
+                <p class="print-text profile-note" data-lang-key="profile_note">During the period 2023-2025, I focused on advancing my professional qualifications by pursuing a Master's degree in Teaching Spanish (ELE) from Universidad de Sevilla and completing specialized certifications in International Education and IB Teaching and Learning from Universidad Camilo José Cela, enhancing my expertise in modern pedagogical approaches and international curriculum development.</p>
             </div>
             
             <div class="print-section">
                 <h2 class="print-section-title" data-lang-key="experience_title">Work Experience</h2>
-                <div class="print-job">
-                    <div class="print-job-header">
-                        <strong data-lang-key="job1_title">MYP Spanish & Global Perspectives Teacher</strong>
-                        <span class="print-date">08/2025 - 10/2025</span>
-                    </div>
-                    <div class="print-job-location">UWC Thailand | Thalang, Thailand 🇹🇭</div>
-                    <ul class="print-job-details">
-                        <li data-lang-key="job1_desc1">Design and deliver inquiry units for MYP Spanish and Global Perspectives, applying the IB MYP framework to foster critical thinking and international mindedness.</li>
-                    </ul>
-                </div>
+                
                 
                 <div class="print-job">
                     <div class="print-job-header">
-                        <strong data-lang-key="job2_title">Spanish Language Teacher</strong>
+                        <strong data-lang-key="job1_title">Spanish Language Teacher</strong>
                         <span class="print-date">11/2021 - 07/2023</span>
                     </div>
                     <div class="print-job-location">Tarsus American College | Tarsus, Türkiye 🇹🇷</div>
                     <ul class="print-job-details">
-                        <li data-lang-key="job2_desc1">Plan and deliver Spanish curriculum for over 80 preparatory and 9th grade students (A1-A2 Level).</li>
-                        <li data-lang-key="job2_desc2">Develop interactive educational resources (+30) using H5P and HTML/CSS, achieving notable improvement in student engagement.</li>
-                        <li data-lang-key="job2_desc3">Lead the organization of cultural events such as Language Day to promote multilingualism in the school community.</li>
-                        <li data-lang-key="job2_desc4">Actively collaborate in the preparation and logistics for the center's accreditation as an official DELE examination venue.</li>
+                        <li data-lang-key="job1_desc1">Plan and deliver Spanish curriculum for preparatory and 9th grade students (A1-A2 Level).</li>
+                        <li data-lang-key="job1_desc2">Develop interactive educational resources (+30) using H5P and HTML/CSS, achieving notable improvement in student engagement.</li>
+                        <li data-lang-key="job1_desc3">Lead the organization of cultural events such as Language Day to promote multilingualism in the school community.</li>
+                        <li data-lang-key="job1_desc4">Actively collaborate in the preparation and logistics for the center's accreditation as an official DELE examination venue.</li>
                     </ul>
                 </div>
                 
                 <div class="print-job">
                     <div class="print-job-header">
-                        <strong data-lang-key="job3_title">Communication & Intercultural World Teacher</strong>
+                        <strong data-lang-key="job2_title">Communication & Intercultural World Teacher</strong>
                         <span class="print-date">01/2020 - 07/2021</span>
                     </div>
                     <div class="print-job-location">Colegio Alvernia Bilingüe | Bogotá, Colombia 🇨🇴</div>
                     <ul class="print-job-details">
-                        <li data-lang-key="job3_desc1">Teach English to over 120 secondary school students, achieving measurable improvement in communicative competencies (A1-B2 Levels).</li>
-                        <li data-lang-key="job3_desc2">Implement formative and summative assessment systems, using LMS platforms to optimize student feedback.</li>
-                        <li data-lang-key="job3_desc3">Tutor and guide a cross-curricular environmental project, integrating language learning objectives with ecological awareness.</li>
+                        <li data-lang-key="job2_desc1">Teach English to secondary school students, achieving measurable improvement in communicative competencies (A1-B2 Levels).</li>
+                        <li data-lang-key="job2_desc2">Implement formative and summative assessment systems, using LMS platforms to optimize student feedback.</li>
+                        <li data-lang-key="job2_desc3">Tutor and guide a cross-curricular environmental project, integrating language learning objectives with ecological awareness.</li>
                     </ul>
                 </div>
                 
                 <div class="print-job">
                     <div class="print-job-header">
-                        <strong data-lang-key="job4_title">Spanish and English Teacher</strong>
+                        <strong data-lang-key="job3_title">Spanish and English Teacher</strong>
                         <span class="print-date">04/2019 - 09/2019</span>
                     </div>
                     <div class="print-job-location">Vicariato Apostólico de Inírida | Guainía, Colombia 🇨🇴</div>
                     <ul class="print-job-details">
-                        <li data-lang-key="job4_desc1">Adapt language curriculum for primary and secondary school to a 'place-based education' approach, connecting learning with the local cultural and natural environment.</li>
+                        <li data-lang-key="job3_desc1">Adapt language curriculum for primary and secondary school to a 'place-based education' approach, connecting learning with the local cultural and natural environment.</li>
                     </ul>
                 </div>
             </div>
@@ -567,24 +568,24 @@
             <div class="contact-popup-header">
                 <h3 data-lang-key="contact_title">Contact Information</h3>
                 <button id="contact-popup-close" class="contact-popup-close">
-                    <i class="fas fa-times"></i>
+                    <i data-lucide="x"></i>
                 </button>
             </div>
             <div class="contact-popup-body">
                 <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
+                    <i data-lucide="map-pin"></i>
                     <span>Thalang, Thailand 🇹🇭</span>
                 </div>
                 <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
+                    <i data-lucide="mail"></i>
                     <a href="mailto:uguinard@gmail.com">uguinard@gmail.com</a>
                 </div>
                 <div class="contact-item">
-                    <i class="fas fa-phone"></i>
+                    <i data-lucide="phone"></i>
                     <a href="tel:+34666209033">(+34) 666 209 033</a>
                 </div>
                 <div class="contact-item">
-                    <i class="fas fa-phone"></i>
+                    <i data-lucide="phone"></i>
                     <a href="tel:+660928106277">(+66) 092 810 6277</a>
                 </div>
             </div>
@@ -596,27 +597,27 @@
     <!-- Mobile Bottom Navigation -->
     <nav class="mobile-bottom-nav" role="navigation" aria-label="Mobile navigation">
         <button class="mobile-nav-item" data-section="profile" aria-label="Profile">
-            <i class="fas fa-user" aria-hidden="true"></i>
+            <i data-lucide="user" aria-hidden="true"></i>
             <span>Profile</span>
         </button>
         <button class="mobile-nav-item" data-section="experience" aria-label="Experience">
-            <i class="fas fa-briefcase" aria-hidden="true"></i>
+            <i data-lucide="briefcase" aria-hidden="true"></i>
             <span>Experience</span>
         </button>
         <button class="mobile-nav-item" data-section="education" aria-label="Education">
-            <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+            <i data-lucide="graduation-cap" aria-hidden="true"></i>
             <span>Education</span>
         </button>
         <button class="mobile-nav-item" data-section="skills" aria-label="Skills">
-            <i class="fas fa-cogs" aria-hidden="true"></i>
+            <i data-lucide="settings" aria-hidden="true"></i>
             <span>Skills</span>
         </button>
         <button class="mobile-nav-item" data-section="languages" aria-label="Languages">
-            <i class="fas fa-globe" aria-hidden="true"></i>
+            <i data-lucide="globe" aria-hidden="true"></i>
             <span>Languages</span>
         </button>
         <button class="mobile-nav-item mobile-contact-btn" data-action="contact" aria-label="Contact">
-            <i class="fas fa-phone" aria-hidden="true"></i>
+            <i data-lucide="phone" aria-hidden="true"></i>
             <span>Contact</span>
         </button>
     </nav>
@@ -624,20 +625,20 @@
     <!-- Mobile Floating Action Button for Quick Actions -->
     <div class="mobile-fab-container">
         <button class="mobile-fab" id="mobile-fab" aria-label="Quick actions">
-            <i class="fas fa-plus"></i>
+            <i data-lucide="plus"></i>
         </button>
         <div class="mobile-fab-menu" id="mobile-fab-menu" aria-hidden="true">
             <button class="fab-action" data-action="share" aria-label="Share CV">
-                <i class="fas fa-share-alt"></i>
+                <i data-lucide="share-2"></i>
             </button>
             <button class="fab-action" data-action="print" aria-label="Print CV">
-                <i class="fas fa-print"></i>
+                <i data-lucide="printer"></i>
             </button>
             <button class="fab-action" data-action="theme" aria-label="Toggle theme">
-                <i class="fas fa-moon"></i>
+                <i data-lucide="moon"></i>
             </button>
             <button class="fab-action" data-action="languages" aria-label="Change language">
-                <i class="fas fa-language"></i>
+                <i data-lucide="globe"></i>
             </button>
         </div>
     </div>
@@ -645,7 +646,7 @@
     <!-- Mobile Swipe Indicator -->
     <div class="swipe-indicator" id="swipe-indicator">
         <div class="swipe-hint">
-            <i class="fas fa-hand-point-right"></i>
+            <i data-lucide="arrow-right"></i>
             <span>Swipe to navigate</span>
         </div>
     </div>
