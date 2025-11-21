@@ -651,9 +651,12 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // Open contact popup (mobile optimized)
     function openContactPopup() {
-        const contactBtn = document.getElementById('contact-btn');
-        if (contactBtn) {
-            contactBtn.click();
+        const contactPopup = document.getElementById('contact-popup');
+        if (contactPopup) {
+            contactPopup.classList.add('active');
+            // Focus management for accessibility
+            const closeBtn = contactPopup.querySelector('#contact-popup-close');
+            if (closeBtn) closeBtn.focus();
         }
     }
     
@@ -804,9 +807,20 @@ document.addEventListener('DOMContentLoaded', function () {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+
+                // Timeline animations
+                if (entry.target.id === 'experience') {
+                    const timelineItems = entry.target.querySelectorAll('.timeline-item');
+                    timelineItems.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.classList.add('visible');
+                        }, index * 200);
+                    });
+                }
+
                 // Add staggered animation for skill tags
                 if (entry.target.id === 'skills') {
-                    const skillTags = entry.target.querySelectorAll('.skill');
+                    const skillTags = entry.target.querySelectorAll('.skill-tag');
                     skillTags.forEach((tag, index) => {
                         setTimeout(() => {
                             tag.style.transform = 'translateY(0) scale(1)';

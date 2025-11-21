@@ -62,8 +62,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
     
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"></noscript>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" as="style">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap">
+    </noscript>
     
     <!-- Preload critical resources -->
     <link rel="preload" href="style.css" as="style">
@@ -289,10 +293,99 @@
             
             <section id="experience" class="section">
                 <h2 data-lang-key="experience_title">Work Experience</h2>
-                
-                <div class="job"><h3 data-lang-key="job1_title">Spanish Language Teacher</h3><div class="job-details"><span>Tarsus American College | Tarsus, Türkiye 🇹🇷</span><span class="date">11/2021 - 07/2023</span></div><ul><li data-lang-key="job1_desc1">Plan and deliver Spanish curriculum for preparatory and 9th grade students (A1-A2 Level).</li><li data-lang-key="job1_desc2">Develop interactive educational resources (+30) using H5P and HTML/CSS, achieving notable improvement in student engagement.</li><li data-lang-key="job1_desc3">Lead the organization of cultural events such as Language Day to promote multilingualism in the school community.</li><li data-lang-key="job1_desc4">Actively collaborate in the preparation and logistics for the center's accreditation as an official DELE examination venue.</li></ul></div>
-                <div class="job"><h3 data-lang-key="job2_title">Communication & Intercultural World Teacher</h3><div class="job-details"><span>Colegio Alvernia Bilingüe | Bogotá, Colombia 🇨🇴</span><span class="date">01/2020 - 07/2021</span></div><ul><li data-lang-key="job2_desc1">Teach English to secondary school students, achieving measurable improvement in communicative competencies (A1-B2 Levels).</li><li data-lang-key="job2_desc2">Implement formative and summative assessment systems, using LMS platforms to optimize student feedback.</li><li data-lang-key="job2_desc3">Tutor and guide a cross-curricular environmental project, integrating language learning objectives with ecological awareness.</li></ul></div>
-                <div class="job"><h3 data-lang-key="job3_title">Spanish and English Teacher</h3><div class="job-details"><span>Vicariato Apostólico de Inírida | Guainía, Colombia 🇨🇴</span><span class="date">04/2019 - 09/2019</span></div><ul><li data-lang-key="job3_desc1">Adapt language curriculum for primary and secondary school to a 'place-based education' approach, connecting learning with the local cultural and natural environment.</li></ul></div>
+
+                <!-- Interactive Timeline -->
+                <div class="timeline">
+                    <div class="timeline-line"></div>
+
+                    <div class="timeline-item" data-year="2021-2023">
+                        <div class="timeline-marker">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-connector"></div>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h3 data-lang-key="job1_title">Spanish Language Teacher</h3>
+                                <div class="timeline-meta">
+                                    <span class="timeline-company">Tarsus American College</span>
+                                    <span class="timeline-location">Tarsus, Türkiye 🇹🇷</span>
+                                    <span class="timeline-date">11/2021 - 07/2023</span>
+                                </div>
+                            </div>
+                            <div class="timeline-body">
+                                <ul>
+                                    <li data-lang-key="job1_desc1">Plan and deliver Spanish curriculum for preparatory and 9th grade students (A1-A2 Level).</li>
+                                    <li data-lang-key="job1_desc2">Develop interactive educational resources (+30) using H5P and HTML/CSS, achieving notable improvement in student engagement.</li>
+                                    <li data-lang-key="job1_desc3">Lead the organization of cultural events such as Language Day to promote multilingualism in the school community.</li>
+                                    <li data-lang-key="job1_desc4">Actively collaborate in the preparation and logistics for the center's accreditation as an official DELE examination venue.</li>
+                                </ul>
+                                <div class="timeline-skills">
+                                    <span class="skill-tag">Curriculum Development</span>
+                                    <span class="skill-tag">H5P</span>
+                                    <span class="skill-tag">DELE Accreditation</span>
+                                    <span class="skill-tag">Cultural Events</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item" data-year="2020-2021">
+                        <div class="timeline-marker">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-connector"></div>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h3 data-lang-key="job2_title">Communication & Intercultural World Teacher</h3>
+                                <div class="timeline-meta">
+                                    <span class="timeline-company">Colegio Alvernia Bilingüe</span>
+                                    <span class="timeline-location">Bogotá, Colombia 🇨🇴</span>
+                                    <span class="timeline-date">01/2020 - 07/2021</span>
+                                </div>
+                            </div>
+                            <div class="timeline-body">
+                                <ul>
+                                    <li data-lang-key="job2_desc1">Teach English to secondary school students, achieving measurable improvement in communicative competencies (A1-B2 Levels).</li>
+                                    <li data-lang-key="job2_desc2">Implement formative and summative assessment systems, using LMS platforms to optimize student feedback.</li>
+                                    <li data-lang-key="job2_desc3">Tutor and guide a cross-curricular environmental project, integrating language learning objectives with ecological awareness.</li>
+                                </ul>
+                                <div class="timeline-skills">
+                                    <span class="skill-tag">English Teaching</span>
+                                    <span class="skill-tag">LMS Platforms</span>
+                                    <span class="skill-tag">Assessment Systems</span>
+                                    <span class="skill-tag">Environmental Education</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item" data-year="2019">
+                        <div class="timeline-marker">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-connector"></div>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h3 data-lang-key="job3_title">Spanish and English Teacher</h3>
+                                <div class="timeline-meta">
+                                    <span class="timeline-company">Vicariato Apostólico de Inírida</span>
+                                    <span class="timeline-location">Guainía, Colombia 🇨🇴</span>
+                                    <span class="timeline-date">04/2019 - 09/2019</span>
+                                </div>
+                            </div>
+                            <div class="timeline-body">
+                                <ul>
+                                    <li data-lang-key="job3_desc1">Adapt language curriculum for primary and secondary school to a 'place-based education' approach, connecting learning with the local cultural and natural environment.</li>
+                                </ul>
+                                <div class="timeline-skills">
+                                    <span class="skill-tag">Place-Based Education</span>
+                                    <span class="skill-tag">Curriculum Adaptation</span>
+                                    <span class="skill-tag">Cultural Integration</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
             
             <section id="education" class="section">
