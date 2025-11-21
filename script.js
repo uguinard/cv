@@ -651,12 +651,9 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // Open contact popup (mobile optimized)
     function openContactPopup() {
-        const contactPopup = document.getElementById('contact-popup');
-        if (contactPopup) {
-            contactPopup.classList.add('active');
-            // Focus management for accessibility
-            const closeBtn = contactPopup.querySelector('#contact-popup-close');
-            if (closeBtn) closeBtn.focus();
+        const contactBtn = document.getElementById('contact-btn');
+        if (contactBtn) {
+            contactBtn.click();
         }
     }
     
@@ -807,20 +804,9 @@ document.addEventListener('DOMContentLoaded', function () {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-
-                // Timeline animations
-                if (entry.target.id === 'experience') {
-                    const timelineItems = entry.target.querySelectorAll('.timeline-item');
-                    timelineItems.forEach((item, index) => {
-                        setTimeout(() => {
-                            item.classList.add('visible');
-                        }, index * 200);
-                    });
-                }
-
                 // Add staggered animation for skill tags
                 if (entry.target.id === 'skills') {
-                    const skillTags = entry.target.querySelectorAll('.skill-tag');
+                    const skillTags = entry.target.querySelectorAll('.skill');
                     skillTags.forEach((tag, index) => {
                         setTimeout(() => {
                             tag.style.transform = 'translateY(0) scale(1)';
@@ -836,6 +822,23 @@ document.addEventListener('DOMContentLoaded', function () {
         animationObserver.observe(section);
     });
 
+    // Animate timeline items on scroll
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    const timelineObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                }, index * 200); // Staggered animation
+                timelineObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    timelineItems.forEach(item => {
+        timelineObserver.observe(item);
+    });
+
     // Enhanced skill tags animation
     const skillTags = document.querySelectorAll('.skill');
     skillTags.forEach(tag => {
@@ -843,6 +846,62 @@ document.addEventListener('DOMContentLoaded', function () {
         tag.style.opacity = '0.8';
         tag.style.transition = 'all 0.3s ease';
     });
+
+    // Animate skill progress bars on scroll
+    const skillItems = document.querySelectorAll('.skill-item');
+    const skillsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const progressBar = entry.target.querySelector('.skill-progress-bar');
+                const level = entry.target.dataset.level;
+                if (progressBar && level) {
+                    setTimeout(() => {
+                        progressBar.style.width = level + '%';
+                    }, 300); // Delay for better visual effect
+                }
+                skillsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    skillItems.forEach(item => {
+        skillsObserver.observe(item);
+    });
+
+    // Tech skills hover effects
+    const techSkills = document.querySelectorAll('.tech-skill');
+    techSkills.forEach(skill => {
+        skill.addEventListener('mouseenter', () => {
+            // Add ripple effect
+            const ripple = document.createElement('span');
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255,255,255,0.3)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s linear';
+            ripple.style.left = '50%';
+            ripple.style.top = '50%';
+            ripple.style.width = '20px';
+            ripple.style.height = '20px';
+            ripple.style.marginLeft = '-10px';
+            ripple.style.marginTop = '-10px';
+            skill.appendChild(ripple);
+
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // Add ripple animation CSS
+    const rippleStyle = document.createElement('style');
+    rippleStyle.textContent = `
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(rippleStyle);
 
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
